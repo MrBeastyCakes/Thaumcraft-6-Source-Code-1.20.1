@@ -10,6 +10,7 @@ The pipeline is intentionally small:
 | `filesystem-map.md` | current repository layout, generated surfaces, and ownership boundaries |
 | `parity-workboard.md` | ordered work items, dependencies, and definitions of done |
 | `parity-evidence-index.md` | reference hierarchy and required proof for BETA26 parity claims |
+| `deferred-issues.md` | budget-aware list of confirmed blockers and later verification work |
 | `../../tools/agent-pipeline/Update-FileSystemMap.ps1` | regenerates the factual portions of the filesystem map |
 
 ## Workflow

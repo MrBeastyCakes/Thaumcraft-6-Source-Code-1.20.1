@@ -9,7 +9,11 @@
 
 ## State Key
 
-`READY` means an agent may claim the item. `BLOCKED` names a prerequisite. `ACTIVE`, `VERIFYING`, and `DONE` are coordinator-controlled states backed by a handoff and evidence.
+`READY` means an agent may claim the item. `BLOCKED` names a prerequisite. `DEFERRED` means the item is intentionally paused by a project constraint. `ACTIVE`, `VERIFYING`, and `DONE` are coordinator-controlled states backed by a handoff and evidence.
+
+## Budget Hold
+
+Implementation is deferred while the project is budget-constrained. `FND-01` is the next item when work resumes; all other non-complete items remain dependency-blocked. See `deferred-issues.md` for the confirmed issue register and the order that makes the best use of the next development budget.
 
 ## Dependency Spine
 
@@ -33,7 +37,7 @@ flowchart TD
 
 | ID | State | Outcome | Primary areas | Acceptance evidence |
 |---|---|---|---|---|
-| FND-01 | READY | Establish unit-test and GameTest conventions, fixtures, and a fresh-world/reload/server smoke suite. | `src/test/`, Gradle run configs | `test` contains tests; focused GameTests run; documented local command sequence passes. |
+| FND-01 | DEFERRED: budget hold | Establish unit-test and GameTest conventions, fixtures, and a fresh-world/reload/server smoke suite. | `src/test/`, Gradle run configs | `test` contains tests; focused GameTests run; documented local command sequence passes. |
 | FND-02 | BLOCKED: FND-01 | Audit every registered block entity, menu, renderer, capability, and packet against factory/ticker/side ownership. | `init/`, `common/blocks`, `common/tiles`, `common/lib` | Inventory names each missing or mismatched integration point; regressions have tests. |
 | FND-03 | DONE | Created the BETA26 parity evidence index for systems under repair. | `docs/agent-pipeline/parity-evidence-index.md` | Reference hierarchy, evidence template, and initial evidence queue are documented. |
 
