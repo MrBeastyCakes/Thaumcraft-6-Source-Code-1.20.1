@@ -204,7 +204,7 @@
 - Consumes: `-RepositoryRoot <string>` and optional `-Check <switch>`.
 - Produces: exact expected Markdown content or a nonzero error when `-Check` finds a stale/missing map.
 
-- [ ] **Step 1: Write a failing temporary-fixture check.**
+- [x] **Step 1: Write a failing temporary-fixture check.**
 
   Run this in PowerShell before adding `-Check`; it must fail because the existing script does not accept the switch:
 
@@ -218,7 +218,7 @@
   if ($acceptedCheck) { throw "The pre-change updater unexpectedly accepted -Check." }
   ```
 
-- [ ] **Step 2: Add deterministic renderer and `-Check`.**
+- [x] **Step 2: Add deterministic renderer and `-Check`.**
 
   Change the parameter block to:
 
@@ -266,7 +266,7 @@
 
   Change the test-surface wording from `$testCount tracked test-source/resource files` to `$testCount test-source/resource files`.
 
-- [ ] **Step 3: Regenerate and prove determinism and check behavior.**
+- [x] **Step 3: Regenerate and prove determinism and check behavior.**
 
   Run (in a PowerShell session, or as `powershell.exe -NoProfile -ExecutionPolicy Bypass -File <script> <args>` from git-bash):
 
@@ -293,7 +293,7 @@
 
   Then add a temporary file under the fixture's `src/main/java/thaumcraft/common/`, invoke `-Check` against the fixture, and confirm it fails with `Filesystem map is stale`. Remove the fixture in the same PowerShell session.
 
-- [ ] **Step 4: Commit the deterministic map.**
+- [x] **Step 4: Commit the deterministic map.**
 
   ```powershell
   git add tools/agent-pipeline/Update-FileSystemMap.ps1 docs/agent-pipeline/filesystem-map.md
