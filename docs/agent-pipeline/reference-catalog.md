@@ -127,7 +127,7 @@ The resource-payload comparison pairs jar entries with tree files under the mapp
 
 ## Environment feasibility (2026-09-18)
 
-**Rank-1 status: not available.** No reproducible BETA26 observation has been captured. What exists and what is missing:
+**Rank-1 status: environment prepared (2026-09-18), no capture yet.** A clean BETA26 profile now exists and is registered in the CurseForge launcher; no reproducible BETA26 observation has been captured yet. What exists and what is missing:
 
 **Present on this machine**
 
@@ -135,21 +135,22 @@ The resource-payload comparison pairs jar entries with tree files under the mapp
 - A working 1.12.2 Forge launch: the Modrinth profile "Thaumcraft 6 Pack" ran on 2026-09-17 (`logs/latest.log`: "Forge Mod Loader version 14.23.5.2859 for Minecraft 1.12.2 loading", "has successfully loaded 71 mods", world `saves/New World` created and saved; no crash reports).
 - Java 8 runtime: `C:/Users/t8rto/AppData/Roaming/ModrinthApp/meta/java_versions/zulu8.96.0.205-ca-jre8.0.504-win_x64` (the runtime used by that launch).
 - The BETA26 jar (REF-0002) and its required dependency `Baubles-1.12-1.5.2.jar` (108,450 bytes, sha256 `b32010b2f2778aa1188585e7ead91ad46d4cb2c715f9c778a61848ba7fe51f8d`, identical in both instances) are already on disk.
+- A prepared clean reference profile: CurseForge instance `TC6 Reference` (GUID `70e70c34-b9a7-4d2b-aa7b-704226093535`, path `C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/`) containing exactly `Thaumcraft-1.12.2-6.1.BETA26.jar` and `Baubles-1.12-1.5.2.jar` (both digests recorded in the reference inventory above; see also `REF-0002`); the launcher registered it on 2026-09-18 (its log shows the instance scan and `Loaded 6 modpacks`). First launch and in-game verification are pending by the owner.
 - A signed-in Microsoft account in the Modrinth App profile data (`TheBeardedTate`); no credentials are recorded here.
 - Third-party thaum-named jars live in the same two `mods/` folders (ThaumicAugmentation 2.1.11 and 2.1.14, ThaumicInventoryScanning 2.0.10, ThaumicJEI 1.6.0-27 and 1.7.0, thaumicperiphery 0.3.1, thaumicwands 1.2.7, ThaumcraftFix 1.1.4, enchantingwiththaumcraft 1.4). They are addons, not BETA26 reference artifacts, and their presence is a further reason both existing instances count as modded environments.
 
 **Missing or blocking for rank-1**
 
-- No unmodified BETA26 environment. Both existing 1.12.2 instances are modpacks: CurseForge "Thaumcraft Reimagined" (52 jars, never launched) and Modrinth "Thaumcraft 6 Pack" (71 mods loaded, including ThaumcraftFix 1.12.2-1.1.4, Thaumic Augmentation 2.1.14, TC4 Research Port, Quark, OptiFine). Observing behavior in either would violate the rank-1 requirement of an unmodified BETA26 environment.
-- No clean profile yet: a capture profile needs only Thaumcraft 6.1.BETA26 plus Baubles 1.12-1.5.2 (both already local; a new launcher profile/instance can copy or link them).
+- No unmodified BETA26 environment among the original instances. Both remain modpacks and are not valid references: CurseForge "Thaumcraft Reimagined" (52 jars, never launched) and Modrinth "Thaumcraft 6 Pack" (71 mods loaded, including ThaumcraftFix 1.12.2-1.1.4, Thaumic Augmentation 2.1.14, TC4 Research Port, Quark, OptiFine) — observing behavior in either would violate the rank-1 requirement of an unmodified BETA26 environment; the clean `TC6 Reference` profile above replaces them for captures.
+- First launch pending: `TC6 Reference` has not been launched yet; no observation session, world, or seed exists for it.
 - No EULA record: no `eula.txt` exists under `.minecraft`, the CurseForge root, or the Modrinth App roots. Client gameplay does not create one; a dedicated-server capture requires the owner to accept the EULA (the file must then contain `eula=true`).
-- No capture artifacts: no recordings, no recorded world seeds, and the CurseForge instance has never had a first run (`playedCount` 0). The single existing world's seed was not recorded.
+- No capture artifacts: no recordings, no recorded world seeds, and neither CurseForge instance has had a first run (`playedCount` 0 for both). The single existing world's seed was not recorded.
 - The vanilla launcher `C:/Users/t8rto/AppData/Roaming/.minecraft` has no 1.12.2 version (its `versions/` holds only `26.2` and `26.3-snapshot-7`) and no `mods/` directory.
 - Not evidence: `D:/dev/thaumcraft-shobie-review/build/libs/thaumcraft-6.2.0.jar` is this port's own build output (rank 4 at best), not a reference artifact.
 
 **Search coverage (bounded, read-only).** Thaumcraft-named jars were searched for and found only in the two instances above. Checked with depth limits and no hits: `D:/` top level, `D:/Mods`, `D:/Vortex Mods`, `D:/Games`, `D:/Launcher`, `D:/minecraft earth clone`, `D:/modded fallout`, `D:/Apace`, `D:/d`, `D:/models`, `D:/omarchy`, `D:/omarchy v2`, `D:/steam`, `D:/dev`; `C:/Users/t8rto/AppData/Roaming/.minecraft` (no `mods/`); `C:/Users/t8rto/Downloads` and `C:/Users/t8rto/Documents`; and the CurseForge mod-download cache. Launcher presence: only CurseForge and Modrinth App are installed — PrismLauncher, MultiMC, gdlauncher, Technic, and ATLauncher directories do not exist under AppData Roaming or Local.
 
-**Owner must provide for the first rank-1 capture:** a clean 1.12.2 profile on Forge 14.23.5.2859 containing only the BETA26 jar and Baubles (both already on disk), EULA acceptance where a dedicated-server run is used, the profile's first launch, and a recorded observation session (reference setup, world seed, scenario steps) entered here as a new `REF` entry.
+**Remaining for the first rank-1 capture:** the owner launches `TC6 Reference` (first run) and completes a recorded observation session (reference setup, world seed, scenario steps) entered here as a new `REF` entry; EULA acceptance by the owner is required only if a dedicated-server capture is used.
 
 ## Illustrative example (not a real capture)
 
