@@ -2,29 +2,31 @@
 
 This repository contains the ongoing effort to port **Thaumcraft 6** from Minecraft 1.12.2 (Forge) to Minecraft 1.20.1 (Forge).
 
-## 📊 Feature Parity: ~99%
+## 📌 Project Status
 
-```
-█████████████████████████ 99%
-```
+**This repository is an ongoing port, not a release-ready build.** A normal survival progression loop is not yet verified end to end, and 30 of the 32 tracked work items are blocked pending repairs.
 
-The port is **essentially complete** with all core systems functional, all recipes implemented, **full JEI integration**, **multiblock detection working**, **all GUIs and entity renderers complete**, **structure generation working**, and **golem builder crafting functional**. Remaining work is polish and testing.
+Parity status is governed by [`docs/agent-pipeline/parity-workboard.md`](docs/agent-pipeline/parity-workboard.md). As of 2026-09-18 the workboard tracks **32 work items**: **1 done** (`FND-03`, the parity evidence index), **1 deferred** under the project budget hold (`FND-01`, the test and GameTest harness), and **30 blocked** pending repairs.
+
+Top confirmed playability blockers ([`docs/agent-pipeline/deferred-issues.md`](docs/agent-pipeline/deferred-issues.md)): scanning and research knowledge sync are not server-authoritative; the Arcane Workbench bypasses its crystal and Vis checks; smelters always receive an empty aspect list; Alembic and tube block-entity factories return `null`; the Infusion Matrix has no block entity or ticker; and the Focal Manipulator does not open while focus graphs never reach their delivery effects.
+
+Earlier completion percentages in this README were not evidence-backed: they reflected file and recipe counts from the porting effort, not verified runtime behavior. Treat any claim below that is not backed by workboard evidence as a lead, not proof.
 
 ---
 
-## ✅ Current Status: PLAYABLE WITH JEI
+## 📜 Historical Development Notes (Unverified)
 
-**The game runs and loads into a world successfully!**
+The notes below are historical development notes from the porting effort. They are not parity evidence; the [parity workboard](docs/agent-pipeline/parity-workboard.md) is authoritative.
 
-As of January 2026, the mod:
+At the time of these notes the codebase compiled, and upstream reported the following:
 - Compiles without errors
 - Loads in Minecraft 1.20.1 with Forge 47.3.0
-- Player can join world and play
-- Aura system runs (background threads for all dimensions)
-- Research system loads (64 entries across 7 categories)
-- Blocks and items are registered and functional
-- **JEI integration complete** - All 196 Thaumcraft recipes visible in JEI
-- **Research-recipe linking validated** - All recipe research keys match defined research entries
+- Upstream reported joining a world in a development environment
+- Aura system has background threads for all dimensions (upstream-reported)
+- Research system loads 64 entries across 7 categories (upstream-reported)
+- Blocks and items are registered (counts are historical)
+- JEI integration is present (upstream-reported; recipe visibility was not re-verified)
+- Recipe-to-research linking was reported as validated during development (upstream-reported)
 
 ### Known Issues (Non-Fatal)
 - Some research entries fail to load due to uppercase ResourceLocation names (1.20+ requires lowercase)
@@ -35,25 +37,27 @@ As of January 2026, the mod:
 
 ## 🚧 Development Status
 
+*Historical development notes from the porting effort: the counts and percentages below are not parity evidence and were never runtime-validated; the [parity workboard](docs/agent-pipeline/parity-workboard.md) is authoritative.*
+
 ### Progress by Category
 
-| Category | Ported | Original | Parity | Status |
-|----------|--------|----------|--------|--------|
+| Category | Ported | Original | Historical estimate | Status |
+|----------|--------|----------|---------------------|--------|
 | **Java Files** | 702 | 901 | 78% | 🔄 In Progress |
-| **Blocks** | 175 | 91+ | 100%+ | ✅ Complete |
-| **Items** | 179 | 90+ | 100%+ | ✅ Complete |
-| **Block Entities** | 50 | 31 | 100%+ | ✅ Complete |
-| **Entities** | 46 | 35+ | 100%+ | ✅ Complete |
-| **Mob Effects** | 9 | 9 | 100% | ✅ Complete |
-| **Menus/GUIs** | 19 | 17+2 | 100% | ✅ Complete (consolidated) |
-| **Entity Renderers** | 35 | ~40 | 100% | ✅ Complete |
+| **Blocks** | 175 | 91+ | 100%+ | 📜 Upstream-reported |
+| **Items** | 179 | 90+ | 100%+ | 📜 Upstream-reported |
+| **Block Entities** | 50 | 31 | 100%+ | 📜 Upstream-reported |
+| **Entities** | 46 | 35+ | 100%+ | 📜 Upstream-reported |
+| **Mob Effects** | 9 | 9 | 100% | 📜 Upstream-reported |
+| **Menus/GUIs** | 19 | 17+2 | 100% | 📜 Upstream-reported (consolidated) |
+| **Entity Renderers** | 35 | ~40 | 100% | 📜 Upstream-reported |
 | **Block Entity Renderers** | 23 | ~25 | 92% | 🔄 In Progress |
-| **JEI Integration** | 3 | 3 | 100% | ✅ Complete |
+| **JEI Integration** | 3 | 3 | 100% | 📜 Upstream-reported |
 
 ### Recipe Progress
 
-| Recipe Type | Created | In JEI | Original | Parity |
-|-------------|---------|--------|----------|--------|
+| Recipe Type | Created | In JEI (reported) | Original | Historical estimate |
+|-------------|---------|-------------------|----------|---------------------|
 | **Arcane Workbench** | 79 | ✅ 79 | 81 | 98% |
 | **Crucible** | 55 | ✅ 55 | 52 | 100%+ |
 | **Infusion** | 62 | ✅ 62 | 60 | 100%+ |
@@ -61,41 +65,41 @@ As of January 2026, the mod:
 | **Smelting** | 8 | ✅ 8 | 8 | 100% |
 | **Total** | **268** | **268** | **265** | **100%+** |
 
-### JEI Integration
+### JEI Integration (Historical Report)
 
-| Feature | Status |
-|---------|--------|
-| Arcane Workbench Category | ✅ Shows vis cost, crystal requirements |
-| Crucible Category | ✅ Shows aspect requirements |
-| Infusion Category | ✅ Shows instability, aspects, research |
-| Recipe Catalysts | ✅ Click workbench/crucible/matrix to see recipes |
-| Research Requirements | ✅ Displayed on all recipe types |
+| Feature | Reported at the time |
+|---------|----------------------|
+| Arcane Workbench Category | Shows vis cost, crystal requirements |
+| Crucible Category | Shows aspect requirements |
+| Infusion Category | Shows instability, aspects, research |
+| Recipe Catalysts | Click workbench/crucible/matrix to see recipes |
+| Research Requirements | Displayed on recipe types |
 
-### System Status
+### System Status (Historical Report)
 
-| System | Status | Notes |
-|--------|--------|-------|
-| **Build System** | ✅ Complete | Gradle 8.8, Java 17+, Forge 47.3.0 |
-| **Registration** | ✅ Complete | All DeferredRegister classes done |
-| **Aspect System** | ✅ Complete | All 51 aspects, AspectList, containers |
-| **Aura System** | ✅ Complete | Chunk-based vis/flux, background thread |
-| **Research API** | ✅ Complete | Categories, stages, scanning |
-| **Crafting Systems** | ✅ Complete | Arcane, Crucible, Infusion, Thaumatorium |
-| **Essentia System** | ✅ Complete | Tubes, jars, transport, centrifuge |
-| **Infusion Altar** | ✅ Complete | Matrix, pedestals, stabilizers, instability |
-| **Golem System** | ✅ Complete | Entity, seals, AI all functional |
-| **Focus/Casting** | ✅ Complete | Caster, foci, effects |
-| **Curios Integration** | ✅ Complete | Replaces Baubles API |
-| **JEI Integration** | ✅ Complete | 3 custom categories, all recipes visible |
-| **Multiblock System** | ✅ Complete | 9 dust triggers, salis mundus functional |
-| **World Generation** | 🔄 Partial | Biomes, ores done; structures partial |
+| System | Reported status | Notes |
+|--------|-----------------|-------|
+| **Build System** | 📜 Upstream-reported | Gradle 8.8, Java 17+, Forge 47.3.0 |
+| **Registration** | 📜 Upstream-reported | DeferredRegister classes present |
+| **Aspect System** | 📜 Upstream-reported | 51 aspects, AspectList, containers; shared attribution/lookup is not established (`FND-04`) |
+| **Aura System** | 📜 Upstream-reported | Chunk-based vis/flux, background thread; persistence unvalidated (`WLD-01`) |
+| **Research API** | 📜 Upstream-reported | Categories, stages, scanning; scanning is not server-authoritative (`RSR-01`) |
+| **Crafting Systems** | 📜 Upstream-reported | Arcane, Crucible, Infusion, Thaumatorium; confirmed defects in `RSR-02`, `ALC-00`, `ALC-03`, `ALC-04` |
+| **Essentia System** | 📜 Upstream-reported | Tubes, jars, transport, centrifuge; alembic/tube factories return `null` (`ALC-02`), smelter aspect input broken (`ALC-01`) |
+| **Infusion Altar** | 📜 Upstream-reported | Matrix, pedestals, stabilizers; the Infusion Matrix has no block entity or ticker (`ALC-03`) |
+| **Golem System** | 📜 Upstream-reported | Entity, seals, AI; seal storage and configuration UI missing (`AUT-01`), tasks unvalidated (`AUT-02`) |
+| **Focus/Casting** | 📜 Upstream-reported | Caster, foci, effects; the Focal Manipulator UI does not open (`CAS-01`) and focus execution is broken (`CAS-02`) |
+| **Curios Integration** | 📜 Upstream-reported | Replaces Baubles API |
+| **JEI Integration** | 📜 Upstream-reported | 3 custom categories; supported combinations tracked in `REL-01` |
+| **Multiblock System** | 📜 Upstream-reported | 9 dust triggers, salis mundus reported functional |
+| **World Generation** | 🔄 Partial | Biomes, ores ported; structures partial (`WLD-02`, `WLD-04`) |
 | **Particles** | 🔄 Partial | Core particles; some effects pending |
-| **Networking** | ✅ Complete | PacketHandler with SimpleChannel |
-| **Research-Recipe Link** | ✅ Complete | All 196 recipes have valid research keys |
+| **Networking** | 📜 Upstream-reported | PacketHandler with SimpleChannel |
+| **Research-Recipe Link** | 📜 Upstream-reported | 196 recipes had research keys at the time (historical) |
 
 ---
 
-## 📦 What's Implemented
+## 📦 Historical Implementation Inventory (Unverified)
 
 ### Blocks (191 registered)
 - **Crafting**: Arcane Workbench, Crucible, Infusion Matrix, Research Table, Thaumatorium, Focal Manipulator, Pattern Crafter
@@ -119,7 +123,7 @@ As of January 2026, the mod:
 - **Projectiles**: Focus projectiles, Alumentum, Bottle Taint, Grapple
 - **Special**: Flux Rift, Cultist Portal, Following Item
 
-### Recipes (268 created, all in JEI)
+### Recipes (268 created; JEI visibility reported at the time)
 - **Arcane** (79): Mechanisms, Thaumometer, Goggles, Tubes, Smelters, Devices, Armor, Tools
 - **Crucible** (55): Metal transmutation, Vis crystals, Seals, Hedge alchemy
 - **Infusion** (62): Foci, Mirrors, Lamps, Tools, Armor, Curios, Clusters, Charms
@@ -238,34 +242,36 @@ export JAVA_HOME=/home/user/.gradle/jdks/eclipse_adoptium-17-amd64-linux.2
 
 ---
 
-## 📋 Remaining Work (~1%)
+## 📋 Historical Porting Checklist (Unverified)
 
-### High Priority - All Complete
+The checkboxes below were marked during the porting effort and are historical development notes, not parity evidence. Current remaining work is tracked in the [parity workboard](docs/agent-pipeline/parity-workboard.md), where 30 items are blocked and `FND-01` is deferred under the budget hold.
+
+### High Priority - reported done during development
 - [x] ~~Create all arcane recipes~~ (79/79)
 - [x] ~~Create vanilla crafting recipes~~ (64/64)
 - [x] ~~Create smelting recipes~~ (8/8)
 - [x] ~~Fix runClient blocker~~ (mods.toml format, BlockTCDevice constructor)
 - [x] ~~Fix duplicate capability registration~~
-- [x] ~~JEI Integration~~ (3 custom categories, all recipes visible)
-- [x] ~~Research-Recipe key alignment~~ (all 196 recipes have valid research keys)
+- [x] ~~JEI Integration~~ (3 custom categories; upstream-reported)
+- [x] ~~Research-Recipe key alignment~~ (196 recipes had research keys at the time)
 - [x] ~~Fix research JSON files~~ (added legacy item mappings)
 - [x] ~~Fix item stack parsing in research system~~ (legacy format support)
 - [x] ~~GUIs~~ (19 screens - 2 old turret GUIs consolidated into 1)
 - [x] ~~Entity Renderers~~ (35 renderers - advanced turret renderer added)
 
-### Medium Priority - All Complete
-- [x] ~~Implement golem seal-based AI switching~~ (fully functional)
-- [x] ~~Particle effects~~ (FXDispatcher fully implemented with 30+ custom particles)
-- [x] ~~Casting visual effects~~ (FXBeamWand, FXBeamBore, FXArc, FXBolt all working)
+### Medium Priority - reported done during development
+- [x] ~~Implement golem seal-based AI switching~~ (reported functional at the time)
+- [x] ~~Particle effects~~ (FXDispatcher present with 30+ custom particles)
+- [x] ~~Casting visual effects~~ (FXBeamWand, FXBeamBore, FXArc, FXBolt present)
 - [x] ~~Structure generation~~ (EldritchObeliskFeature, RuinedTowerFeature added)
-- [x] ~~Golem press crafting~~ (TileGolemBuilder fully functional)
+- [x] ~~Golem press crafting~~ (TileGolemBuilder present)
 
-### Lower Priority - All Complete
+### Lower Priority - reported done during development
 - [x] ~~Parchment mappings~~ (configured, requires Java 17-21)
 - [x] ~~Re-enable Curios runtime dependency~~ (CuriosCompat wrapper)
 - [x] ~~Port multiblock detection system~~ (ConfigMultiblocks.java)
 
-### Remaining Polish
+### Still Open
 - [ ] Add missing block models (tubes, some devices)
 - [ ] Comprehensive testing
 - [ ] Performance optimization
@@ -292,4 +298,4 @@ Community port of Thaumcraft. Original mod by Azanor.
 
 ---
 
-*Last updated: January 25, 2026 | Build: Passing | Game: Playable with JEI | Feature Complete: ~99%*
+*Last updated: 2026-09-18 | Status: ongoing port paused under the project budget hold. See the [parity workboard](docs/agent-pipeline/parity-workboard.md) for authoritative status; earlier completion percentages and "playable" claims were not evidence-backed.*
