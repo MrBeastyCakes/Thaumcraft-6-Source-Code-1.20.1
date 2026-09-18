@@ -9,7 +9,7 @@ Work item: `RSR-01` (workboard row in [parity-workboard.md](parity-workboard.md)
 | Evidence class | Source-derived, **rank 3** under the evidence hierarchy in [parity-evidence-index.md](parity-evidence-index.md) |
 | Reference | `REF-0001` — verified Thaumcraft 6.1.BETA26 decompiled tree ([reference-catalog.md](reference-catalog.md)); read-only pass, no game run |
 | Path convention | Every `path:lines` citation below is relative to `src/main/java/thaumcraft/` inside `D:/dev/hytale mods/magic/research/_legal/tc6-decompiled` |
-| Runtime confirmation | **Pending rank-1.** No BETA26 observation exists yet, so nothing in this note is an observed behavior — it is a description of the reference source |
+| Runtime confirmation | **Pending rank-1.** No itemized rank-1 confirmation of this note's statements exists yet (the first capture, `REF-0005` in [reference-catalog.md](reference-catalog.md), covers scan-side behaviors at summary level); nothing in this note is an observed behavior — it is a description of the reference source |
 | Port gap targeted | The port's scanning/progression path is simplified/client-led: `ScanningManager`, `PlayerKnowledge`, and the research packets contain stubbed progression (see the `RSR-01` row in `deferred-issues.md`) |
 | Licensing discipline | Paraphrase only. No source text is reproduced beyond class, method, field, and key-name identifiers; no code blocks |
 

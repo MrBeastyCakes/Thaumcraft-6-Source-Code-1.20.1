@@ -4,7 +4,7 @@ This catalog stores the observation metadata behind every BETA26 parity claim: w
 
 **Entries record metadata only, and they NEVER store original binaries, assets, decompiled files, or recordings in the repository.** An entry is a pointer to a capture that stays on the capturing machine; it is never a copy of the captured content.
 
-**Capture status: no BETA26 gameplay observation has been captured for this port yet.** An inventory pass on 2026-09-18 recorded the reference artifacts that exist on the developer machine (entries `REF-0001` .. `REF-0004`, all marked as inventory records rather than captures). No rank-1 observation exists, so no gameplay behavior may be claimed as verified against BETA26 until a real capture is recorded here for the environment described in `parity-evidence-index.md`.
+**Capture status: the first BETA26 gameplay capture is recorded — `REF-0005` (2026-09-18).** An inventory pass on 2026-09-18 recorded the reference artifacts that exist on the developer machine (entries `REF-0001` .. `REF-0004`, all marked as inventory records rather than captures). `REF-0005` is the first real capture: a live session in the prepared clean profile, recorded with a documented environment deviation (a client-side controller mod was present during the observed launches and was removed afterwards — see the entry). Itemized rank-1 confirmation of specific claims still requires the per-item passes described in the work-item scenario notes, and the deviation is noted for clean re-verification of load-bearing items.
 
 **Entry status.** Every entry states in its identifier line whether it is a *capture* (a reproducible observation of running BETA26) or an *inventory record* (artifact metadata only, no observation). Only captures can support rank-1 claims.
 
@@ -37,7 +37,7 @@ Date recorded: <ISO 8601 date of the capture>
 
 ## Recorded entries
 
-Entries are added in `REF` order. Fields are listed in the required order. None of the entries below is a capture; each is an inventory record of an artifact that exists on the developer machine as of 2026-09-18.
+Entries are added in `REF` order. Fields are listed in the required order. `REF-0001` .. `REF-0004` are inventory records; `REF-0005` is the first capture.
 
 ### REF-0001 — decompiled TC6 source tree
 
@@ -107,6 +107,23 @@ Recorded by: inventory agent (read-only reference-evidence pass)
 Date recorded: 2026-09-18
 ```
 
+### REF-0005 — first BETA26 gameplay session (capture)
+
+```text
+Reference identifier: REF-0005 (capture — first live BETA26 gameplay observation; role: rank-1 candidate with a documented environment deviation)
+Minecraft version: 1.12.2 (session log: "Forge Mod Loader version 14.23.5.2859 for Minecraft 1.12.2 loading"; world level.dat Version Name "1.12.2")
+Forge version: 14.23.5.2859 (same session log line)
+Thaumcraft version: 6.1.BETA26 (the observed mods/ artifact's digest equals REF-0002's: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f)
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/ (mods/: Thaumcraft-1.12.2-6.1.BETA26.jar and Baubles-1.12-1.5.2.jar; the observed worlds live under saves/)
+SHA-256: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: CurseForge instance "TC6 Reference" (GUID 70e70c34-b9a7-4d2b-aa7b-704226093535), singleplayer
+World seed: creative session world "New World-" seed 8625173870111429838 (spawn 232 64 236; created and played 2026-09-18, ~32 minutes of world tick time / 38,228 ticks); a discarded survival world "New World" seed -4878572646635015781 (single 33-second visit)
+Player setup: creative (level.dat GameType 1); fresh player in the session world; no research grants are reported for the items below
+Capture scenario: three launches on 2026-09-18 local time (14:32:51-14:33:13 clean and menu-only; 14:37:43-15:18:44; 15:22:41-15:25:22). Observed items (owner-reported; cross-checked against the instance's own session logs, level.dat, and world file times): six inactive Thaumonomicon entries at first view before scanning; a zombie-related entry attributed to scanning; Salis Mundus transmuted a bookshelf into a Thaumonomicon and a crafting table into an Arcane Workbench on the fresh creative player; one block scan with the expected feedback and no change on re-scanning the same object; an item placed inside a chest was scanned via the chest; the knowledge-gain HUD feedback behaved as expected. The observed world's player research data (level.dat) contains the pseudo-keys `!gotthaumonomicon`, `!gotdream`, `!minecraft:bookshelf0`, `!minecraft:crafting_table0`, `!minecraft:chest0`, and `!BrainyZombie` — consistent with the fresh-state trigger availability and with the zombie-related entry. A workbench-block pass (gates, take-order, persistence) was not itemized in the session report. ENVIRONMENT DEVIATION: a client-side controller mod (Controllable 0.11.2) was present in mods/ during both observed launches (its config files are timestamped during those launches; the jar was removed at 15:18:53 after the second launch, re-added at 15:22:21, and finally removed at 15:26:17). FML flagged the jar at load in the second launch ("non-mod file ... in your mods directory", log 14:37:52), and the mod crashed the client JVM at the end of that launch: `hs_err_pid22664.log` (instance root, 15:18:44) records EXCEPTION_ACCESS_VIOLATION in native code (msvcrt.dll frame) on the daemon thread "Controller Input". The crash occurred during client shutdown after the world session had already ended (disconnect 15:18:05), so the recorded observations were unaffected. At jar level the mod's mixin config targets only `net.minecraft.client.*` classes and its access transformer only vanilla client fields; no Thaumcraft-targeted transformations exist. Load-bearing claims from this capture should be re-verified in a session without this deviation before promotion.
+Recorded by: observations by the project owner (TheBeardedTate); compiled by the port assistant from the owner's report, the instance's session logs (logs/, including gzip rotations), level.dat parsing, and file timestamps
+Date recorded: 2026-09-18
+```
+
 ## Tree-hash convention (REF-0001)
 
 A source tree has no single file digest, so `REF-0001` uses a tree hash with the convention below. Any future re-verification of `REF-0001` must use the same convention; the digest is over the sorted hash lines of every file, not over any single file.
@@ -127,7 +144,7 @@ The resource-payload comparison pairs jar entries with tree files under the mapp
 
 ## Environment feasibility (2026-09-18)
 
-**Rank-1 status: environment prepared (2026-09-18), no capture yet.** A clean BETA26 profile now exists and is registered in the CurseForge launcher; no reproducible BETA26 observation has been captured yet. What exists and what is missing:
+**Rank-1 status: first capture recorded — `REF-0005` (2026-09-18); itemized confirmation pending.** A clean BETA26 profile exists, is registered in the CurseForge launcher, and has been played (see the entry for the documented controller-mod deviation). What exists and what is missing:
 
 **Present on this machine**
 
@@ -135,22 +152,22 @@ The resource-payload comparison pairs jar entries with tree files under the mapp
 - A working 1.12.2 Forge launch: the Modrinth profile "Thaumcraft 6 Pack" ran on 2026-09-17 (`logs/latest.log`: "Forge Mod Loader version 14.23.5.2859 for Minecraft 1.12.2 loading", "has successfully loaded 71 mods", world `saves/New World` created and saved; no crash reports).
 - Java 8 runtime: `C:/Users/t8rto/AppData/Roaming/ModrinthApp/meta/java_versions/zulu8.96.0.205-ca-jre8.0.504-win_x64` (the runtime used by that launch).
 - The BETA26 jar (REF-0002) and its required dependency `Baubles-1.12-1.5.2.jar` (108,450 bytes, sha256 `b32010b2f2778aa1188585e7ead91ad46d4cb2c715f9c778a61848ba7fe51f8d`, identical in both instances) are already on disk.
-- A prepared clean reference profile: CurseForge instance `TC6 Reference` (GUID `70e70c34-b9a7-4d2b-aa7b-704226093535`, path `C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/`) containing exactly `Thaumcraft-1.12.2-6.1.BETA26.jar` and `Baubles-1.12-1.5.2.jar` (both digests recorded in the reference inventory above; see also `REF-0002`); the launcher registered it on 2026-09-18 (its log shows the instance scan and `Loaded 6 modpacks`). First launch and in-game verification are pending by the owner.
+- A prepared clean reference profile: CurseForge instance `TC6 Reference` (GUID `70e70c34-b9a7-4d2b-aa7b-704226093535`, path `C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/`) containing exactly `Thaumcraft-1.12.2-6.1.BETA26.jar` and `Baubles-1.12-1.5.2.jar` (both digests recorded in the reference inventory above; see also `REF-0002`); the launcher registered it on 2026-09-18 (its log shows the instance scan and `Loaded 6 modpacks`). Launched and played on 2026-09-18 (see `REF-0005`); the briefly used controller mod was removed the same day, so `mods/` again contains exactly these two jars.
 - A signed-in Microsoft account in the Modrinth App profile data (`TheBeardedTate`); no credentials are recorded here.
 - Third-party thaum-named jars live in the same two `mods/` folders (ThaumicAugmentation 2.1.11 and 2.1.14, ThaumicInventoryScanning 2.0.10, ThaumicJEI 1.6.0-27 and 1.7.0, thaumicperiphery 0.3.1, thaumicwands 1.2.7, ThaumcraftFix 1.1.4, enchantingwiththaumcraft 1.4). They are addons, not BETA26 reference artifacts, and their presence is a further reason both existing instances count as modded environments.
 
 **Missing or blocking for rank-1**
 
 - No unmodified BETA26 environment among the original instances. Both remain modpacks and are not valid references: CurseForge "Thaumcraft Reimagined" (52 jars, never launched) and Modrinth "Thaumcraft 6 Pack" (71 mods loaded, including ThaumcraftFix 1.12.2-1.1.4, Thaumic Augmentation 2.1.14, TC4 Research Port, Quark, OptiFine) — observing behavior in either would violate the rank-1 requirement of an unmodified BETA26 environment; the clean `TC6 Reference` profile above replaces them for captures.
-- First launch pending: `TC6 Reference` has not been launched yet; no observation session, world, or seed exists for it.
+- First sessions recorded: `TC6 Reference` was launched three times on 2026-09-18 and two worlds were created (launch times, worlds, and seeds recorded in `REF-0005`); itemized per-item scenario passes remain for follow-up sessions.
 - No EULA record: no `eula.txt` exists under `.minecraft`, the CurseForge root, or the Modrinth App roots. Client gameplay does not create one; a dedicated-server capture requires the owner to accept the EULA (the file must then contain `eula=true`).
-- No capture artifacts: no recordings, no recorded world seeds, and neither CurseForge instance has had a first run (`playedCount` 0 for both). The single existing world's seed was not recorded.
+- Capture artifacts: `REF-0005` records the first session's launch times, worlds, and seeds; no screenshots or recordings were captured for it. Neither original instance has been played (`playedCount` 0), and the Modrinth profile's one older world still has no recorded seed.
 - The vanilla launcher `C:/Users/t8rto/AppData/Roaming/.minecraft` has no 1.12.2 version (its `versions/` holds only `26.2` and `26.3-snapshot-7`) and no `mods/` directory.
 - Not evidence: `D:/dev/thaumcraft-shobie-review/build/libs/thaumcraft-6.2.0.jar` is this port's own build output (rank 4 at best), not a reference artifact.
 
 **Search coverage (bounded, read-only).** Thaumcraft-named jars were searched for and found only in the two instances above. Checked with depth limits and no hits: `D:/` top level, `D:/Mods`, `D:/Vortex Mods`, `D:/Games`, `D:/Launcher`, `D:/minecraft earth clone`, `D:/modded fallout`, `D:/Apace`, `D:/d`, `D:/models`, `D:/omarchy`, `D:/omarchy v2`, `D:/steam`, `D:/dev`; `C:/Users/t8rto/AppData/Roaming/.minecraft` (no `mods/`); `C:/Users/t8rto/Downloads` and `C:/Users/t8rto/Documents`; and the CurseForge mod-download cache. Launcher presence: only CurseForge and Modrinth App are installed — PrismLauncher, MultiMC, gdlauncher, Technic, and ATLauncher directories do not exist under AppData Roaming or Local.
 
-**Remaining for the first rank-1 capture:** the owner launches `TC6 Reference` (first run) and completes a recorded observation session (reference setup, world seed, scenario steps) entered here as a new `REF` entry; EULA acceptance by the owner is required only if a dedicated-server capture is used.
+**Remaining for itemized rank-1 confirmation:** follow-up sessions that run the work-item scenario checklists (for example `C1`-`C11` of [rsr-01-evidence.md](rsr-01-evidence.md) and `S1`-`S9` of [rsr-02-evidence.md](rsr-02-evidence.md)), each entered here as a new `REF` entry; EULA acceptance by the owner is required only if a dedicated-server capture is used.
 
 ## Illustrative example (not a real capture)
 

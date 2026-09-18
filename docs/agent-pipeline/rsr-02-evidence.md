@@ -9,7 +9,7 @@ Work item: `RSR-02` (workboard row in [parity-workboard.md](parity-workboard.md)
 | Evidence class | Source-derived, **rank 3** under the evidence hierarchy in [parity-evidence-index.md](parity-evidence-index.md) |
 | Reference | `REF-0001` — verified Thaumcraft 6.1.BETA26 decompiled tree ([reference-catalog.md](reference-catalog.md)); read-only pass, no game run |
 | Path convention | Every `path:lines` citation below is relative to `src/main/java/thaumcraft/` inside `D:/dev/hytale mods/magic/research/_legal/tc6-decompiled` |
-| Runtime confirmation | **Pending rank-1.** No BETA26 observation exists yet; the ordering, cost, and atomicity statements below describe the reference source, not an observed run |
+| Runtime confirmation | **Pending rank-1.** No itemized rank-1 confirmation of the statements below exists yet (the first capture, `REF-0005` in [reference-catalog.md](reference-catalog.md), does not itemize the workbench block); the ordering, cost, and atomicity statements below describe the reference source, not an observed run |
 | Port gap targeted | The port's workbench menu/result slot have resource-validation gaps: research, Vis, and crystal checks are marked as not implemented in the result path (`ArcaneWorkbenchMenu`, `ArcaneWorkbenchResultSlot`; see the `RSR-02` row in `deferred-issues.md`) |
 | Licensing discipline | Paraphrase only. No source text beyond class, method, field, and key-name identifiers; no code blocks |
 
