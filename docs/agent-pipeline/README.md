@@ -15,7 +15,11 @@ The pipeline is intentionally small:
 | `deferred-issues.md` | budget-aware list of confirmed blockers and later verification work |
 | `tc6-feature-matrix.md` | measures BETA26 parity coverage per feature group and names each group's owning work item or cross-lane rationale |
 | `system-entrypoints.md` | per-item source, data, and test entry points for safe agent handoffs |
+| `reference-catalog.md` | reproducible BETA26 observation metadata (reference identifiers, runtime versions, artifact paths, and SHA-256 values) without storing proprietary binaries or assets |
+| `validation-matrix.md` | required validation tiers with commands or scenarios, evidence locations, clean-state requirements, and pass conditions |
+| `budget-hold.md` | budget authority, allowed and prohibited activities, the reactivation condition, and the post-hold spending order |
 | `../../tools/agent-pipeline/Update-FileSystemMap.ps1` | regenerates the factual portions of the filesystem map |
+| `../../tools/agent-pipeline/Test-AgentPipeline.ps1` | local structural validator for pipeline files, map freshness, workboard IDs, dependency references, cycles, handoffs, and the budget-hold state, with no Gradle or game run |
 
 ## Workflow
 

@@ -159,23 +159,23 @@
 - Consumes: the evidence hierarchy, deferred issue register, and AGENTS validation contract.
 - Produces: a reference metadata record, validation tiers, and explicit budget reactivation rules.
 
-- [ ] **Step 1: Create the reference catalog template.**
+- [x] **Step 1: Create the reference catalog template.**
 
   Include the fields `Reference identifier`, `Minecraft version`, `Forge version`, `Thaumcraft version`, `Artifact location`, `SHA-256`, `Launcher or profile`, `World seed`, `Player setup`, `Capture scenario`, `Recorded by`, and `Date recorded`. State that entries record metadata only and never store original binaries, assets, decompiled files, or recordings in the repository.
 
-- [ ] **Step 2: Create the validation matrix.**
+- [x] **Step 2: Create the validation matrix.**
 
   Define these rows: `Documentation-only`, `Pure deterministic logic`, `Server gameplay`, `Client presentation`, `Persistence`, `Multiplayer`, and `Release acceptance`. For each row name the required command or scenario, evidence location, clean-state requirement, and pass condition. Documentation-only uses `git diff --check` and the pipeline validator; server gameplay names GameTest plus fresh-world/reload; client presentation names a client smoke scenario; multiplayer names dedicated server plus remote client; release acceptance names all validation tiers.
 
-- [ ] **Step 3: Create the budget hold policy.**
+- [x] **Step 3: Create the budget hold policy.**
 
   Begin the policy with the exact sentence `Implementation is paused while the budget hold is active.` State that the project owner is the release authority; allowed activities are source reading, parity evidence cataloging, documentation, and local non-game pipeline validation; prohibited activities are gameplay changes, Gradle/game runs, EULA acceptance, distribution, and original asset copying. The reactivation condition is an explicit project-owner instruction. List spending order as `FND-01`, `FND-04`, `RSR-01/RSR-02`, `ALC-00/ALC-03`, `CAS-01/CAS-02`, then remaining workboard order. (Within each tier, items are worked in workboard dependency order.)
 
-- [ ] **Step 4: Link the new policy and validation artifacts.**
+- [x] **Step 4: Link the new policy and validation artifacts.**
 
   Add README table rows for the catalog, validation matrix, and budget hold. Replace the deferred-issues opening budget sentence with a link to `budget-hold.md`.
 
-- [ ] **Step 5: Validate the controls.**
+- [x] **Step 5: Validate the controls.**
 
   Run:
 
@@ -186,7 +186,7 @@
 
   Expected: each policy marker occurs in its named artifact and Git reports no whitespace errors.
 
-- [ ] **Step 6: Commit the policy controls.**
+- [x] **Step 6: Commit the policy controls.**
 
   ```powershell
   git add docs/agent-pipeline/reference-catalog.md docs/agent-pipeline/validation-matrix.md docs/agent-pipeline/budget-hold.md docs/agent-pipeline/README.md docs/agent-pipeline/deferred-issues.md

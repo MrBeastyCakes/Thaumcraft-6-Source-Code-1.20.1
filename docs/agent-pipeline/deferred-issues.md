@@ -1,6 +1,6 @@
 # Deferred Issue Register
 
-> Budget status: implementation is on hold. This register records confirmed issues so the next work session can start with the highest-impact repair rather than repeat the audit.
+> Budget status: see [budget-hold.md](budget-hold.md). This register records confirmed issues so the next work session can start with the highest-impact repair rather than repeat the audit.
 
 The target remains Minecraft 1.20.1 Forge 47.3.0 with Thaumcraft 6.1.BETA26 as the behavior reference. Entries describe the current port, not intentional changes to TC6.
 
