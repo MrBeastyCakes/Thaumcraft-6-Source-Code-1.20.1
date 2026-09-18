@@ -84,7 +84,7 @@ Report work in this format:
 
 ```text
 Work item: <ID and title>
-Lane: <FND|RSR|ALC|CAS|AUT|WLD|CLI|REL>
+Lane: <FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL>
 Scope: <files and behavior changed>
 Evidence: <commands/tests/runtime scenario and outcome>
 Parity reference: <TC6 BETA26 behavior checked>

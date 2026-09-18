@@ -153,7 +153,7 @@ try {
     }
 
     $deferredText = Get-Content -LiteralPath $deferredIssuesPath -Raw -Encoding UTF8
-    $referencedIds = [regex]::Matches($deferredText, '[A-Z]{2,5}-\d+[a-z]?')
+    $referencedIds = [regex]::Matches($deferredText, '(?:FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL)-\d+[a-z]?')
     foreach ($referencedId in $referencedIds) {
         if (-not $idSet.Contains($referencedId.Value)) {
             throw "Noncanonical work-item ID referenced in deferred-issues.md: $($referencedId.Value)"

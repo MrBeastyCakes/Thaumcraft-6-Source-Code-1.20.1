@@ -391,7 +391,7 @@
 - Consumes: all control artifacts and local validation output.
 - Produces: a clean, self-consistent, budget-held pipeline ready for a later FND-01 claim.
 
-- [ ] **Step 1: Run the complete local pipeline review.**
+- [x] **Step 1: Run the complete local pipeline review.**
 
   ```powershell
   powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Update-FileSystemMap.ps1 -Check
@@ -402,7 +402,7 @@
 
   Expected: both tools succeed, Git reports no whitespace errors, and only the intended review change is present before the final commit.
 
-- [ ] **Step 2: Verify scope boundaries.**
+- [x] **Step 2: Verify scope boundaries.**
 
   Run:
 
@@ -412,7 +412,7 @@
 
   Expected: the pipeline hardening sequence changed only `AGENTS.md`, `docs/agent-pipeline/`, `docs/superpowers/plans/`, and `tools/agent-pipeline/`; no `src/main/java/`, `src/main/resources/`, Gradle, or EULA file changed.
 
-- [ ] **Step 3: Commit a README correction only when it exists.**
+- [x] **Step 3: Commit a README correction only when it exists.**
 
   ```powershell
   $readmeChanges = git status --short docs/agent-pipeline/README.md
@@ -438,3 +438,17 @@
 - Required the Task 4 and Task 5 PowerShell tools to run on Windows PowerShell 5.1, the only PowerShell installed here, and to be callable via `powershell.exe -NoProfile -ExecutionPolicy Bypass -File` while staying PowerShell 7 compatible; the Task 5 Step 4 and Task 6 Step 1 invocations now use that form so tool exit codes are observable.
 
 Requirements unchanged: docs/agent-pipeline/pipeline-hardening-spec.md is untouched.
+
+## Final Review (2026-09-18)
+
+The Task 6 review steps were executed by the independent whole-scope audit of the hardened pipeline, and all four Step 1 commands passed:
+
+1. **Step 1 — complete local pipeline review.** `Update-FileSystemMap.ps1 -Check` reported the map current; `Test-AgentPipeline.ps1` exited 0 with `Work item states: READY=0, ACTIVE=0, VERIFYING=0, DONE=1, DEFERRED=1, BLOCKED=30` and the informational external-gate line; `git diff --check` reported no whitespace errors; `git status --short` showed only intended changes.
+2. **Step 2 — scope boundaries.** The diff over `55975de..HEAD` changed only `AGENTS.md`, `docs/agent-pipeline/`, `docs/superpowers/plans/`, and `tools/agent-pipeline/`; no `src/main/java/`, `src/main/resources/`, Gradle, or EULA file changed.
+3. **Step 3 — README correction.** No artifact link or command was missing, so no README correction was committed.
+
+Closure status of the audit's three optional residuals:
+
+- **Deferred-issues ID scan — closed and verified in both directions.** The validator scan pattern is now lane-prefixed, `(?:FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL)-\d+[a-z]?`, so non-lane tokens such as `SHA-256` cannot false-positive, while a lane-shaped token that is not canonical still fails with `Noncanonical work-item ID referenced in deferred-issues.md: <ID>`. A fixture that appends `Artifact digest format: SHA-256, recorded outside the repository.` to `deferred-issues.md` passes; fixtures referencing `ALC-09` and `ALC-03a` fail with the noncanonical-ID message.
+- **Fixture runner — closed and verified.** `Invoke-PipelineValidatorFixture.ps1` now runs a no-fault control plus all seven fault classes: READY during budget hold, stale map, duplicate ID, missing internal dependency, dependency cycle, missing artifact, and missing handoff. Each case builds a fresh unique temporary fixture, regenerates that fixture's map before injecting exactly one asserted fault, runs the fixture's validator as a child process, asserts the exit code and message, and removes the fixture. All eight cases pass with no residue.
+- **PLY lane in the handoff template — closed.** The Handoff Format template now reads `Lane: <FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL>`, matching the lane table, the handoff archive contract, and all validator ID patterns.
