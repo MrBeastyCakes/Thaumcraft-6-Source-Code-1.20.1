@@ -6,7 +6,7 @@
 
 **Architecture:** The documentation layer becomes the durable source of coordination state: claims identify current ownership, per-item handoffs preserve evidence, and a feature matrix makes parity coverage measurable. Two PowerShell tools validate the deterministic filesystem map and the pipeline graph without Gradle or Minecraft.
 
-**Tech Stack:** Markdown, PowerShell 7, Git, existing Forge repository metadata.
+**Tech Stack:** Markdown, Windows PowerShell 5.1 (also PowerShell 7 compatible), Git, existing Forge repository metadata.
 
 **Spec:** `docs/agent-pipeline/pipeline-hardening-spec.md`
 
@@ -52,14 +52,14 @@
 
 - [ ] **Step 3: Connect the records to agent startup and state transitions.**
 
-  Update `AGENTS.md` so a worker reads `active-claims.md` before claiming, the coordinator records a claim before editing, and `ACTIVE`, `VERIFYING`, and `DONE` workboard rows link a handoff path. Add a `PLY` lane for player equipment, effects, Warp, and Warp Ward. Update the pipeline README table and workflow to link the two new artifacts. Add a `Handoff` column to the workboard and populate FND-03 with `handoffs/FND-03.md`; leave non-terminal rows as `—`.
+  Update `AGENTS.md` so a worker reads `active-claims.md` before claiming, the coordinator records a claim before editing, and `ACTIVE`, `VERIFYING`, and `DONE` workboard rows link a handoff path. Add a `PLY` lane for player equipment, effects, Warp, and Warp Ward. Update the pipeline README table and workflow to link the two new artifacts. Add a `Handoff` column to the workboard and populate FND-03 with `handoffs/FND-03.md`; leave non-terminal rows as `—`. Require `AGENTS.md`'s read-before-editing list to reference all pipeline artifacts, including `active-claims.md` and the `handoffs/` archive once created, so a worker is pointed at the current coordination state before editing. By the end of Tasks 1-3 the pipeline README tables must link all of `active-claims.md`, `handoffs/README.md`, `tc6-feature-matrix.md`, `system-entrypoints.md`, `reference-catalog.md`, `validation-matrix.md`, `budget-hold.md`, the existing pipeline files, and both tools (`Update-FileSystemMap.ps1` and `Test-AgentPipeline.ps1`).
 
 - [ ] **Step 4: Validate the record format.**
 
   Run:
 
-  ```powershell
-  rg -n "Work item \| Lane \| Owner|Budget hold|a908d65|handoffs/FND-03\.md" AGENTS.md docs/agent-pipeline
+  ```bash
+  grep -rnE "Work item \| Lane \| Owner|Budget hold|a908d65|handoffs/FND-03\.md" AGENTS.md docs/agent-pipeline
   git diff --check
   ```
 
@@ -84,16 +84,39 @@
 
 **Interfaces:**
 - Consumes: `parity-workboard.md`, `parity-evidence-index.md`, `filesystem-map.md`, and the current/legacy source roots.
-- Produces: feature rows with `Feature group`, `BETA26 reference`, `Current port entry points`, `Owning work item`, `Evidence state`, and `Release gate`.
+- Produces: feature rows with `Feature group`, `BETA26 reference`, `Current port entry points`, `Owning work item`, `Cross-lane rationale`, `Evidence state`, and `Release gate`.
 - Produces: entrypoint rows with `Work item`, `Current port roots`, `Legacy reference roots`, `Registration or data roots`, and `Expected test type`.
 
 - [ ] **Step 1: Add the five missing workboard owners before creating the matrix.**
 
-  Add `FND-04` after FND-03: `Establish authoritative aspect attribution, containers, and lookup shared by scanning and Essentia`, blocked by FND-01. Change RSR-01 and ALC-01 to be blocked by FND-04. Add `ALC-00` before ALC-01: `Restore Crucible recipes, input validation, aspect costs, and output economy`, blocked by RSR-02. Add `AUT-04`: `Restore standalone artifice and utility devices`, blocked by FND-02. Add `WLD-05`: `Validate creature spawning, AI, combat, drops, constructs, and non-focus projectiles`, blocked by FND-02. Add `PLY-01`: `Restore player equipment, Curios state, effects, Warp, and Warp Ward`, blocked by RSR-03. Change WLD-04 to be blocked by PLY-01. Add matching deferred-register rows, dependency-spine edges, and evidence-index queue rows that name the BETA26 behavior to capture for each new item.
+  Add `FND-04` after FND-03: `Establish authoritative aspect attribution, containers, and lookup shared by scanning and Essentia`, blocked by FND-01. Change RSR-01 and ALC-01 to be blocked by FND-04. Add `ALC-00` before ALC-01: `Restore Crucible recipes, input validation, aspect costs, and output economy`, blocked by RSR-02. Add `AUT-04`: `Restore standalone artifice and utility devices`, blocked by FND-02. Add `WLD-05`: `Validate creature spawning, AI, combat, drops, constructs, and non-focus projectiles`, blocked by FND-02. Add `PLY-01`: `Restore player equipment, Curios state, effects, Warp, and Warp Ward`, blocked by RSR-03. Change WLD-04 to be blocked by PLY-01. Add matching deferred-register rows, dependency-spine edges, and evidence-index queue rows that name the BETA26 behavior to capture for each new item. Fold the noncanonical `ALC-03a` deferred row into the `ALC-03` row in `deferred-issues.md` and remove the `ALC-03a` ID entirely. Add deferred-register rows for `FND-02`, `AUT-02`, and `CAS-03` so those canonical IDs are represented, and ensure every work-item ID referenced in `deferred-issues.md` is a canonical ID. Update the workboard dependency-spine mermaid and the pipeline README dependency-spine graph to include the five new items (`FND-04`, `ALC-00`, `AUT-04`, `WLD-05`, `PLY-01`) and to remove any noncanonical or phantom node (the README currently contains a noncanonical `ECO` node).
 
 - [ ] **Step 2: Create the feature matrix with these exact initial groups.**
 
-  Create one row for each of: `Foundations`, `Aspects and research`, `Arcane crafting`, `Crucible alchemy`, `Essentia production and transport`, `Infusion`, `Casting and foci`, `Golems and automation`, `Artifice and utility devices`, `Aura, Flux, rifts, and taint`, `Magical world generation and flora`, `Creatures and combat`, `Player systems and Warp`, `Eldritch and endgame`, `Client presentation`, and `Compatibility and release`. Map them respectively to `FND-01/FND-02`, `FND-04/RSR-01/RSR-03`, `RSR-02`, `ALC-00`, `ALC-01/ALC-02/ALC-04`, `ALC-03`, `CAS-01/CAS-03`, `AUT-01/AUT-03`, `AUT-04`, `WLD-01/WLD-03`, `WLD-02`, `WLD-05`, `PLY-01`, `WLD-04`, `CLI-01/CLI-03`, and `REL-01/REL-04`.
+  Create one row for each of these exact feature groups, with these exact owning work items:
+
+  ```markdown
+  | Feature group | Owning work item | Cross-lane rationale |
+  |---|---|---|
+  | Foundations | FND-01, FND-02, FND-03 | FND-01 (harness), FND-02 (integration audit), and FND-03 (evidence index) are three separate foundation deliverables with distinct acceptance evidence. |
+  | Aspects and research | FND-04, RSR-01, RSR-03 | FND-04 builds the shared aspect registry that RSR-01 scanning and RSR-03 Thaumonomicon progression both consume, so ownership spans the FND and RSR lanes. |
+  | Arcane crafting | RSR-02 | — |
+  | Crucible alchemy | ALC-00 | — |
+  | Essentia production and transport | ALC-01, ALC-02, ALC-04 | ALC-01 (aspects and smelter), ALC-02 (transport), and ALC-04 (Thaumatorium) are separate workboard items in one Essentia production chain. |
+  | Infusion | ALC-03 | — |
+  | Casting and foci | CAS-01, CAS-02, CAS-03 | Focus construction (CAS-01), graph execution (CAS-02), and caster inventory/validation (CAS-03) are serial workboard items covering one casting feature. |
+  | Golems and automation | AUT-01, AUT-02, AUT-03 | Seals (AUT-01), golem tasks (AUT-02), and automation devices (AUT-03) are separate workboard items with distinct acceptance evidence. |
+  | Artifice and utility devices | AUT-04 | — |
+  | Aura, Flux, rifts, and taint | WLD-01, WLD-03 | WLD-01 owns aura/Vis/Flux persistence and WLD-03 owns rifts and taint, which read and write that same aura state. |
+  | Magical world generation and flora | WLD-02 | — |
+  | Creatures and combat | WLD-05 | — |
+  | Player systems and Warp | PLY-01 | — |
+  | Eldritch/endgame | WLD-04 | — |
+  | Client presentation | CLI-01, CLI-02, CLI-03 | Screens (CLI-01), caster visuals (CLI-02), and the asset sweep (CLI-03) are independent client surfaces owned by separate workboard items. |
+  | Compatibility and release | REL-01, REL-02, REL-03, REL-04 | Compatibility (REL-01), acceptance sweeps (REL-02), packaging (REL-03), and public-distribution gating (REL-04) are separate release workboard items with distinct gates. |
+  ```
+
+  Every group whose `Owning work item` cell lists more than one ID carries its explicit cross-lane ownership rationale in the `Cross-lane rationale` column; single-owner groups use `—`. All 32 canonical work-item IDs must appear in this table.
 
 - [ ] **Step 3: Create the entrypoint map from verifiable roots.**
 
@@ -107,13 +130,14 @@
 
   Run:
 
-  ```powershell
-  rg -n "^\| (Foundations|Aspects and research|Arcane crafting|Crucible alchemy|Essentia production and transport|Infusion|Casting and foci|Golems and automation|Artifice and utility devices|Aura, Flux, rifts, and taint|Magical world generation and flora|Creatures and combat|Player systems and Warp|Eldritch and endgame|Client presentation|Compatibility and release) \|" docs/agent-pipeline/tc6-feature-matrix.md
-  rg -n "^\| (FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL)-[0-9]{2} \|" docs/agent-pipeline/system-entrypoints.md
+  ```bash
+  grep -nE "^\| (Foundations|Aspects and research|Arcane crafting|Crucible alchemy|Essentia production and transport|Infusion|Casting and foci|Golems and automation|Artifice and utility devices|Aura, Flux, rifts, and taint|Magical world generation and flora|Creatures and combat|Player systems and Warp|Eldritch/endgame|Client presentation|Compatibility and release) \|" docs/agent-pipeline/tc6-feature-matrix.md
+  grep -nE "^\| (FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL)-[0-9]{2} \|" docs/agent-pipeline/system-entrypoints.md
+  python -c 'import re; from pathlib import Path; text = Path("docs/agent-pipeline/tc6-feature-matrix.md").read_text(encoding="utf-8"); ids = sorted(set(re.findall(r"(?:FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL)-\d{2}", text))); print("distinct canonical IDs in the feature matrix:", len(ids)); print(" ".join(ids))'
   git diff --check
   ```
 
-  Expected: 16 feature-group rows, 32 entrypoint rows, and no whitespace errors.
+  Expected: 16 feature-group rows, 32 entrypoint rows, a distinct-ID count of 32 from the feature matrix (every canonical work-item ID represented), and no whitespace errors.
 
 - [ ] **Step 6: Commit the inventory maps.**
 
@@ -145,7 +169,7 @@
 
 - [ ] **Step 3: Create the budget hold policy.**
 
-  Begin the policy with the exact sentence `Implementation is paused while the budget hold is active.` State that the project owner is the release authority; allowed activities are source reading, parity evidence cataloging, documentation, and local non-game pipeline validation; prohibited activities are gameplay changes, Gradle/game runs, EULA acceptance, distribution, and original asset copying. The reactivation condition is an explicit project-owner instruction. List spending order as `FND-01`, `FND-04`, `RSR-01/RSR-02`, `ALC-00/ALC-03`, `CAS-01/CAS-02`, then remaining workboard order.
+  Begin the policy with the exact sentence `Implementation is paused while the budget hold is active.` State that the project owner is the release authority; allowed activities are source reading, parity evidence cataloging, documentation, and local non-game pipeline validation; prohibited activities are gameplay changes, Gradle/game runs, EULA acceptance, distribution, and original asset copying. The reactivation condition is an explicit project-owner instruction. List spending order as `FND-01`, `FND-04`, `RSR-01/RSR-02`, `ALC-00/ALC-03`, `CAS-01/CAS-02`, then remaining workboard order. (Within each tier, items are worked in workboard dependency order.)
 
 - [ ] **Step 4: Link the new policy and validation artifacts.**
 
@@ -155,8 +179,8 @@
 
   Run:
 
-  ```powershell
-  rg -n "SHA-256|Documentation-only|Project owner|FND-01" docs/agent-pipeline/reference-catalog.md docs/agent-pipeline/validation-matrix.md docs/agent-pipeline/budget-hold.md
+  ```bash
+  grep -nE "SHA-256|Documentation-only|Project owner|FND-01" docs/agent-pipeline/reference-catalog.md docs/agent-pipeline/validation-matrix.md docs/agent-pipeline/budget-hold.md
   git diff --check
   ```
 
@@ -206,21 +230,22 @@
   )
   ```
 
-  Remove the generated timestamp and `git rev-parse` variables. Move the existing here-string construction into `Get-FileSystemMapContent`, which returns the expected map body. Render a fixed header that says `Generated from the current source layout by tools/agent-pipeline/Update-FileSystemMap.ps1.` Normalize the rendered content with:
+  Remove the generated timestamp and `git rev-parse` variables. Move the existing here-string construction into `Get-FileSystemMapContent`, which returns the expected map body. Render a fixed header that says `Generated from the current source layout by tools/agent-pipeline/Update-FileSystemMap.ps1.` The script must run on Windows PowerShell 5.1 (the only PowerShell installed on this host) while remaining PowerShell 7 compatible, so use no PowerShell 7-only syntax, and invoke it from git-bash or another non-PowerShell shell as `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Update-FileSystemMap.ps1 [-RepositoryRoot <root>] [-Check]`. Normalize the rendered content with:
 
   ```powershell
   $content = $content.TrimEnd() + [Environment]::NewLine
   ```
 
-  Define this normalizer before the write/check branch:
+  Define this normalizer before the write/check branch; it strips a leading byte-order mark when one is present, in addition to normalizing CRLF/CR line endings:
 
   ```powershell
   function Normalize-MapText([string]$value) {
-      (($value -replace "`r`n", "`n") -replace "`r", "`n").TrimEnd("`n")
+      $text = $value.TrimStart([char]0xFEFF)
+      (($text -replace "`r`n", "`n") -replace "`r", "`n").TrimEnd("`n")
   }
   ```
 
-  Replace the final write with:
+  Replace the final write so the map is written as UTF-8 without a byte-order mark (`Set-Content -Encoding utf8` emits a BOM on Windows PowerShell 5.1):
 
   ```powershell
   if ($Check) {
@@ -235,21 +260,35 @@
       return
   }
 
-  Set-Content -LiteralPath $outputPath -Value $content -Encoding utf8 -NoNewline
+  [System.IO.File]::WriteAllText($outputPath, $content, (New-Object System.Text.UTF8Encoding($false)))
   Write-Host "Updated $outputPath"
   ```
 
   Change the test-surface wording from `$testCount tracked test-source/resource files` to `$testCount test-source/resource files`.
 
-- [ ] **Step 3: Regenerate and prove the check behavior.**
+- [ ] **Step 3: Regenerate and prove determinism and check behavior.**
 
-  Run:
+  Run (in a PowerShell session, or as `powershell.exe -NoProfile -ExecutionPolicy Bypass -File <script> <args>` from git-bash):
 
   ```powershell
   .\tools\agent-pipeline\Update-FileSystemMap.ps1
   .\tools\agent-pipeline\Update-FileSystemMap.ps1 -Check
   & .\tools\agent-pipeline\Update-FileSystemMap.ps1 -RepositoryRoot $fixture
   & .\tools\agent-pipeline\Update-FileSystemMap.ps1 -RepositoryRoot $fixture -Check
+  ```
+
+  Then prove determinism and that `-Check` never writes, in the same session:
+
+  ```powershell
+  $map = "docs/agent-pipeline/filesystem-map.md"
+  .\tools\agent-pipeline\Update-FileSystemMap.ps1
+  $hashOne = (Get-FileHash -Algorithm SHA256 -LiteralPath $map).Hash
+  .\tools\agent-pipeline\Update-FileSystemMap.ps1
+  $hashTwo = (Get-FileHash -Algorithm SHA256 -LiteralPath $map).Hash
+  if ($hashOne -ne $hashTwo) { throw "Map rendering is not deterministic." }
+  .\tools\agent-pipeline\Update-FileSystemMap.ps1 -Check
+  $hashAfterCheck = (Get-FileHash -Algorithm SHA256 -LiteralPath $map).Hash
+  if ($hashOne -ne $hashAfterCheck) { throw "-Check modified the map file." }
   ```
 
   Then add a temporary file under the fixture's `src/main/java/thaumcraft/common/`, invoke `-Check` against the fixture, and confirm it fails with `Filesystem map is stale`. Remove the fixture in the same PowerShell session.
@@ -270,11 +309,11 @@
 
 **Interfaces:**
 - Consumes: `-RepositoryRoot <string>`.
-- Produces: exit success after valid checks; throws on missing artifact, stale map, duplicate work-item ID, missing internal dependency, dependency cycle, or `READY` state during a budget hold.
+- Produces: exit success after valid checks; throws on missing artifact, stale map, duplicate work-item ID, missing internal dependency, dependency cycle, missing handoff file, or `READY` state during a budget hold.
 
 - [ ] **Step 1: Write the failing invalid-state fixture.**
 
-  Create `tools/agent-pipeline/test/Invoke-PipelineValidatorFixture.ps1`. It copies `AGENTS.md`, `docs/agent-pipeline`, `tools/agent-pipeline`, `src/main/java/thaumcraft`, and `src/main/resources` into a temporary fixture; changes only the FND-01 workboard cell from `DEFERRED: budget hold` to `READY`; invokes `Test-AgentPipeline.ps1 -RepositoryRoot <fixture>`; and throws unless the captured error contains `READY item exists during budget hold`. Before `Test-AgentPipeline.ps1` exists, the fixture script must fail because the validator path is absent.
+  Create `tools/agent-pipeline/test/Invoke-PipelineValidatorFixture.ps1`. It copies `AGENTS.md`, `docs/agent-pipeline`, `tools/agent-pipeline`, `src/main/java/thaumcraft`, and `src/main/resources` into a temporary fixture. After copying files into the fixture, the fixture script MUST first run `Update-FileSystemMap.ps1 -RepositoryRoot $fixture` (without `-Check`) so the fixture renders its own deterministic map, and only then change the FND-01 workboard cell from `DEFERRED: budget hold` to `READY`; without that regeneration the fixture map is stale for unrelated reasons (root leaf name and missing directories) and the expected `READY item exists during budget hold` error would never be reached. It then invokes `Test-AgentPipeline.ps1 -RepositoryRoot $fixture` as a child process and captures the validator's exit code and message, and it fails unless the exit code is nonzero and the captured message contains the expected text for that fault. Before `Test-AgentPipeline.ps1` exists, the fixture script must fail because the validator path is absent.
 
 - [ ] **Step 2: Implement the validator.**
 
@@ -305,18 +344,39 @@
   }
   ```
 
-  Require the pipeline files named by the specification, invoke `Update-FileSystemMap.ps1 -Check`, collect IDs, compare `($ids | Select-Object -Unique).Count` to `$ids.Count`, and verify every canonical row has a nonempty state, outcome, primary-area, acceptance-evidence, and handoff column. Accept only the state forms `READY`, `ACTIVE`, `VERIFYING`, `DONE`, `DEFERRED: <reason>`, `BLOCKED: <canonical ID>`, `BLOCKED: all gameplay lanes`, and `BLOCKED: written permission`. Verify every internal dependency target appears in `$ids`, every deferred canonical ID occurs in `deferred-issues.md`, and every `ACTIVE`, `VERIFYING`, or `DONE` row names an existing handoff file. Use a DFS with `visiting` and `visited` hash sets to throw `Dependency cycle detected at <ID>` on a back-edge. Detect the active budget hold with the exact phrase `Implementation is paused` in `budget-hold.md`; while it exists, throw `READY item exists during budget hold: <ID>` for any workboard row matching `^\|\s*(?:FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL)-\d{2}\s*\|\s*READY\s*\|`. Print state counts and the informational external-gate line before returning success.
+  Require the pipeline files named by the specification, invoke `Update-FileSystemMap.ps1 -Check` against `-RepositoryRoot $RepositoryRoot`, collect IDs, compare `($ids | Select-Object -Unique).Count` to `$ids.Count`, and verify every canonical row has a nonempty state, outcome, primary-area, acceptance-evidence, and handoff column. Accept only the state forms `READY`, `ACTIVE`, `VERIFYING`, `DONE`, `DEFERRED: <reason>`, `BLOCKED: <canonical ID>`, `BLOCKED: all gameplay lanes`, and `BLOCKED: written permission`. Throw `Duplicate work-item ID: <ID>` for a repeated ID. Verify that every `BLOCKED: <ID>` target exists among the canonical IDs (`Missing internal dependency: <ID>`); that every work-item ID referenced in `deferred-issues.md` is a canonical ID; that every canonical ID in a `DEFERRED:` state occurs in `deferred-issues.md`; and that every `ACTIVE`, `VERIFYING`, or `DONE` row names an existing handoff file (`Missing handoff file: <path>`). Use a DFS with `visiting` and `visited` hash sets to throw `Dependency cycle detected at <ID>` on a back-edge. Detect the active budget hold with the exact phrase `Implementation is paused` in `budget-hold.md`; while it exists, throw `READY item exists during budget hold: <ID>` for any workboard row matching `^\|\s*(?:FND|RSR|ALC|CAS|AUT|WLD|PLY|CLI|REL)-\d{2}\s*\|\s*READY\s*\|`.
+
+  Wrap the whole validator body in `try`/`catch`: on any thrown structural failure the `catch` prints the error message and runs `exit 1` so the process exits nonzero; on success the script prints the state counts and the informational external-gate line before returning success. Invoke it as `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Test-AgentPipeline.ps1 [-RepositoryRoot <root>]` so the exit code is observable without closing the operator's session; it must run on Windows PowerShell 5.1 (the only PowerShell installed on this host) while remaining PowerShell 7 compatible.
+
+  ```powershell
+  try {
+      # ... the structural checks above; each failure throws ...
+  } catch {
+      Write-Host "Agent pipeline validation failed: $($_.Exception.Message)"
+      exit 1
+  }
+  Write-Host "Work item states: <counts by state>"
+  Write-Host "External gates (informational): BLOCKED: all gameplay lanes; BLOCKED: written permission"
+  exit 0
+  ```
 
 - [ ] **Step 3: Prove success and each failure class.**
 
-  Run the validator against the repository. In isolated fixtures, introduce one fault at a time: delete `active-claims.md`; alter the map; duplicate FND-01; change `BLOCKED: FND-01` to `BLOCKED: XYZ-99`; set `FND-01` to `BLOCKED: RSR-02` and `RSR-02` to `BLOCKED: FND-01`; remove the FND-03 handoff; then set FND-01 to `READY`. Require a nonzero exit for every fixture and retain no fixture afterward.
+  Run the validator against the repository as a child process so its exit code is observable and a structural failure cannot close the session:
+
+  ```powershell
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Test-AgentPipeline.ps1
+  $LASTEXITCODE
+  ```
+
+  Then build temporary fixtures with `tools/agent-pipeline/test/Invoke-PipelineValidatorFixture.ps1`. Every fault fixture must first copy the pipeline, then regenerate the fixture's own map (`Update-FileSystemMap.ps1 -RepositoryRoot $fixture`, without `-Check`), and only then introduce exactly ONE fault: delete `active-claims.md`; alter the map; duplicate FND-01; change `BLOCKED: FND-01` to `BLOCKED: XYZ-99`; set `FND-01` to `BLOCKED: RSR-02` and `RSR-02` to `BLOCKED: FND-01`; remove the FND-03 handoff; then set FND-01 to `READY`. The fixture runner must capture the validator's exit code and message and fail unless the exit code is nonzero and the message contains the expected text for that fault: `Required pipeline artifact is missing`, `Filesystem map is stale`, `Duplicate work-item ID`, `Missing internal dependency`, `Dependency cycle detected at`, `Missing handoff file`, and `READY item exists during budget hold`. Require a nonzero exit for every fixture and retain no fixture afterward.
 
 - [ ] **Step 4: Link and commit the validator.**
 
-  Add `Test-AgentPipeline.ps1` to the README artifact table and list the command `.\tools\agent-pipeline\Test-AgentPipeline.ps1` under local pipeline validation. Then run:
+  Add `Test-AgentPipeline.ps1` to the README artifact table and list the command `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Test-AgentPipeline.ps1` under local pipeline validation. Then run:
 
   ```powershell
-  .\tools\agent-pipeline\Test-AgentPipeline.ps1
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Test-AgentPipeline.ps1
   git diff --check
   git add tools/agent-pipeline/Test-AgentPipeline.ps1 tools/agent-pipeline/test/Invoke-PipelineValidatorFixture.ps1 docs/agent-pipeline/README.md
   git commit -m "build: validate the parity agent pipeline"
@@ -334,8 +394,8 @@
 - [ ] **Step 1: Run the complete local pipeline review.**
 
   ```powershell
-  .\tools\agent-pipeline\Update-FileSystemMap.ps1 -Check
-  .\tools\agent-pipeline\Test-AgentPipeline.ps1
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Update-FileSystemMap.ps1 -Check
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Test-AgentPipeline.ps1
   git diff --check
   git status --short
   ```
@@ -361,3 +421,20 @@
       git commit -m "docs: finalize parity pipeline controls"
   }
   ```
+
+---
+
+## Revision Notes (2026-09-18)
+
+- Corrected the Task 2 Step 2 feature-matrix mapping to the complete 32-canonical-ID group table and added the required `Cross-lane rationale` column (also added to the matrix `Produces` line), because the spec requires every top-level feature group to have exactly one owning work item or an explicit cross-lane ownership rationale.
+- Replaced the Task 2 Step 5 group pattern with the corrected exact group names, including `Eldritch/endgame`, and added a distinct-canonical-ID count check (expected 32) so the matrix provably covers all workboard owners.
+- Extended Task 2 Step 1 to fold `ALC-03a` into `ALC-03`, add deferred-register rows for `FND-02`, `AUT-02`, and `CAS-03`, keep every deferred-issues ID canonical, and update both dependency-spine graphs (adding `FND-04`, `ALC-00`, `AUT-04`, `WLD-05`, `PLY-01`; removing the noncanonical `ECO` node) so the register and graphs match the canonical ID set.
+- Extended Task 1 Step 3 so the `AGENTS.md` read-before-editing list names the pipeline artifacts and the pipeline README tables link every control artifact plus both tools by the end of Tasks 1-3, satisfying the cross-linking acceptance criterion.
+- Added the workboard-dependency-order parenthetical to the Task 3 Step 3 spending order so tier ordering is unambiguous.
+- Made the Task 4 map renderer 5.1-compatible and BOM-free (`[System.IO.File]::WriteAllText` with `UTF8Encoding($false)`), required the normalizer to strip a leading BOM, and required repeat-run, `-Check`-pass, and `-Check`-non-mutation hash evidence so determinism is proven, not assumed.
+- Required every Task 5 fixture to regenerate its own map before injecting exactly one fault, and to assert the validator's exit code plus the expected message, because a stale fixture map would otherwise mask the intended fault.
+- Required the Task 5 validator to print its error and `exit 1` on structural failure via `try`/`catch`, to print state counts plus the informational external gates on success, and replaced the ambiguous deferred-ID sentence with exact canonical-ID, deferred-row, and handoff-file checks (the missing-handoff failure class is now also named in the Task 5 `Produces` line).
+- Replaced the `rg` invocations in Task 1 Step 4, Task 2 Step 5, and Task 3 Step 5 with `grep -nE`/python equivalents because this host has no ripgrep.
+- Required the Task 4 and Task 5 PowerShell tools to run on Windows PowerShell 5.1, the only PowerShell installed here, and to be callable via `powershell.exe -NoProfile -ExecutionPolicy Bypass -File` while staying PowerShell 7 compatible; the Task 5 Step 4 and Task 6 Step 1 invocations now use that form so tool exit codes are observable.
+
+Requirements unchanged: docs/agent-pipeline/pipeline-hardening-spec.md is untouched.
