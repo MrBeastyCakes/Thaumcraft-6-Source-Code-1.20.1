@@ -30,13 +30,18 @@ Known intentional adaptation: <only a 1.20.1 platform requirement; otherwise non
 | Work item | Behavior to capture before or during implementation | Existing port evidence |
 |---|---|---|
 | FND-01 | Fresh-world, reload, dedicated-server, and remote-client test procedures | `test` currently reports no source coverage. |
+| FND-04 | Shared aspect attribution (item, block, and entity sources), aspect container capacities, and lookup consumed by scanning and Essentia | `api/aspects` defines the aspect classes and container interfaces; parity of attribution and lookup is not yet verified. |
 | RSR-01 | Scan-gated research completion, staged knowledge, prerequisites, and page progression | `ScanningManager`, `PlayerKnowledge`, and research packets contain simplified/stubbed progression paths. |
 | RSR-02 | Arcane Workbench crystal/Vis/research checks and atomic crafting consumption | Workbench menu/result slot currently have resource-validation gaps. |
+| ALC-00 | Crucible recipe matching, input validation, aspect costs, and output economy | Recipe, block, and tile classes exist (`CrucibleRecipe`, `BlockCrucible`, `TileCrucible`); end-to-end behavior is unverified. |
 | ALC-01 / ALC-02 | Smelter aspect extraction, alembic output, jars, tube transfer, and filters | Smelter aspect lookup and multiple block-entity factories are incomplete. |
 | ALC-03 | Matrix activation, pedestal checks, Essentia consumption, instability, and stabilizer behavior | Matrix/stabilizer integration has missing block-entity/tick paths. |
 | CAS-01 / CAS-02 | Focus-node construction, persistence, delivery mediums, effects, costs, and cooldowns | `FocusEngine` and projectile execution paths do not complete graph execution. |
 | AUT-01 / AUT-02 | Seal configuration, persistence, ownership, task creation, and golem work loops | Bell GUI and persistent seal storage are incomplete. |
+| AUT-04 | Standalone artifice and utility device behavior (for example Arcane Ear, Condenser, and Levitator) | Device blocks and tiles exist under `common/blocks/devices` and `common/tiles/devices`; behavior is unverified. |
 | WLD-02 / WLD-03 | Magical tree growth, aura/Flux changes, rift lifecycle, taint growth, and cleansing | Sapling configured features return `null`; rift/stabilization behavior needs verification. |
+| WLD-05 | Creature spawning, AI, combat, drops, constructs, and non-focus projectiles | Monster, construct, and projectile entity classes exist under `common/entities`; BETA26 behavior is unvalidated. |
+| PLY-01 | Player equipment, Curios state, effects, Warp, and Warp Ward | Warp capability, events, and Warp Ward potion exist (`PlayerWarp`, `WarpEvents`, `PotionWarpWard`); behavior is unverified. |
 
 ## Evidence Storage Convention
 

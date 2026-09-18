@@ -87,11 +87,11 @@
 - Produces: feature rows with `Feature group`, `BETA26 reference`, `Current port entry points`, `Owning work item`, `Cross-lane rationale`, `Evidence state`, and `Release gate`.
 - Produces: entrypoint rows with `Work item`, `Current port roots`, `Legacy reference roots`, `Registration or data roots`, and `Expected test type`.
 
-- [ ] **Step 1: Add the five missing workboard owners before creating the matrix.**
+- [x] **Step 1: Add the five missing workboard owners before creating the matrix.**
 
   Add `FND-04` after FND-03: `Establish authoritative aspect attribution, containers, and lookup shared by scanning and Essentia`, blocked by FND-01. Change RSR-01 and ALC-01 to be blocked by FND-04. Add `ALC-00` before ALC-01: `Restore Crucible recipes, input validation, aspect costs, and output economy`, blocked by RSR-02. Add `AUT-04`: `Restore standalone artifice and utility devices`, blocked by FND-02. Add `WLD-05`: `Validate creature spawning, AI, combat, drops, constructs, and non-focus projectiles`, blocked by FND-02. Add `PLY-01`: `Restore player equipment, Curios state, effects, Warp, and Warp Ward`, blocked by RSR-03. Change WLD-04 to be blocked by PLY-01. Add matching deferred-register rows, dependency-spine edges, and evidence-index queue rows that name the BETA26 behavior to capture for each new item. Fold the noncanonical `ALC-03a` deferred row into the `ALC-03` row in `deferred-issues.md` and remove the `ALC-03a` ID entirely. Add deferred-register rows for `FND-02`, `AUT-02`, and `CAS-03` so those canonical IDs are represented, and ensure every work-item ID referenced in `deferred-issues.md` is a canonical ID. Update the workboard dependency-spine mermaid and the pipeline README dependency-spine graph to include the five new items (`FND-04`, `ALC-00`, `AUT-04`, `WLD-05`, `PLY-01`) and to remove any noncanonical or phantom node (the README currently contains a noncanonical `ECO` node).
 
-- [ ] **Step 2: Create the feature matrix with these exact initial groups.**
+- [x] **Step 2: Create the feature matrix with these exact initial groups.**
 
   Create one row for each of these exact feature groups, with these exact owning work items:
 
@@ -118,15 +118,15 @@
 
   Every group whose `Owning work item` cell lists more than one ID carries its explicit cross-lane ownership rationale in the `Cross-lane rationale` column; single-owner groups use `—`. All 32 canonical work-item IDs must appear in this table.
 
-- [ ] **Step 3: Create the entrypoint map from verifiable roots.**
+- [x] **Step 3: Create the entrypoint map from verifiable roots.**
 
   Include rows for all 32 canonical work items. Use current root paths such as `src/main/java/thaumcraft/api/research`, `src/main/java/thaumcraft/common/tiles`, `src/main/java/thaumcraft/common/golems`, `src/main/java/thaumcraft/common/world`, `src/main/java/thaumcraft/client`, `src/main/resources/data/thaumcraft`, and `src/main/resources/assets/thaumcraft`. For legacy paths whose exact location is not yet established, use the literal value `needs discovery from src/main/java_old/`; do not fabricate class paths.
 
-- [ ] **Step 4: Link the inventory artifacts from the pipeline README.**
+- [x] **Step 4: Link the inventory artifacts from the pipeline README.**
 
   Add concise table rows explaining that the feature matrix measures parity coverage and the entrypoint map shortens safe agent handoffs.
 
-- [ ] **Step 5: Validate ownership coverage.**
+- [x] **Step 5: Validate ownership coverage.**
 
   Run:
 
@@ -139,7 +139,7 @@
 
   Expected: 16 feature-group rows, 32 entrypoint rows, a distinct-ID count of 32 from the feature matrix (every canonical work-item ID represented), and no whitespace errors.
 
-- [ ] **Step 6: Commit the inventory maps.**
+- [x] **Step 6: Commit the inventory maps.**
 
   ```powershell
   git add docs/agent-pipeline/tc6-feature-matrix.md docs/agent-pipeline/system-entrypoints.md docs/agent-pipeline/parity-workboard.md docs/agent-pipeline/parity-evidence-index.md docs/agent-pipeline/deferred-issues.md docs/agent-pipeline/README.md

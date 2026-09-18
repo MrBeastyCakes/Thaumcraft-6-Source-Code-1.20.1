@@ -11,11 +11,13 @@ These prevent a normal progression loop or make a core system unusable. Repair t
 | ID | Deferred issue | Player impact | Confirmed evidence | Workboard dependency |
 |---|---|---|---|---|
 | FND-01 | No automated unit or GameTest coverage. | Repairs cannot be safely verified across fresh worlds, reloads, or servers. | `src/test/` has no tracked sources; Gradle reports `NO-SOURCE`. | First item; budget hold. |
-| RSR-01 | Scanning, research stages, and knowledge sync are incomplete and accept client-led progress. | Research can deadlock or be bypassed; save/reload behavior is not trustworthy. | `ScanningManager.java:202-210`, `PlayerKnowledge.java:53-66`, `PacketSyncProgressToServer.java:104-107`. | FND-01 |
+| FND-04 | Shared aspect attribution, aspect containers, and lookup are not established for scanning or Essentia processing. | Scans and Essentia handling can disagree on item aspects, so every dependent repair rests on unverified data. | Not yet reproduced end-to-end; retain as a verification item. | FND-01 |
+| RSR-01 | Scanning, research stages, and knowledge sync are incomplete and accept client-led progress. | Research can deadlock or be bypassed; save/reload behavior is not trustworthy. | `ScanningManager.java:202-210`, `PlayerKnowledge.java:53-66`, `PacketSyncProgressToServer.java:104-107`. | FND-04 |
 | RSR-02 | Arcane Workbench crystal checks are bypassed and crafting is not fully atomic. | Players can craft without the intended resources. | `ArcaneWorkbenchMenu.java:155-173`, `ArcaneWorkbenchResultSlot.java:163-178`. | RSR-01 |
-| ALC-01 | Smelters always receive an empty aspect list. | Items cannot be processed into Essentia. | `TileSmelter.java:199-208,260-266`. | FND-01 |
+| ALC-00 | Crucible recipes, input validation, aspect costs, and output economy are unverified. | Early alchemy cannot be trusted to consume or produce the BETA26 results. | Not yet reproduced end-to-end; retain as a verification item. | RSR-02 |
+| ALC-01 | Smelters always receive an empty aspect list. | Items cannot be processed into Essentia. | `TileSmelter.java:199-208,260-266`. | FND-04 |
 | ALC-02 | Alembic and tube block-entity factories return `null`. | Essentia transport and storage do not run. | `BlockAlembic.java:87-96`, `BlockTube.java:165-170`. | ALC-01 |
-| ALC-03 | The Infusion Matrix has no block entity or ticker. | Infusion cannot activate or complete. | `BlockInfusionMatrix.java:52-61`. | ALC-02 |
+| ALC-03 | The Infusion Matrix has no block entity or ticker, and infusion stabilizers do not instantiate or participate in the matrix contract. | Infusion cannot activate or complete, and high-instability infusion behavior is incomplete. | `BlockInfusionMatrix.java:52-61`, `BlockStabilizer.java:54-63`, `TileStabilizer.java:92-113`. | ALC-02 |
 | CAS-01 | The Focal Manipulator does not open its configuration UI. | Players cannot build configured foci through the intended path. | `BlockFocalManipulator.java:83-97`. | FND-01 |
 | CAS-02 | Focus graph execution does not reach delivery effects. | Touch, bolt, and projectile foci fail to perform their spell effects. | `FocusEngine.java:261-313`, `FocusMediumTouch.java:174-179`, `FocusMediumBolt.java:50-81`, `EntityFocusProjectile.java:177-187`. | CAS-01 |
 
@@ -25,15 +27,20 @@ These follow the playability blockers and are required for full BETA26 parity, b
 
 | ID | Deferred issue | Player impact | Confirmed evidence | Workboard dependency |
 |---|---|---|---|---|
+| FND-02 | Registered block entities, menus, renderers, capabilities, and packets have not been audited against factory/ticker/side ownership. | Integration gaps can leave blocks silently inert or crash on one side, blocking later repairs. | Not yet performed; retain as a verification item. | FND-01 |
 | RSR-03 | Thaumonomicon, research table/theorycrafting, and research-driven recipe discovery need an end-to-end audit. | Progression may stop after the first research gates. | The workboard has no runtime parity evidence yet. | RSR-01 |
-| ALC-03a | Infusion stabilizers do not instantiate or participate in the matrix contract. | High-instability infusion behavior is incomplete. | `BlockStabilizer.java:54-63`, `TileStabilizer.java:92-113`. | ALC-03 |
 | ALC-04 | Thaumatorium recipe lookup returns `null`. | Automated alchemical crafting cannot select or run recipes. | `TileThaumatorium.java:224-225,289-302`. | ALC-03 |
+| CAS-03 | Caster inventory, focus pouch, Vis costs, cooldowns, and multiplayer effect rendering lack a validation pass. | Crafted or shared foci can lose data or diverge between client and server. | Not yet reproduced end-to-end; retain as a verification item. | CAS-02 |
 | AUT-01 | Golem seals lack durable per-level storage and a configuration UI. | Golem automation resets after reload or cannot be configured. | `ItemGolemBell.java:68-77,99-121`, `SealHandler.java:45,311-319`. | FND-02 |
+| AUT-02 | Golem tasks, upgrades, ownership, inventories, and multiplayer behavior are unvalidated. | Configured golems may not complete representative BETA26 work after reload. | Not yet reproduced end-to-end; retain as a verification item. | AUT-01 |
 | AUT-03 | Pattern Crafter, Arcane Bore, and related automation need behavior and economy validation. | Late-game automation is incomplete or unsafe to use. | Not yet reproduced end-to-end; retain as a verification item. | AUT-01 / ALC-03 |
+| AUT-04 | Standalone artifice and utility devices are unvalidated. | Utility devices may be incomplete or unsafe to use. | Not yet reproduced end-to-end; retain as a verification item. | FND-02 |
 | WLD-01 | Aura, Vis, and Flux persistence have not passed fresh-world or reload validation. | Core magical resources may drift, reset, or disagree across multiplayer. | No automated coverage exists yet. | FND-01 |
 | WLD-02 | Greatwood and Silverwood sapling features resolve to `null`. | Magical trees cannot grow through normal play. | `BlockSaplingTC.java:37-40,58-61`. | WLD-01 |
 | WLD-03 | Rift, taint, stabilization, cleansing, and late-game world behavior need reproduction and parity testing. | World hazards and their counterplay may be incomplete. | Current evidence is incomplete; confirm against BETA26 before changing behavior. | WLD-01 |
-| WLD-04 | Eldritch structures, bosses, and endgame unlocks lack a completed progression verification pass. | The endgame may be unreachable. | No complete survival-path evidence exists yet. | RSR-03 |
+| WLD-04 | Eldritch structures, bosses, and endgame unlocks lack a completed progression verification pass. | The endgame may be unreachable. | No complete survival-path evidence exists yet. | PLY-01 |
+| WLD-05 | Creature spawning, AI, combat, drops, constructs, and non-focus projectiles are unvalidated. | Combat encounters, construct behavior, and drops may diverge from BETA26. | Not yet reproduced end-to-end; retain as a verification item. | FND-02 |
+| PLY-01 | Player equipment, Curios state, effects, Warp, and Warp Ward are unvalidated. | Player power, status effects, and Warp consequences may be wrong; the endgame gate depends on this lane. | Not yet reproduced end-to-end; retain as a verification item. | RSR-03 |
 
 ## Fidelity and Release Work
 

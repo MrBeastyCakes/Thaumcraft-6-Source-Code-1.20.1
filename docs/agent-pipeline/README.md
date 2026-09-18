@@ -13,6 +13,8 @@ The pipeline is intentionally small:
 | `handoffs/` | archive of work-item handoffs for `ACTIVE`, `VERIFYING`, and `DONE` rows: rules and the exact field sequence in `handoffs/README.md`, with one immutable record per item (for example `handoffs/FND-03.md`) |
 | `parity-evidence-index.md` | reference hierarchy and required proof for BETA26 parity claims |
 | `deferred-issues.md` | budget-aware list of confirmed blockers and later verification work |
+| `tc6-feature-matrix.md` | measures BETA26 parity coverage per feature group and names each group's owning work item or cross-lane rationale |
+| `system-entrypoints.md` | per-item source, data, and test entry points for safe agent handoffs |
 | `../../tools/agent-pipeline/Update-FileSystemMap.ps1` | regenerates the factual portions of the filesystem map |
 
 ## Workflow
@@ -28,12 +30,16 @@ Agents should work on different lanes in parallel only when their file ownership
 
 ```mermaid
 flowchart LR
-  FND[Foundation and test harness] --> RSR[Research and recipe gates]
-  RSR --> ECO[Survival resource economy]
-  ECO --> ALC[Essentia and infusion]
+  FND[Foundation and test harness] --> FND04[FND-04 Aspect attribution and lookup]
+  FND04 --> RSR[Research and recipe gates]
+  FND --> AUT04[AUT-04 Artifice and utility devices]
+  FND --> WLD05[WLD-05 Creatures and combat]
+  RSR --> ALC00[ALC-00 Crucible alchemy]
+  ALC00 --> ALC[Essentia and infusion]
   RSR --> CAS[Casting and foci]
   ALC --> AUT[Automation and golems]
-  RSR --> WLD[World systems and endgame]
+  RSR --> PLY[PLY-01 Player systems and Warp]
+  PLY --> WLD[World systems and endgame]
   ALC --> CLI[Client fidelity]
   CAS --> CLI
   AUT --> REL[Multiplayer and release acceptance]

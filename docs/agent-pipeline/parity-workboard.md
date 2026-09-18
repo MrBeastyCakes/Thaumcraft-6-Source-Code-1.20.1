@@ -20,12 +20,20 @@ Implementation is deferred while the project is budget-constrained. `FND-01` is 
 ```mermaid
 flowchart TD
   FND0[Foundation / test harness] --> RSR0[Research authority]
+  FND0 --> FND04[FND-04 Aspect attribution and lookup]
+  FND04 --> RSR0
+  FND04 --> ALC0[Essentia production and storage]
   RSR0 --> RSR1[Recipe gates and early progression]
-  RSR1 --> ALC0[Essentia production and storage]
+  RSR1 --> ALC00[ALC-00 Crucible alchemy]
+  RSR1 --> ALC0
   ALC0 --> ALC1[Transport, infusion, thaumatorium]
   RSR1 --> CAS0[Focus construction and casting]
   ALC1 --> AUT0[Golems and automation]
+  FND0 --> AUT04[AUT-04 Artifice and utility devices]
   RSR1 --> WLD0[World systems and endgame]
+  FND0 --> WLD05[WLD-05 Creatures and combat]
+  RSR1 --> PLY01[PLY-01 Player systems and Warp]
+  PLY01 --> WLD0
   ALC1 --> CLI0[Client fidelity]
   CAS0 --> CLI0
   AUT0 --> REL0[Full acceptance sweep]
@@ -40,12 +48,13 @@ flowchart TD
 | FND-01 | DEFERRED: budget hold | Establish unit-test and GameTest conventions, fixtures, and a fresh-world/reload/server smoke suite. | `src/test/`, Gradle run configs | `test` contains tests; focused GameTests run; documented local command sequence passes. | — |
 | FND-02 | BLOCKED: FND-01 | Audit every registered block entity, menu, renderer, capability, and packet against factory/ticker/side ownership. | `init/`, `common/blocks`, `common/tiles`, `common/lib` | Inventory names each missing or mismatched integration point; regressions have tests. | — |
 | FND-03 | DONE | Created the BETA26 parity evidence index for systems under repair. | `docs/agent-pipeline/parity-evidence-index.md` | Reference hierarchy, evidence template, and initial evidence queue are documented. | handoffs/FND-03.md |
+| FND-04 | BLOCKED: FND-01 | Establish authoritative aspect attribution, containers, and lookup shared by scanning and Essentia. | `api/aspects`, `common/lib`, `common/tiles/essentia` | Item aspects, container capacities, and shared lookup resolve consistently for scanning and Essentia handling with unit coverage. | — |
 
 ## Research and Early Progression — `RSR`
 
 | ID | State | Outcome | Primary areas | Acceptance evidence | Handoff |
 |---|---|---|---|---|---|
-| RSR-01 | BLOCKED: FND-01 | Make scanning, stages, prerequisites, and knowledge persistence server-authoritative. | `api/research`, `common/lib/research`, capabilities, packets | Fresh player completes scan-gated entries; invalid client progress is rejected; reload preserves state. | — |
+| RSR-01 | BLOCKED: FND-04 | Make scanning, stages, prerequisites, and knowledge persistence server-authoritative. | `api/research`, `common/lib/research`, capabilities, packets | Fresh player completes scan-gated entries; invalid client progress is rejected; reload preserves state. | — |
 | RSR-02 | BLOCKED: RSR-01 | Enforce Arcane Workbench crystals, Vis, research gates, and atomic output consumption. | workbench menu/tile/recipes | Insufficient resources never craft; valid craft consumes exact resources across client/server. | — |
 | RSR-03 | BLOCKED: RSR-01 | Validate the Thaumonomicon, research table/theorycrafting, and research-driven recipe discovery. | research menus/screens/data | Complete early-to-advanced progression works without commands. | — |
 
@@ -53,7 +62,8 @@ flowchart TD
 
 | ID | State | Outcome | Primary areas | Acceptance evidence | Handoff |
 |---|---|---|---|---|---|
-| ALC-01 | BLOCKED: FND-01 | Restore authoritative item aspects and smelter inputs. | aspect registry, smelter tiles | Valid items smelt into correct Essentia; invalid inputs do not consume items. | — |
+| ALC-00 | BLOCKED: RSR-02 | Restore Crucible recipes, input validation, aspect costs, and output economy. | `common/blocks/crafting`, `common/tiles/crafting`, recipes | Valid Crucible recipes consume exact inputs and aspects and produce expected outputs; invalid inputs are rejected without consumption. | — |
+| ALC-01 | BLOCKED: FND-04 | Restore authoritative item aspects and smelter inputs. | aspect registry, smelter tiles | Valid items smelt into correct Essentia; invalid inputs do not consume items. | — |
 | ALC-02 | BLOCKED: ALC-01 | Wire alembics, jars, tube variants, filters, and reload-safe Essentia transfer. | essentia blocks/tiles/capabilities | A survival-built line transports the expected aspect without loss/duplication after reload. | — |
 | ALC-03 | BLOCKED: ALC-02 | Restore Infusion Matrix block entity, activation, pedestals, consumption, instability, and stabilizers. | crafting blocks/tiles, recipes | A normal infusion completes; instability and stabilizers match BETA26 intent. | — |
 | ALC-04 | BLOCKED: ALC-03 | Restore Thaumatorium lookup, selection, and crafting. | Thaumatorium tile/menu/recipes | A researched recipe processes end-to-end using its required Essentia. | — |
@@ -73,6 +83,7 @@ flowchart TD
 | AUT-01 | BLOCKED: FND-02 | Persist seals per level and restore the seal/logistics configuration UI. | golems, seals, bell, menus, packets | Seals survive reload and are fully configurable through the bell. | — |
 | AUT-02 | BLOCKED: AUT-01 | Validate golem tasks, upgrades, ownership, inventories, and multiplayer behavior. | golem AI/tasks/entities | A configured golem completes representative BETA26 tasks after reload. | — |
 | AUT-03 | BLOCKED: ALC-03 | Restore Pattern Crafter, Arcane Bore, and related automation devices. | automation blocks/tiles/entities | Each device consumes inputs and produces expected outputs without dupes. | — |
+| AUT-04 | BLOCKED: FND-02 | Restore standalone artifice and utility devices. | `common/blocks/devices`, `common/tiles/devices`, `common/entities/construct` | Representative devices activate and produce expected outputs on a server without dupes, surviving reload. | — |
 
 ## World Systems — `WLD`
 
@@ -81,7 +92,14 @@ flowchart TD
 | WLD-01 | BLOCKED: FND-01 | Validate aura generation, Vis/Flux persistence, and dimension lifecycle. | `common/world/aura` | Fresh and reloaded worlds maintain stable aura values. | — |
 | WLD-02 | BLOCKED: WLD-01 | Restore renewable Greatwood/Silverwood growth and worldgen parity. | saplings, features, biome modifiers | Saplings and generated features match intended behavior. | — |
 | WLD-03 | BLOCKED: WLD-01 | Restore flux rifts, taint, stabilization, cleansing, and late-game consequences. | rift/taint entities, world blocks, devices | Rift lifecycle and taint behavior work in server and reload scenarios. | — |
-| WLD-04 | BLOCKED: RSR-03 | Validate Eldritch progression, structures, bosses, and endgame unlocks. | structures, entities, research | A survival player reaches and completes the BETA26 endgame path. | — |
+| WLD-04 | BLOCKED: PLY-01 | Validate Eldritch progression, structures, bosses, and endgame unlocks. | structures, entities, research | A survival player reaches and completes the BETA26 endgame path. | — |
+| WLD-05 | BLOCKED: FND-02 | Validate creature spawning, AI, combat, drops, constructs, and non-focus projectiles. | `common/entities/monster`, `common/entities/construct`, `common/entities/projectile` | Representative creatures, constructs, and projectiles spawn, fight, and drop correctly in survival and after reload. | — |
+
+## Player Systems — `PLY`
+
+| ID | State | Outcome | Primary areas | Acceptance evidence | Handoff |
+|---|---|---|---|---|---|
+| PLY-01 | BLOCKED: RSR-03 | Restore player equipment, Curios state, effects, Warp, and Warp Ward. | `common/items/curios`, `common/items/baubles`, `common/lib/capabilities`, `common/lib/events` | Equipment, Curios, effects, and Warp/Warp Ward persist across inventory changes, reload, and multiplayer. | — |
 
 ## Client Fidelity — `CLI`
 
