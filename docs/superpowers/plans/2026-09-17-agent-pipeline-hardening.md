@@ -311,11 +311,11 @@
 - Consumes: `-RepositoryRoot <string>`.
 - Produces: exit success after valid checks; throws on missing artifact, stale map, duplicate work-item ID, missing internal dependency, dependency cycle, missing handoff file, or `READY` state during a budget hold.
 
-- [ ] **Step 1: Write the failing invalid-state fixture.**
+- [x] **Step 1: Write the failing invalid-state fixture.**
 
   Create `tools/agent-pipeline/test/Invoke-PipelineValidatorFixture.ps1`. It copies `AGENTS.md`, `docs/agent-pipeline`, `tools/agent-pipeline`, `src/main/java/thaumcraft`, and `src/main/resources` into a temporary fixture. After copying files into the fixture, the fixture script MUST first run `Update-FileSystemMap.ps1 -RepositoryRoot $fixture` (without `-Check`) so the fixture renders its own deterministic map, and only then change the FND-01 workboard cell from `DEFERRED: budget hold` to `READY`; without that regeneration the fixture map is stale for unrelated reasons (root leaf name and missing directories) and the expected `READY item exists during budget hold` error would never be reached. It then invokes `Test-AgentPipeline.ps1 -RepositoryRoot $fixture` as a child process and captures the validator's exit code and message, and it fails unless the exit code is nonzero and the captured message contains the expected text for that fault. Before `Test-AgentPipeline.ps1` exists, the fixture script must fail because the validator path is absent.
 
-- [ ] **Step 2: Implement the validator.**
+- [x] **Step 2: Implement the validator.**
 
   Define these functions in `Test-AgentPipeline.ps1`:
 
@@ -360,7 +360,7 @@
   exit 0
   ```
 
-- [ ] **Step 3: Prove success and each failure class.**
+- [x] **Step 3: Prove success and each failure class.**
 
   Run the validator against the repository as a child process so its exit code is observable and a structural failure cannot close the session:
 
@@ -371,7 +371,7 @@
 
   Then build temporary fixtures with `tools/agent-pipeline/test/Invoke-PipelineValidatorFixture.ps1`. Every fault fixture must first copy the pipeline, then regenerate the fixture's own map (`Update-FileSystemMap.ps1 -RepositoryRoot $fixture`, without `-Check`), and only then introduce exactly ONE fault: delete `active-claims.md`; alter the map; duplicate FND-01; change `BLOCKED: FND-01` to `BLOCKED: XYZ-99`; set `FND-01` to `BLOCKED: RSR-02` and `RSR-02` to `BLOCKED: FND-01`; remove the FND-03 handoff; then set FND-01 to `READY`. The fixture runner must capture the validator's exit code and message and fail unless the exit code is nonzero and the message contains the expected text for that fault: `Required pipeline artifact is missing`, `Filesystem map is stale`, `Duplicate work-item ID`, `Missing internal dependency`, `Dependency cycle detected at`, `Missing handoff file`, and `READY item exists during budget hold`. Require a nonzero exit for every fixture and retain no fixture afterward.
 
-- [ ] **Step 4: Link and commit the validator.**
+- [x] **Step 4: Link and commit the validator.**
 
   Add `Test-AgentPipeline.ps1` to the README artifact table and list the command `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Test-AgentPipeline.ps1` under local pipeline validation. Then run:
 

@@ -52,3 +52,14 @@ flowchart LR
 ```
 
 Run the map updater after large moves, generated-data changes, or a major subsystem lands. The map is an orientation aid; source and runtime checks remain authoritative.
+
+## Local pipeline validation
+
+Run both commands from the repository root. Neither needs Gradle or a game instance, so both are safe while the budget hold is active:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Update-FileSystemMap.ps1 -Check
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/agent-pipeline/Test-AgentPipeline.ps1
+```
+
+The first verifies the committed filesystem map is current; the second validates pipeline artifacts, map freshness, workboard IDs and states, dependency references and cycles, handoff files, and the budget-hold rule. A structural failure prints its reason and exits nonzero.
