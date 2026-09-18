@@ -31,8 +31,8 @@ Known intentional adaptation: <only a 1.20.1 platform requirement; otherwise non
 |---|---|---|
 | FND-01 | Fresh-world, reload, dedicated-server, and remote-client test procedures | `test` currently reports no source coverage. |
 | FND-04 | Shared aspect attribution (item, block, and entity sources), aspect container capacities, and lookup consumed by scanning and Essentia | `api/aspects` defines the aspect classes and container interfaces; parity of attribution and lookup is not yet verified. |
-| RSR-01 | Scan-gated research completion, staged knowledge, prerequisites, and page progression | `ScanningManager`, `PlayerKnowledge`, and research packets contain simplified/stubbed progression paths. |
-| RSR-02 | Arcane Workbench crystal/Vis/research checks and atomic crafting consumption | Workbench menu/result slot currently have resource-validation gaps. |
+| RSR-01 | Scan-gated research completion, staged knowledge, prerequisites, and page progression | `ScanningManager`, `PlayerKnowledge`, and research packets contain simplified/stubbed progression paths. Rank-3 reference behavior captured in [rsr-01-evidence.md](rsr-01-evidence.md); rank-1 confirmation pending. |
+| RSR-02 | Arcane Workbench crystal/Vis/research checks and atomic crafting consumption | Workbench menu/result slot currently have resource-validation gaps. Rank-3 reference behavior captured in [rsr-02-evidence.md](rsr-02-evidence.md); rank-1 confirmation pending. |
 | ALC-00 | Crucible recipe matching, input validation, aspect costs, and output economy | Recipe, block, and tile classes exist (`CrucibleRecipe`, `BlockCrucible`, `TileCrucible`); end-to-end behavior is unverified. |
 | ALC-01 / ALC-02 | Smelter aspect extraction, alembic output, jars, tube transfer, and filters | Smelter aspect lookup and multiple block-entity factories are incomplete. |
 | ALC-03 | Matrix activation, pedestal checks, Essentia consumption, instability, and stabilizer behavior | Matrix/stabilizer integration has missing block-entity/tick paths. |
