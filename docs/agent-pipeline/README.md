@@ -1,0 +1,40 @@
+# Agent Pipeline
+
+This directory is the control surface for turning the source tree into a full Thaumcraft 6.1.BETA26 parity port for Minecraft 1.20.1 Forge.
+
+The pipeline is intentionally small:
+
+| File | Purpose |
+|---|---|
+| `../../AGENTS.md` | mandatory operating rules for every coding agent |
+| `filesystem-map.md` | current repository layout, generated surfaces, and ownership boundaries |
+| `parity-workboard.md` | ordered work items, dependencies, and definitions of done |
+| `parity-evidence-index.md` | reference hierarchy and required proof for BETA26 parity claims |
+| `../../tools/agent-pipeline/Update-FileSystemMap.ps1` | regenerates the factual portions of the filesystem map |
+
+## Workflow
+
+1. The coordinator selects the next unblocked work item from the workboard.
+2. A worker reads the applicable subsystem and the BETA26 reference behavior.
+3. The worker makes one isolated repair with focused tests.
+4. The worker returns a handoff with commands, runtime evidence, and follow-up dependencies.
+5. The coordinator records the result and unlocks dependent work.
+
+Agents should work on different lanes in parallel only when their file ownership and behavioral dependencies do not overlap. The primary dependency spine is:
+
+```mermaid
+flowchart LR
+  FND[Foundation and test harness] --> RSR[Research and recipe gates]
+  RSR --> ECO[Survival resource economy]
+  ECO --> ALC[Essentia and infusion]
+  RSR --> CAS[Casting and foci]
+  ALC --> AUT[Automation and golems]
+  RSR --> WLD[World systems and endgame]
+  ALC --> CLI[Client fidelity]
+  CAS --> CLI
+  AUT --> REL[Multiplayer and release acceptance]
+  WLD --> REL
+  CLI --> REL
+```
+
+Run the map updater after large moves, generated-data changes, or a major subsystem lands. The map is an orientation aid; source and runtime checks remain authoritative.

@@ -1,0 +1,43 @@
+# BETA26 Parity Evidence Index
+
+This index prevents agents from mistaking the current port's behavior for Thaumcraft 6 parity. Every workboard item must record the reference behavior it restores and the evidence that proves the repair.
+
+## Evidence Hierarchy
+
+1. A reproducible observation in an unmodified Thaumcraft 6.1.BETA26 environment.
+2. Original BETA26 assets, research data, release notes, and author documentation.
+3. The original API/source only when its provenance and behavior match BETA26.
+4. The current 1.20.1 port, only as an implementation starting point or regression reference.
+5. Community documentation, only when higher-ranked evidence is unavailable and the claim is marked for later confirmation.
+
+The original author's [BETA26 release thread](https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/minecraft-mods/1292130-thaumcraft-6-1-beta26-no-longer-being-developed) is the initial public reference for release content, behavior changes, and distribution terms.
+
+## Required Record for Every Repair
+
+```text
+Work item: <workboard ID>
+Reference setup: <world/player/items/blocks/research needed in BETA26>
+Expected BETA26 behavior: <observable action, state transition, cost, output, timing>
+Reference evidence: <recording, save, release-note line, original data/source location>
+Port implementation: <files/classes/resources changed>
+Automated evidence: <unit test/GameTest command and result>
+Runtime evidence: <fresh-world, reload, and multiplayer scenario>
+Known intentional adaptation: <only a 1.20.1 platform requirement; otherwise none>
+```
+
+## Initial Evidence Queue
+
+| Work item | Behavior to capture before or during implementation | Existing port evidence |
+|---|---|---|
+| FND-01 | Fresh-world, reload, dedicated-server, and remote-client test procedures | `test` currently reports no source coverage. |
+| RSR-01 | Scan-gated research completion, staged knowledge, prerequisites, and page progression | `ScanningManager`, `PlayerKnowledge`, and research packets contain simplified/stubbed progression paths. |
+| RSR-02 | Arcane Workbench crystal/Vis/research checks and atomic crafting consumption | Workbench menu/result slot currently have resource-validation gaps. |
+| ALC-01 / ALC-02 | Smelter aspect extraction, alembic output, jars, tube transfer, and filters | Smelter aspect lookup and multiple block-entity factories are incomplete. |
+| ALC-03 | Matrix activation, pedestal checks, Essentia consumption, instability, and stabilizer behavior | Matrix/stabilizer integration has missing block-entity/tick paths. |
+| CAS-01 / CAS-02 | Focus-node construction, persistence, delivery mediums, effects, costs, and cooldowns | `FocusEngine` and projectile execution paths do not complete graph execution. |
+| AUT-01 / AUT-02 | Seal configuration, persistence, ownership, task creation, and golem work loops | Bell GUI and persistent seal storage are incomplete. |
+| WLD-02 / WLD-03 | Magical tree growth, aura/Flux changes, rift lifecycle, taint growth, and cleansing | Sapling configured features return `null`; rift/stabilization behavior needs verification. |
+
+## Evidence Storage Convention
+
+Store small reproducible fixtures under `src/test/resources/thaumcraft/` and automated tests under `src/test/java/thaumcraft/`. Keep human-readable scenario notes next to their work item in this directory, named `<work-item>-evidence.md`. Do not store original-game binaries, decompiled assets, or large recordings in this repository.
