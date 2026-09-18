@@ -36,7 +36,7 @@
 - Produces: one active-claim table with columns `Work item`, `Lane`, `Owner`, `Worktree or branch`, `Intended paths`, `Claimed`, `Last update`, `Dependency status`, and `Release condition`.
 - Produces: one handoff file per terminal work item at `docs/agent-pipeline/handoffs/<ID>.md`.
 
-- [ ] **Step 1: Write the claim ledger with the budget-held empty state.**
+- [x] **Step 1: Write the claim ledger with the budget-held empty state.**
 
   Use this exact table header and an explicit statement that no work may be claimed while the budget hold remains active:
 
@@ -46,15 +46,15 @@
   | None | — | — | — | — | — | — | Budget hold | Project owner clears the hold |
   ```
 
-- [ ] **Step 2: Add the handoff archive contract and the FND-03 record.**
+- [x] **Step 2: Add the handoff archive contract and the FND-03 record.**
 
   The archive contract requires this exact field sequence: `Work item`, `Lane`, `Worktree or branch`, `Commit`, `Scope`, `Parity reference`, `Source evidence`, `Automated evidence`, `Runtime evidence`, `Files changed`, `Dependencies or follow-ups`, and `Coordinator disposition`. The `FND-03` record names commit `a908d65`, links `parity-evidence-index.md`, records no runtime/game test because the item is documentation-only, and sets disposition to `DONE`.
 
-- [ ] **Step 3: Connect the records to agent startup and state transitions.**
+- [x] **Step 3: Connect the records to agent startup and state transitions.**
 
   Update `AGENTS.md` so a worker reads `active-claims.md` before claiming, the coordinator records a claim before editing, and `ACTIVE`, `VERIFYING`, and `DONE` workboard rows link a handoff path. Add a `PLY` lane for player equipment, effects, Warp, and Warp Ward. Update the pipeline README table and workflow to link the two new artifacts. Add a `Handoff` column to the workboard and populate FND-03 with `handoffs/FND-03.md`; leave non-terminal rows as `—`. Require `AGENTS.md`'s read-before-editing list to reference all pipeline artifacts, including `active-claims.md` and the `handoffs/` archive once created, so a worker is pointed at the current coordination state before editing. By the end of Tasks 1-3 the pipeline README tables must link all of `active-claims.md`, `handoffs/README.md`, `tc6-feature-matrix.md`, `system-entrypoints.md`, `reference-catalog.md`, `validation-matrix.md`, `budget-hold.md`, the existing pipeline files, and both tools (`Update-FileSystemMap.ps1` and `Test-AgentPipeline.ps1`).
 
-- [ ] **Step 4: Validate the record format.**
+- [x] **Step 4: Validate the record format.**
 
   Run:
 
@@ -65,7 +65,7 @@
 
   Expected: all four markers appear and Git reports no whitespace errors.
 
-- [ ] **Step 5: Commit the control records.**
+- [x] **Step 5: Commit the control records.**
 
   ```powershell
   git add AGENTS.md docs/agent-pipeline/active-claims.md docs/agent-pipeline/handoffs docs/agent-pipeline/README.md docs/agent-pipeline/parity-workboard.md

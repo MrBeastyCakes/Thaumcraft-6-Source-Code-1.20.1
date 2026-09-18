@@ -14,10 +14,18 @@ The README's claimed completion percentage and `TODO.md` are leads, not proof of
 ## Read This Before Editing
 
 1. `docs/agent-pipeline/README.md` — pipeline rules and handoff format.
-2. `docs/agent-pipeline/filesystem-map.md` — repository map and ownership boundaries.
-3. `docs/agent-pipeline/parity-workboard.md` — ordered work lanes and acceptance gates.
-4. `docs/agent-pipeline/parity-evidence-index.md` — how to prove the relevant TC6 BETA26 behavior.
-5. The relevant TC6 BETA26 behavior and the implementation you intend to change.
+2. `docs/agent-pipeline/active-claims.md` — current ownership; read before claiming work.
+3. `docs/agent-pipeline/handoffs/README.md` — archive rules and per-item handoff format.
+4. `docs/agent-pipeline/filesystem-map.md` — repository map and ownership boundaries.
+5. `docs/agent-pipeline/parity-workboard.md` — ordered work lanes and acceptance gates.
+6. `docs/agent-pipeline/parity-evidence-index.md` — how to prove the relevant TC6 BETA26 behavior.
+7. `docs/agent-pipeline/deferred-issues.md` — confirmed issue register and resume order.
+8. `docs/agent-pipeline/tc6-feature-matrix.md` — parity coverage inventory (created by pipeline hardening, Task 2).
+9. `docs/agent-pipeline/system-entrypoints.md` — per-item source entry points (created by pipeline hardening, Task 2).
+10. `docs/agent-pipeline/reference-catalog.md` — BETA26 reference metadata (created by pipeline hardening, Task 3).
+11. `docs/agent-pipeline/validation-matrix.md` — required validation tiers (created by pipeline hardening, Task 3).
+12. `docs/agent-pipeline/budget-hold.md` — budget policy and spending order (created by pipeline hardening, Task 3).
+13. The relevant TC6 BETA26 behavior and the implementation you intend to change.
 
 ## Agent Pipeline
 
@@ -31,10 +39,11 @@ Work is split into these non-overlapping lanes:
 | `CAS` | casters, foci, focal manipulator, casting effects, caster persistence |
 | `AUT` | golems, seals, arcane bore, pattern crafter, automation devices |
 | `WLD` | aura, flux, taint, biomes, features, structures, renewable magical flora |
+| `PLY` | player equipment, Curios state, effects, Warp, Warp Ward |
 | `CLI` | menus, screens, renderers, models, textures, particles, sounds, localization |
 | `REL` | compatibility, packaging, configuration, performance, multiplayer/release acceptance |
 
-The coordinator owns `parity-workboard.md`. A worker claims one ready work item in its task handoff, changes only that item's stated files plus necessary tests, and reports evidence back to the coordinator. Do not edit another lane's work merely because it is nearby; request a dependency handoff instead.
+The coordinator owns `parity-workboard.md`. A worker claims one ready work item in its task handoff, changes only that item's stated files plus necessary tests, and reports evidence back to the coordinator. Do not edit another lane's work merely because it is nearby; request a dependency handoff instead. A worker reads `docs/agent-pipeline/active-claims.md` before claiming work; the coordinator records a claim in that file before any edit begins; and every `ACTIVE`, `VERIFYING`, or `DONE` workboard row links its handoff record under `docs/agent-pipeline/handoffs/`.
 
 ## Work Rules
 
