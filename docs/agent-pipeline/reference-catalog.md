@@ -4,7 +4,9 @@ This catalog stores the observation metadata behind every BETA26 parity claim: w
 
 **Entries record metadata only, and they NEVER store original binaries, assets, decompiled files, or recordings in the repository.** An entry is a pointer to a capture that stays on the capturing machine; it is never a copy of the captured content.
 
-**Capture status: no BETA26 reference has been captured for this port yet.** The catalog is an empty template awaiting its first entry. Capture is pending before gameplay parity claims: until an entry exists here for the environment described in `parity-evidence-index.md`, no gameplay behavior may be claimed as verified against BETA26.
+**Capture status: no BETA26 gameplay observation has been captured for this port yet.** An inventory pass on 2026-09-18 recorded the reference artifacts that exist on the developer machine (entries `REF-0001` .. `REF-0004`, all marked as inventory records rather than captures). No rank-1 observation exists, so no gameplay behavior may be claimed as verified against BETA26 until a real capture is recorded here for the environment described in `parity-evidence-index.md`.
+
+**Entry status.** Every entry states in its identifier line whether it is a *capture* (a reproducible observation of running BETA26) or an *inventory record* (artifact metadata only, no observation). Only captures can support rank-1 claims.
 
 ## Required fields
 
@@ -28,14 +30,126 @@ Date recorded: <ISO 8601 date of the capture>
 ## How to record an entry
 
 1. Capture the behavior in an unmodified BETA26 environment and rank it against the evidence hierarchy in `parity-evidence-index.md`.
-2. Compute the artifact digest on the capturing machine: `sha256sum <artifact>` in git-bash, or `certutil -hashfile <artifact> SHA256` in cmd.
-3. Add a new entry under `## Captured entries` using the next free `REF` identifier, with every field from `## Required fields` in the same order.
+2. Compute the artifact digest on the capturing machine: `sha256sum <artifact>` in git-bash, or `certutil -hashfile <artifact> SHA256` in cmd. Multi-file artifacts such as source trees are hashed with a documented convention instead — see `Tree-hash convention (REF-0001)`; a tree digest is not the digest of a single file and must say so.
+3. Add a new entry under `## Recorded entries` using the next free `REF` identifier, with every field from `## Required fields` in the same order.
 4. Keep the artifact, the world directory, any decompiled source, and any recording outside the repository; the entry stores only the path and the digest.
 5. Reference the identifier from the work item's scenario notes at `docs/agent-pipeline/<work-item>-evidence.md` and from the `Parity reference` field of the item's handoff.
 
-## Captured entries
+## Recorded entries
 
-None recorded yet. Add each real capture here as a new entry in the required field order, anchored by the reference identifier that the work-item evidence cites.
+Entries are added in `REF` order. Fields are listed in the required order. None of the entries below is a capture; each is an inventory record of an artifact that exists on the developer machine as of 2026-09-18.
+
+### REF-0001 — decompiled TC6 source tree
+
+```text
+Reference identifier: REF-0001 (inventory record, not a capture; role: decompiled source reference, candidate rank-3 evidence under parity-evidence-index.md)
+Minecraft version: 1.12.2 (declared in the tree: @Mod acceptedMinecraftVersions = "[1.12.2]")
+Forge version: 1.12.2-14.23.5.2860 (Gradle dependency in build.gradle); the @Mod annotation requires forge@[14.23.5.2768,)
+Thaumcraft version: 6.1.BETA26 declared (@Mod version = "6.1.BETA26" in Thaumcraft.java, Thaumcraft.VERSION = "6.1.BETA26", CommonProxy.java sets "6.1.BETA26"); the tree's changelog.txt is byte-identical to the changelog inside the released BETA26 jar (REF-0002) whose newest entry is "6.1.BETA26 hotfix1"
+Artifact location: D:/dev/hytale mods/magic/research/_legal/tc6-decompiled (git clone of https://github.com/TheDarkTower314/Thaumcraft-6-Source-Code.git, branch master, single commit 954022b dated 2022-12-28, working tree clean; the SHA-256 field below is a tree hash, not a single-file digest — see "Tree-hash convention (REF-0001)")
+SHA-256: 61bf52ee4409f7ba5dba9d14dae19602de61f4cb9f5b10a0bbc954c8aa7568f6
+Launcher or profile: not applicable (source tree, no launcher and no game run)
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: no capture performed — metadata inventory only: version-evidence grep for BETA26 across code/config/doc files (hits listed on the version line), file count 2,447 (excluding .git), total 15,905,687 bytes, and the tree hash defined below; the resource payload was compared against the BETA26 jar (1,537 tree resource files versus 1,537 jar entries, 1,390 byte-identical, 145 differ only by line endings, 2 differ in content: mcmod.info and pack.mcmeta; see "Resource comparison convention (REF-0001 vs REF-0002)"). Java sources were not compared against the jar's compiled classes, so source-level identity with the released jar at hotfix level is not verified.
+Recorded by: inventory agent (read-only reference-evidence pass; no game run, no capture)
+Date recorded: 2026-09-18
+```
+
+### REF-0002 — Thaumcraft 6.1.BETA26 release jar
+
+```text
+Reference identifier: REF-0002 (inventory record, not a capture; role: original BETA26 release artifact, candidate rank-2 evidence under parity-evidence-index.md)
+Minecraft version: 1.12.2 (mcmod.info inside the jar: "mcversion": "1.12.2")
+Forge version: version unverified for the artifact itself (mcmod.info declares only a Baubles dependency); both instances that hold the jar run Forge 14.23.5.2859
+Thaumcraft version: 6.1.BETA26 (mcmod.info: "version": "1.12.2-6.1.BETA26", "modid": "thaumcraft", "authorList": ["Azanor"]); the bundled changelog's newest entry is "6.1.BETA26 hotfix1"
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/Thaumcraft Reimagined/mods/Thaumcraft-1.12.2-6.1.BETA26.jar and C:/Users/t8rto/AppData/Roaming/ModrinthApp/profiles/Thaumcraft 6 Pack/mods/Thaumcraft-1.12.2-6.1.BETA26.jar (byte-identical copies, 11,360,786 bytes each, same digest)
+SHA-256: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: CurseForge instance "Thaumcraft Reimagined" (Minecraft 1.12.2, Forge 14.23.5.2859, 52 jars in mods/, installed 2026-09-17, never launched: playedCount 0) and Modrinth profile "Thaumcraft 6 Pack" (Minecraft 1.12.2, Forge 14.23.5.2859, 71 mods loaded on 2026-09-17)
+World seed: unknown (one world exists at ModrinthApp/profiles/Thaumcraft 6 Pack/saves/New World; no seed was recorded)
+Player setup: not applicable (no capture performed)
+Capture scenario: no capture performed — metadata inventory only: sha256sum over the file plus metadata read from inside the archive (mcmod.info, META-INF/MANIFEST.MF, assets/thaumcraft/lang/en_us.lang)
+Recorded by: inventory agent (read-only reference-evidence pass; no game run, no capture)
+Date recorded: 2026-09-18
+```
+
+### REF-0003 — en_us.lang text extract (partial)
+
+```text
+Reference identifier: REF-0003 (inventory record, not a capture; role: extracted game-data text, incomplete — do not cite until re-fetched in full)
+Minecraft version: version unverified
+Forge version: not applicable
+Thaumcraft version: version unverified
+Artifact location: D:/dev/hytale mods/magic/research/_legal/tc6-lang-and-config/en_us.lang.txt (100,389 bytes; the file ends with the fetch tool's truncation marker, and the complete en_us.lang inside the BETA26 jar is 210,632 bytes with digest 3b78dfdbe0c035ff89bba3cb7ecbb5116800f34f10bf459f17eeae4de439c086)
+SHA-256: fb149b3652c4b61052e8e9a9d301961a9c479f92a8498b597ff5f4a6f0881722
+Launcher or profile: not applicable
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: no capture performed — digest computed with sha256sum; the truncation was identified by comparing the extract against assets/thaumcraft/lang/en_us.lang inside the BETA26 jar (REF-0002). The recorded digest covers the whole file, including the fetch-tool envelope (source-URL header and untrusted-content banner) that precedes the extract text.
+Recorded by: inventory agent (read-only reference-evidence pass)
+Date recorded: 2026-09-18
+```
+
+### REF-0004 — ConfigRecipes.java text extract (partial)
+
+```text
+Reference identifier: REF-0004 (inventory record, not a capture; role: extracted source text, incomplete — do not cite until re-fetched in full)
+Minecraft version: version unverified
+Forge version: not applicable
+Thaumcraft version: version unverified
+Artifact location: D:/dev/hytale mods/magic/research/_legal/tc6-lang-and-config/ConfigRecipes.java.txt (100,315 bytes; the file ends with the fetch tool's truncation marker, so it is not a complete copy of ConfigRecipes.java)
+SHA-256: db622b2697f034c984db5fbd4df092943d667176ac3cc5e0f242a76c19dc51ec
+Launcher or profile: not applicable
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: no capture performed — digest computed with sha256sum; truncation identified from the trailing fetch-tool marker. The recorded digest covers the whole file, including the fetch-tool envelope (source-URL header and untrusted-content banner) that precedes the extract text.
+Recorded by: inventory agent (read-only reference-evidence pass)
+Date recorded: 2026-09-18
+```
+
+## Tree-hash convention (REF-0001)
+
+A source tree has no single file digest, so `REF-0001` uses a tree hash with the convention below. Any future re-verification of `REF-0001` must use the same convention; the digest is over the sorted hash lines of every file, not over any single file.
+
+```text
+cd "D:/dev/hytale mods/magic/research/_legal/tc6-decompiled"
+find . -type f -not -path './.git/*' -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > "$LOCALAPPDATA/Temp/tc6hash/tree_sha256sum_lines.txt"
+sha256sum "$LOCALAPPDATA/Temp/tc6hash/tree_sha256sum_lines.txt"
+```
+
+- Result: `61bf52ee4409f7ba5dba9d14dae19602de61f4cb9f5b10a0bbc954c8aa7568f6` over 2,447 lines.
+- Coverage: every file under the tree root except `.git/` (2,447 files, 15,905,687 bytes); each line has the form `<sha256> *./relative/path`, sorted in byte order by path.
+- Cross-check: the same line set was rebuilt independently in Python (walk the tree, skip `.git`, sort relative paths in byte order, format identical lines); the rebuilt text equals the recorded file line-for-line, so the digest is reproducible.
+
+## Resource comparison convention (REF-0001 vs REF-0002)
+
+The resource-payload comparison pairs jar entries with tree files under the mapping jar root to `src/main/resources/` (for example jar `assets/thaumcraft/lang/en_us.lang` to tree `src/main/resources/assets/thaumcraft/lang/en_us.lang`). The pair count covers the 1,537 files present on both sides under that mapping; excluded are the jar's 3 `META-INF/` entries (build metadata) and 8 build/scaffolding files. Results: 1,390 byte-identical, 145 differing only by line endings (tree CRLF, jar LF), 2 differing in content (`mcmod.info`, `pack.mcmeta`).
+
+## Environment feasibility (2026-09-18)
+
+**Rank-1 status: not available.** No reproducible BETA26 observation has been captured. What exists and what is missing:
+
+**Present on this machine**
+
+- Minecraft 1.12.2 + Forge 14.23.5.2859 installed twice: `C:/Users/t8rto/curseforge/minecraft/Install/versions/forge-14.23.5.2859` (CurseForge) and `C:/Users/t8rto/AppData/Roaming/ModrinthApp/meta/versions/1.12.2-14.23.5.2859` (Modrinth App, with matching `1.12.2-14.23.5.2859.json`).
+- A working 1.12.2 Forge launch: the Modrinth profile "Thaumcraft 6 Pack" ran on 2026-09-17 (`logs/latest.log`: "Forge Mod Loader version 14.23.5.2859 for Minecraft 1.12.2 loading", "has successfully loaded 71 mods", world `saves/New World` created and saved; no crash reports).
+- Java 8 runtime: `C:/Users/t8rto/AppData/Roaming/ModrinthApp/meta/java_versions/zulu8.96.0.205-ca-jre8.0.504-win_x64` (the runtime used by that launch).
+- The BETA26 jar (REF-0002) and its required dependency `Baubles-1.12-1.5.2.jar` (108,450 bytes, sha256 `b32010b2f2778aa1188585e7ead91ad46d4cb2c715f9c778a61848ba7fe51f8d`, identical in both instances) are already on disk.
+- A signed-in Microsoft account in the Modrinth App profile data (`TheBeardedTate`); no credentials are recorded here.
+- Third-party thaum-named jars live in the same two `mods/` folders (ThaumicAugmentation 2.1.11 and 2.1.14, ThaumicInventoryScanning 2.0.10, ThaumicJEI 1.6.0-27 and 1.7.0, thaumicperiphery 0.3.1, thaumicwands 1.2.7, ThaumcraftFix 1.1.4, enchantingwiththaumcraft 1.4). They are addons, not BETA26 reference artifacts, and their presence is a further reason both existing instances count as modded environments.
+
+**Missing or blocking for rank-1**
+
+- No unmodified BETA26 environment. Both existing 1.12.2 instances are modpacks: CurseForge "Thaumcraft Reimagined" (52 jars, never launched) and Modrinth "Thaumcraft 6 Pack" (71 mods loaded, including ThaumcraftFix 1.12.2-1.1.4, Thaumic Augmentation 2.1.14, TC4 Research Port, Quark, OptiFine). Observing behavior in either would violate the rank-1 requirement of an unmodified BETA26 environment.
+- No clean profile yet: a capture profile needs only Thaumcraft 6.1.BETA26 plus Baubles 1.12-1.5.2 (both already local; a new launcher profile/instance can copy or link them).
+- No EULA record: no `eula.txt` exists under `.minecraft`, the CurseForge root, or the Modrinth App roots. Client gameplay does not create one; a dedicated-server capture requires the owner to accept the EULA (the file must then contain `eula=true`).
+- No capture artifacts: no recordings, no recorded world seeds, and the CurseForge instance has never had a first run (`playedCount` 0). The single existing world's seed was not recorded.
+- The vanilla launcher `C:/Users/t8rto/AppData/Roaming/.minecraft` has no 1.12.2 version (its `versions/` holds only `26.2` and `26.3-snapshot-7`) and no `mods/` directory.
+- Not evidence: `D:/dev/thaumcraft-shobie-review/build/libs/thaumcraft-6.2.0.jar` is this port's own build output (rank 4 at best), not a reference artifact.
+
+**Search coverage (bounded, read-only).** Thaumcraft-named jars were searched for and found only in the two instances above. Checked with depth limits and no hits: `D:/` top level, `D:/Mods`, `D:/Vortex Mods`, `D:/Games`, `D:/Launcher`, `D:/minecraft earth clone`, `D:/modded fallout`, `D:/Apace`, `D:/d`, `D:/models`, `D:/omarchy`, `D:/omarchy v2`, `D:/steam`, `D:/dev`; `C:/Users/t8rto/AppData/Roaming/.minecraft` (no `mods/`); `C:/Users/t8rto/Downloads` and `C:/Users/t8rto/Documents`; and the CurseForge mod-download cache. Launcher presence: only CurseForge and Modrinth App are installed — PrismLauncher, MultiMC, gdlauncher, Technic, and ATLauncher directories do not exist under AppData Roaming or Local.
+
+**Owner must provide for the first rank-1 capture:** a clean 1.12.2 profile on Forge 14.23.5.2859 containing only the BETA26 jar and Baubles (both already on disk), EULA acceptance where a dedicated-server run is used, the profile's first launch, and a recorded observation session (reference setup, world seed, scenario steps) entered here as a new `REF` entry.
 
 ## Illustrative example (not a real capture)
 
