@@ -13,7 +13,7 @@
 
 ## Current Development State
 
-The project owner lifted the implementation hold on 2026-09-19. `FND-01` remains `VERIFYING`; all five manual runtime cases remain pending. The independently reviewed `ae9a183` harness checkpoint is a narrow implementation-start gate for `FND-04`, which is `ACTIVE` under a separate coordinator-recorded claim. Every other non-complete item retains its existing dependency. See [foundation-start-gate-2026-09-19.md](foundation-start-gate-2026-09-19.md) and `deferred-issues.md`. FND-04 has six independently reviewed slices committed (latest `a96faf6`, entity attribution); remote-client, multiplayer, and consumer-level acceptance remain open.
+The project owner lifted the implementation hold on 2026-09-19. `FND-01` remains `VERIFYING`; all five manual runtime cases remain pending. The independently reviewed `ae9a183` harness checkpoint is a narrow implementation-start gate for `FND-04`, which is `ACTIVE` under a separate coordinator-recorded claim. Every other non-complete item retains its existing dependency. See [foundation-start-gate-2026-09-19.md](foundation-start-gate-2026-09-19.md) and `deferred-issues.md`. FND-04 has seven independently reviewed slices committed (latest `59f53fa`, container capacities); remote-client, multiplayer, and consumer-level acceptance remain open.
 
 ## Dependency Spine
 
