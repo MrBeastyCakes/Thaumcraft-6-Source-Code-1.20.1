@@ -1,17 +1,17 @@
 # Deferred Issue Register
 
-> Development status: the project owner lifted the implementation hold on 2026-09-19; see [budget-hold.md](budget-hold.md). `FND-01` is verifying its automated harness. This register preserves confirmed issues so implementation can start with the highest-impact repair rather than repeat the audit.
+> Development status: the project owner lifted the implementation hold on 2026-09-19; see [budget-hold.md](budget-hold.md). `FND-01` remains `VERIFYING` with all five manual runtime cases pending. The reviewed `ae9a183` harness checkpoint satisfies only the FND-04 implementation-start gate, so FND-04 is the sole `READY` item. This register preserves confirmed issues so implementation can start with the highest-impact repair rather than repeat the audit.
 
 The target remains Minecraft 1.20.1 Forge 47.3.0 with Thaumcraft 6.1.BETA26 as the behavior reference. Entries describe the current port, not intentional changes to TC6.
 
 ## Playability Blockers
 
-These prevent a normal progression loop or make a core system unusable. Repair them only after `FND-01` establishes the test and GameTest harness.
+These prevent a normal progression loop or make a core system unusable. Repair them only after their recorded workboard start gate clears; the reviewed FND-01 harness checkpoint clears that gate only for FND-04.
 
 | ID | Deferred issue | Player impact | Confirmed evidence | Workboard dependency |
 |---|---|---|---|---|
 | FND-01 | Automated harness implemented; manual world lifecycle and multiplayer acceptance pending. | Four unit tests and two server GameTests cover the initial foundation; full world persistence and client synchronization remain unverified. | `FND-01-evidence.md` records 4/4 JUnit and 2/2 GameTests; fresh-world/reload/chunk/multiplayer scenarios NOT RUN. | First item; `VERIFYING`, independent review passed; manual acceptance pending. |
-| FND-04 | Shared aspect attribution, aspect containers, and lookup are not established for scanning or Essentia processing. | Scans and Essentia handling can disagree on item aspects, so every dependent repair rests on unverified data. | Not yet reproduced end-to-end; retain as a verification item. | FND-01 |
+| FND-04 | Shared aspect attribution, aspect containers, and lookup are not established for scanning or Essentia processing. | Scans and Essentia handling can disagree on item aspects, so every dependent repair rests on unverified data. | Not yet reproduced end-to-end; retain as a verification item. | Reviewed `ae9a183` FND-01 automated start gate satisfied; `READY`, unclaimed. |
 | RSR-01 | Scanning, research stages, and knowledge sync are incomplete and accept client-led progress. | Research can deadlock or be bypassed; save/reload behavior is not trustworthy. | `ScanningManager.java:202-210`, `PlayerKnowledge.java:53-66`, `PacketSyncProgressToServer.java:104-107`. | FND-04 |
 | RSR-02 | Arcane Workbench crystal checks are bypassed and crafting is not fully atomic. | Players can craft without the intended resources. | `ArcaneWorkbenchMenu.java:155-173`, `ArcaneWorkbenchResultSlot.java:163-178`. | RSR-01 |
 | ALC-00 | Crucible recipes, input validation, aspect costs, and output economy are unverified. | Early alchemy cannot be trusted to consume or produce the BETA26 results. | Not yet reproduced end-to-end; retain as a verification item. | RSR-02 |
@@ -58,7 +58,7 @@ These should wait until the gameplay spine works. They matter for a finished pri
 
 ## Implementation Order
 
-Start with the ready `FND-01`, then repair the minimum survival spine in this order as dependencies clear:
+Start with the ready `FND-04`, then repair the minimum survival spine in this order as dependencies clear. FND-01 remains `VERIFYING` until its five manual cases pass:
 
 1. `RSR-01` and `RSR-02` — authoritative research and paid crafting.
 2. `ALC-01`, `ALC-02`, and `ALC-03` — Essentia production, transport, and infusion.

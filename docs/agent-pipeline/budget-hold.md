@@ -10,7 +10,7 @@ The project owner is the release authority for this port. Only the project owner
 
 ## Current development state
 
-Implementation work may resume in dependency order. `FND-01` is verifying under the coordinator-recorded claim; all other unfinished items retain their workboard dependencies. A coordinator must record a claim in `active-claims.md` before implementation begins.
+Implementation work may resume in dependency order under the existing owner hold lift. `FND-01` is verifying under the coordinator-recorded claim, with all five manual runtime cases still pending. Based on the independently reviewed `ae9a183` automated harness checkpoint, the coordinator records only FND-04 as `READY` for scheduling and claiming; the checkpoint does not complete FND-01 or release any other FND-01 dependency. A coordinator must record a claim in `active-claims.md` before FND-04 implementation begins.
 
 The hold lift does not authorize Minecraft EULA acceptance or public distribution. Those actions remain reserved to the project owner, and public distribution additionally remains blocked pending written rights-holder permission.
 
@@ -24,6 +24,7 @@ The hold required an explicit project-owner instruction to lift. That condition 
 
 - **2026-09-18, reference-evidence pass authorized.** Implementation remains paused. The owner authorized the BETA26 reference-evidence pass only: reference-material discovery and cataloging, setup of an unmodified Minecraft 1.12.2 + Forge + Thaumcraft 6.1.BETA26 reference environment, and observation runs of that environment to capture behavior evidence for identified workboard items. EULA acceptance remains the owner's action alone. The port's own Gradle and game runs remain prohibited until the hold is cleared.
 - **2026-09-19, implementation hold lifted.** The owner explicitly instructed the team to lift the hold. `FND-01` becomes the first `READY` item; dependent work remains blocked until its recorded prerequisites are satisfied. This instruction does not authorize EULA acceptance or public distribution.
+- **2026-09-19, narrow foundation start gate recorded.** Independent review of checkpoint `ae9a183` confirmed 4/4 JUnit tests, positive and negative GameTest behavior, and a final 2/2 passing GameTest run. Under the existing owner hold lift, the coordinator uses that checkpoint to schedule and claim FND-04 while FND-01 remains `VERIFYING`; this readiness decision does not authorize another dependency edge, EULA acceptance, public distribution, or any completion/parity claim.
 
 ## Spending order after reactivation
 

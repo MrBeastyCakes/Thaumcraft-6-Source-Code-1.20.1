@@ -71,7 +71,7 @@ Run the narrowest relevant checks while developing, then the required release ga
 .\gradlew.bat build
 ```
 
-`test` currently has no source coverage, so every new parity subsystem must add deterministic tests or GameTests before it can be marked done. For gameplay items, verify at minimum:
+The foundation harness has initial deterministic source coverage. Every new parity subsystem must still add focused deterministic tests or GameTests before it can be marked done. For gameplay items, verify at minimum:
 
 1. A fresh survival world can reach and use the feature without commands.
 2. The feature survives save/reload and, where applicable, chunk unload/reload.

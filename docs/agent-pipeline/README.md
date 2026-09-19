@@ -2,6 +2,8 @@
 
 This directory is the control surface for turning the source tree into a full Thaumcraft 6.1.BETA26 parity port for Minecraft 1.20.1 Forge.
 
+Current workboard state: `READY=1`, `ACTIVE=0`, `VERIFYING=1`, `DONE=1`, `DEFERRED=0`, `BLOCKED=29`. The sole ready item is FND-04 under the narrow reviewed foundation start gate; this is not full FND-01 runtime acceptance.
+
 The pipeline is intentionally small:
 
 | File | Purpose |
@@ -18,6 +20,7 @@ The pipeline is intentionally small:
 | `reference-catalog.md` | reproducible BETA26 observation metadata (reference identifiers, runtime versions, artifact paths, and SHA-256 values) without storing proprietary binaries or assets |
 | `validation-matrix.md` | required validation tiers with commands or scenarios, evidence locations, clean-state requirements, and pass conditions |
 | `budget-hold.md` | budget authority, allowed and prohibited activities, the reactivation condition, and the post-hold spending order |
+| `foundation-start-gate-2026-09-19.md` | evidence and limits for the reviewed automated checkpoint that makes only FND-04 ready while FND-01 manual acceptance remains open |
 | `../../tools/agent-pipeline/Update-FileSystemMap.ps1` | regenerates the factual portions of the filesystem map |
 | `../../tools/agent-pipeline/Test-AgentPipeline.ps1` | local structural validator for pipeline files, map freshness, workboard IDs, dependency references, cycles, handoffs, and the budget-hold state, with no Gradle or game run |
 
@@ -34,7 +37,7 @@ Agents should work on different lanes in parallel only when their file ownership
 
 ```mermaid
 flowchart LR
-  FND[Foundation and test harness] --> FND04[FND-04 Aspect attribution and lookup]
+  FND[Foundation and test harness] -. ae9a183 reviewed start gate .-> FND04[FND-04 Aspect attribution and lookup]
   FND04 --> RSR[Research and recipe gates]
   FND --> AUT04[AUT-04 Artifice and utility devices]
   FND --> WLD05[WLD-05 Creatures and combat]

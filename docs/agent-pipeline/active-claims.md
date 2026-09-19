@@ -4,7 +4,7 @@ This ledger is the sole current-owner record for work items. It shows who is tou
 
 ## Current State
 
-The project owner lifted the implementation hold on 2026-09-19. `FND-01` is verifying the automated foundation under the claim below. The automated checkpoint passed independent review; manual acceptance remains pending; the coordinator owns status and handoff updates.
+The project owner lifted the implementation hold on 2026-09-19. `FND-01` is verifying only its remaining manual runtime acceptance under the claim below. The automated checkpoint passed independent review. FND-04 is `READY` under the narrow start gate but is not claimed; the coordinator owns status and handoff updates.
 
 ## Claim Rules
 
@@ -16,4 +16,4 @@ The project owner lifted the implementation hold on 2026-09-19. `FND-01` is veri
 
 | Work item | Lane | Owner | Worktree or branch | Intended paths | Claimed | Last update | Dependency status | Release condition |
 |---|---|---|---|---|---|---|---|---|
-| FND-01 | FND | /root (coordinator; manual acceptance pending) | codex/fnd-01-test-foundation | build.gradle; .gitignore; test sources and synthetic fixtures; Thaumcraft.java and narrowly required client-access boundary; FND-01 evidence; validation-matrix.md; filesystem-map.md | 2026-09-19 | 2026-09-19 | Owner lifted hold; no prerequisites | Remaining manual runtime acceptance recorded; then archive handoff and release claim |
+| FND-01 | FND | /root (coordinator; manual acceptance pending) | codex/fnd-01-test-foundation | FND-01 manual runtime evidence and directly related coordination documents only | 2026-09-19 | 2026-09-19 | Automated checkpoint reviewed; five manual cases remain | All five manual runtime cases recorded as passing; then archive handoff and release claim |

@@ -91,7 +91,7 @@ Reference setup for every step: a clean 1.12.2 instance whose only mods are the 
 
 - Reference artifacts: `REF-0001` (decompiled tree used here) and `REF-0002` (BETA26 release jar) in [reference-catalog.md](reference-catalog.md); `REF-0005` is the only gameplay capture and covers scan-side behaviors only.
 - Evidence rules and hierarchy, and this work item's queue row: [parity-evidence-index.md](parity-evidence-index.md).
-- Work item: `FND-04` in [parity-workboard.md](parity-workboard.md) (dependency: `FND-01`; unblocks `RSR-01` and `ALC-01`).
+- Work item: `FND-04` in [parity-workboard.md](parity-workboard.md) (`READY` under the narrow reviewed `ae9a183` foundation start gate; unclaimed; unblocks `RSR-01` and `ALC-01` only after its own acceptance evidence). See [foundation-start-gate-2026-09-19.md](foundation-start-gate-2026-09-19.md).
 - Defect row: `FND-04` in [deferred-issues.md](deferred-issues.md) ("Shared aspect attribution, aspect containers, and lookup are not established for scanning or Essentia processing").
 - Sibling notes: [rsr-01-evidence.md](rsr-01-evidence.md) (scan-gated progression; this note supplies the aspect-lookup half of its scan path) and [rsr-02-evidence.md](rsr-02-evidence.md) (workbench research, Vis, and crystal checks).
 - Device-level container and transport behavior is out of scope here by design and belongs to `ALC-00` through `ALC-03` in [parity-workboard.md](parity-workboard.md); the item-aspect side of smelting is the `ALC-01` defect.
