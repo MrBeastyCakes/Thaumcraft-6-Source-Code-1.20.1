@@ -37,7 +37,7 @@ Date recorded: <ISO 8601 date of the capture>
 
 ## Recorded entries
 
-Entries are added in `REF` order. Fields are listed in the required order. `REF-0001` .. `REF-0004` are inventory records; `REF-0006` is an inspection record; `REF-0005` is the first capture.
+Entries are added in `REF` order. Fields are listed in the required order. `REF-0001` .. `REF-0004` are inventory records; `REF-0006` and `REF-0007` are inspection records; `REF-0005` is the first capture.
 
 ### REF-0001 — decompiled TC6 source tree
 
@@ -138,6 +138,23 @@ World seed: not applicable
 Player setup: not applicable
 Capture scenario: bytecode inspection with javap -p -c (read-only; scratch in a temp directory) of EntityThaumcraftGolem.updateEntityAttributes(), EntityThaumcraftGolem.func_70658_aO() (the armour accessor), and GuiGolemBuilder.gatherInfo(): each fragile-penalty site compiles as iload / i2d / ldc2_w 0.75d / dmul / d2i — a double multiply by three-quarters truncated to int — while REF-0001's decompiled text renders the same sites as a cast of the fraction itself, which would zero the value (tree sites: EntityThaumcraftGolem.java:173, :249; GuiGolemBuilder.java:248, :256). Finding: the tree text is a decompiler artifact at those sites and the shipped arithmetic multiplies by three-quarters. Recorded because a rank-3 tree site was overruled by the rank-2 jar for one load-bearing figure (aut-02-evidence.md finding 10).
 Recorded by: subagent builder and independent critic (read-only reference-evidence pass); the jar digest was re-verified by both before and after the inspection
+Date recorded: 2026-09-18
+```
+
+### REF-0007 — bytecode spot-check of the Arcane Bore charge arithmetic (inspection, not a capture)
+
+```text
+Reference identifier: REF-0007 (inspection record, not a capture; role: rank-2 bytecode corroboration of a REF-0001 tree site)
+Minecraft version: 1.12.2
+Forge version: 14.23.5.2859
+Thaumcraft version: 6.1.BETA26 (jar digest equals REF-0002's: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f)
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/mods/Thaumcraft-1.12.2-6.1.BETA26.jar (read-only)
+SHA-256: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: not applicable (static inspection; no game launch)
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: bytecode inspection with javap -p -c (read-only; scratch in a temp directory) of EntityArcaneBore: the dig debit site compiles as invokevirtual getCharge / getfield digCost / fsub / f2i / i2b / i2f / invokevirtual setCharge(F) — the byte cast in the tree text is faithful bytecode, so the float subtraction is genuinely truncated to a byte on every dig and the effective debit is about one charge per block; the refill method is a plain float add with no clamp (bounded only by its below-ten guard), and the NBT load path is unclamped. Recorded because a rank-3 tree site was CONFIRMED by the rank-2 jar, and the running-game rate against the research text's nominal quarter is a rank-1 question (aut-03-evidence.md finding 10, checklist T6).
+Recorded by: orchestrator bytecode read, independently reproduced by the harsh critic (read-only reference-evidence pass); the jar digest was re-verified by both before and after the inspection
 Date recorded: 2026-09-18
 ```
 
