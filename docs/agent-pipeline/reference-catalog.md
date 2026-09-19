@@ -250,6 +250,44 @@ Date recorded: 2026-09-19
 ```
 
 Related evidence: [fnd-04-culling-evidence.md](fnd-04-culling-evidence.md)
+
+### REF-0013 — bytecode spot-check of ordinary category expansion and selected seeds
+
+```text
+Reference identifier: REF-0013 (inspection record, not a capture; role: rank-2 bytecode corroboration of ordinary category expansion and selected seed values)
+Minecraft version: 1.12.2
+Forge version: not exercised; artifact inspection only
+Thaumcraft version: 6.1.BETA26 (jar digest equals REF-0002's: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f)
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/mods/Thaumcraft-1.12.2-6.1.BETA26.jar (read-only; not distributed)
+SHA-256: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: not applicable (static inspection; no game launch)
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: read-only javap -p -c inspection, without retaining original code or bytecode, of AspectEventProxy.registerObjectTag(String, AspectList) and the selected ConfigAspects registration sites. The released ordinary String path asks its category helper for matching stacks, count-normalizes a copy of each stack to one, copies the aspect declaration per member, and delegates each to ordinary item registration. The shipped seed sites register ingotIron with METAL 15 and gemDiamond with CRYSTAL 15 plus DESIRE 15. This establishes the expansion shape and these selected values only; it does not establish modern reload behavior, complex registration, full-table fidelity, NBT identity, downstream gameplay, or multiplayer acceptance.
+Recorded by: /root/fnd04_tags_builder (read-only reference inspection)
+Date recorded: 2026-09-19
+```
+
+Related evidence: [fnd-04-tag-registration-evidence.md](fnd-04-tag-registration-evidence.md)
+### REF-0014 — live original iron, diamond, ore and wood tooltips
+
+```text
+Reference identifier: REF-0014 (capture; rank-1 display evidence only)
+Minecraft version: 1.12.2
+Forge version: 14.23.5.2859
+Thaumcraft version: 6.1.BETA26, with required Baubles 1.5.2 only
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/screenshots/2026-09-19_08.01.50.png (iron); 2026-09-19_08.02.31.png (diamond); all four paths and hashes in fnd-04-live-items-2026-09-19.md
+SHA-256: iron 8661ecb3cfc04e5b24773b874bf2cfa3d8e9770e36c1bdece75991b7fe4a6bfe; diamond 1b5415abd38231c1d0efa4e332f0e4d55336f1b8011f3306fa64c56e65b3dfcf; jar hashes and two other captures in linked note
+Launcher or profile: installed CurseForge TC6 Reference; six active mods including Forge components
+World seed: -7348667044462872440 (coordinator-created New Worlda from REF-0011)
+Player setup: creative, existing capture world; showTags temporarily true then restored false after clean exit; no commands, item acquisition, research grants or block changes
+Capture scenario: inventory tooltip iron METAL15; diamond CRYSTAL15/DESIRE15; iron ore METAL15/EARTH5; oak wood PLANT20. These are original display values, not registration/reload mechanism, port gameplay, survival, smelting or multiplayer proof.
+Recorded by: Codex coordinator /root via live native UI; original F2 screenshots retained outside repository
+Date recorded: 2026-09-19, 08:01–08:02 America/Vancouver
+```
+
+See [capture procedure, artifacts, cleanup and limits](fnd-04-live-items-2026-09-19.md).
+
 ## Tree-hash convention (REF-0001)
 
 A source tree has no single file digest, so `REF-0001` uses a tree hash with the convention below. Any future re-verification of `REF-0001` must use the same convention; the digest is over the sorted hash lines of every file, not over any single file.

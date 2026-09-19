@@ -287,16 +287,11 @@ public class ThaumcraftApi {
      * @param aspects A AspectList of the associated aspects
      */
     public static void registerObjectTag(String tagName, AspectList aspects) {
-        try {
-            ResourceLocation tagLoc = new ResourceLocation(tagName);
-            net.minecraft.tags.TagKey<Item> tagKey = net.minecraft.tags.ItemTags.create(tagLoc);
-            var tag = net.minecraftforge.registries.ForgeRegistries.ITEMS.tags().getTag(tagKey);
-            if (tag.isBound()) {
-                for (Item item : tag) {
-                    registerObjectTag(new ItemStack(item), aspects.copy());
-                }
-            }
-        } catch (Exception e) {}
+        if (tagName == null || aspects == null) return;
+        ResourceLocation tagLoc = ResourceLocation.tryParse(tagName);
+        if (tagLoc != null) {
+            AspectHelper.registerObjectTagForItemTag(tagLoc, aspects);
+        }
     }
 
     /**

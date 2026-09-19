@@ -4,6 +4,7 @@ import java.util.Arrays;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -413,6 +414,9 @@ public final class AspectLookupGameTests {
         static Item UNREGISTERED;
         static Item COMPLEX_ABSENT;
         static Item COMPLEX_PRESENT;
+        public static Item RELOAD_A;
+        public static Item RELOAD_B;
+        public static Item RELOAD_C;
 
         private TestItems() {
         }
@@ -428,6 +432,9 @@ public final class AspectLookupGameTests {
                 UNREGISTERED = new Item(new Item.Properties());
                 COMPLEX_ABSENT = new Item(new Item.Properties());
                 COMPLEX_PRESENT = new Item(new Item.Properties());
+                RELOAD_A = new Item(new Item.Properties());
+                RELOAD_B = new Item(new Item.Properties());
+                RELOAD_C = new Item(new Item.Properties());
                 helper.register("fnd04_nbt_container", NBT_CONTAINER);
                 helper.register("fnd04_null_container", NULL_CONTAINER);
                 helper.register("fnd04_empty_container", EMPTY_CONTAINER);
@@ -436,6 +443,9 @@ public final class AspectLookupGameTests {
                 helper.register("fnd04_unregistered", UNREGISTERED);
                 helper.register("fnd04_complex_absent", COMPLEX_ABSENT);
                 helper.register("fnd04_complex_present", COMPLEX_PRESENT);
+                helper.register("fnd04_reload_a", RELOAD_A);
+                helper.register("fnd04_reload_b", RELOAD_B);
+                helper.register("fnd04_reload_c", RELOAD_C);
 
                 ThaumcraftApi.registerObjectTag(new ItemStack(NBT_CONTAINER),
                         new AspectList().add(Aspect.ORDER, 11));
@@ -445,6 +455,12 @@ public final class AspectLookupGameTests {
                         new AspectList().add(Aspect.CRYSTAL, 9));
                 ThaumcraftApi.registerObjectTag(new ItemStack(COMPLEX_PRESENT),
                         new AspectList().add(Aspect.EARTH, 4));
+                AspectHelper.registerObjectTag(new ResourceLocation(MOD_ID, "fnd04_reload_a"),
+                        new AspectList().add(Aspect.AIR, 1));
+                ThaumcraftApi.registerObjectTag("thaumcraft:fnd04_reload",
+                        new AspectList().add(Aspect.EARTH, 2));
+                AspectHelper.registerObjectTag(new ResourceLocation(MOD_ID, "fnd04_reload_c"),
+                        new AspectList().add(Aspect.WATER, 4));
             });
         }
     }

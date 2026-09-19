@@ -1,12 +1,17 @@
 package thaumcraft.api.aspects;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.api.ThaumcraftApi;
 
 /**
@@ -22,7 +27,7 @@ public class AspectHelper {
      * Registry of aspects for items/blocks
      * Key is the ResourceLocation string (e.g., "minecraft:stone")
      */
-    private static Map<String, AspectList> objectTags = new HashMap<>();
+    private static final AspectRegistrationStore OBJECT_TAGS = new AspectRegistrationStore();
     
     /**
      * Registry of aspects for entities
@@ -122,7 +127,7 @@ public class AspectHelper {
         // For now, just use the base item
         String key = itemId.toString();
         
-        return objectTags.get(key);
+        return OBJECT_TAGS.get(key);
     }
     
     /**
@@ -137,7 +142,7 @@ public class AspectHelper {
         
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
         if (itemId != null) {
-            objectTags.put(itemId.toString(), aspects);
+            OBJECT_TAGS.registerDirect(itemId.toString(), aspects);
         }
     }
     
@@ -148,8 +153,41 @@ public class AspectHelper {
      */
     public static void registerObjectTag(ResourceLocation itemId, AspectList aspects) {
         if (itemId != null && aspects != null) {
-            objectTags.put(itemId.toString(), aspects);
+            OBJECT_TAGS.registerDirect(itemId.toString(), aspects);
         }
+    }
+
+    /**
+     * Register aspects for every current and future member of an item tag.
+     */
+    public static void registerObjectTagForItemTag(ResourceLocation tagId, AspectList aspects) {
+        if (tagId != null && aspects != null) {
+            OBJECT_TAGS.registerTag(tagId.toString(), aspects, AspectHelper::resolveItemTag);
+        }
+    }
+
+    /** Refresh retained item-tag registrations after Forge rebinds tags. */
+    public static void refreshTagRegistrations() {
+        OBJECT_TAGS.refreshTags(AspectHelper::resolveItemTag);
+    }
+
+    private static List<String> resolveItemTag(String tagId) {
+        ResourceLocation location = ResourceLocation.tryParse(tagId);
+        if (location == null || ForgeRegistries.ITEMS.tags() == null) {
+            return List.of();
+        }
+        var tag = ForgeRegistries.ITEMS.tags().getTag(ItemTags.create(location));
+        if (!tag.isBound()) {
+            return List.of();
+        }
+        List<String> members = new ArrayList<>();
+        for (Item item : tag) {
+            ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(item);
+            if (itemId != null) {
+                members.add(itemId.toString());
+            }
+        }
+        return members;
     }
     
     /**
@@ -226,7 +264,7 @@ public class AspectHelper {
      * Used for reloading
      */
     public static void clearTags() {
-        objectTags.clear();
+        OBJECT_TAGS.clear();
         entityTags.clear();
     }
     
@@ -234,7 +272,7 @@ public class AspectHelper {
      * Get the number of registered object tags
      */
     public static int getObjectTagCount() {
-        return objectTags.size();
+        return OBJECT_TAGS.size();
     }
     
     /**
