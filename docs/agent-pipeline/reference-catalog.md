@@ -37,7 +37,7 @@ Date recorded: <ISO 8601 date of the capture>
 
 ## Recorded entries
 
-Entries are added in `REF` order. Fields are listed in the required order. `REF-0001` .. `REF-0004` are inventory records; `REF-0006` and `REF-0007` are inspection records; `REF-0005` is the first capture.
+Entries are added in `REF` order. Fields are listed in the required order. `REF-0001` .. `REF-0004` are inventory records; `REF-0006`, `REF-0007`, and `REF-0008` are inspection records; `REF-0005` is the first capture.
 
 ### REF-0001 — decompiled TC6 source tree
 
@@ -155,6 +155,23 @@ World seed: not applicable
 Player setup: not applicable
 Capture scenario: bytecode inspection with javap -p -c (read-only; scratch in a temp directory) of EntityArcaneBore: the dig debit site compiles as invokevirtual getCharge / getfield digCost / fsub / f2i / i2b / i2f / invokevirtual setCharge(F) — the byte cast in the tree text is faithful bytecode, so the float subtraction is genuinely truncated to a byte on every dig and the effective debit is about one charge per block; the refill method is a plain float add with no clamp (bounded only by its below-ten guard), and the NBT load path is unclamped. Recorded because a rank-3 tree site was CONFIRMED by the rank-2 jar, and the running-game rate against the research text's nominal quarter is a rank-1 question (aut-03-evidence.md finding 10, checklist T6).
 Recorded by: orchestrator bytecode read, independently reproduced by the harsh critic (read-only reference-evidence pass); the jar digest was re-verified by both before and after the inspection
+Date recorded: 2026-09-18
+```
+
+### REF-0008 — bytecode spot-check of the Flux Condenser's transport edges (inspection, not a capture)
+
+```text
+Reference identifier: REF-0008 (inspection record, not a capture; role: rank-2 bytecode corroboration of REF-0001 tree sites)
+Minecraft version: 1.12.2
+Forge version: 14.23.5.2859
+Thaumcraft version: 6.1.BETA26 (jar digest equals REF-0002's: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f)
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/mods/Thaumcraft-1.12.2-6.1.BETA26.jar (read-only)
+SHA-256: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: not applicable (static inspection; no game launch)
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: bytecode inspection with javap -p -c (read-only; scratch in a temp directory) of TileCondenser: the addEssentia site compiles as a canInputFrom-guarded min(amount, MAX - essentia) into a local, then two guarded calls (syncTile, markDirty) and the local returned — no field store to essentia anywhere in the method, so the tree text's push-answer-without-storing is faithful bytecode, not a decompiler artifact; the fill loop's first-neighbour guard compiles as a canOutputTo check followed by a bare return, so the whole refill pass aborts rather than skipping that side (tree sites: TileCondenser.java:240-247 and :107-116). Recorded because rank-3 tree sites were CONFIRMED by the rank-2 jar for a device in the AUT-04 set, and the practical reach (which contraptions push into a condenser, and how a mixed-neighbour feed behaves) is a rank-1 question (aut-04-evidence.md finding 7, checklist T3).
+Recorded by: subagent builder (read-only reference-evidence pass); the jar digest was re-verified before and after the inspection
 Date recorded: 2026-09-18
 ```
 
