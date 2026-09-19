@@ -1,7 +1,7 @@
 Work item: FND-01
 Lane: FND
 Worktree or branch: codex/fnd-01-test-foundation
-Commit: automated foundation checkpoint; resolve with git log for this handoff (review base 7a6e1d7)
+Commit: ae9a183 (automated foundation checkpoint; review base 7a6e1d7)
 Scope: Deterministic JUnit tests, dedicated Forge GameTest source set and original SNBT fixture, isolated test run directory, false-success startup guard, and narrow client-only helper isolation required for dedicated-server startup.
 Parity reference: Infrastructure task; no BETA26 gameplay parity claim. Reference hierarchy remains docs/agent-pipeline/parity-evidence-index.md.
 Source evidence: build.gradle; AspectList; TilePedestal; TileThaumcraftInventory; Forge GameTest registration; initial ClientLevel dist-cleaner failure documented in FND-01-evidence.md.
