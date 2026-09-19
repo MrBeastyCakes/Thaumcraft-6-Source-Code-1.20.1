@@ -1,6 +1,6 @@
 # Deferred Issue Register
 
-> Budget status: see [budget-hold.md](budget-hold.md). This register records confirmed issues so the next work session can start with the highest-impact repair rather than repeat the audit.
+> Development status: the project owner lifted the implementation hold on 2026-09-19; see [budget-hold.md](budget-hold.md). `FND-01` is ready and unclaimed. This register preserves confirmed issues so implementation can start with the highest-impact repair rather than repeat the audit.
 
 The target remains Minecraft 1.20.1 Forge 47.3.0 with Thaumcraft 6.1.BETA26 as the behavior reference. Entries describe the current port, not intentional changes to TC6.
 
@@ -10,7 +10,7 @@ These prevent a normal progression loop or make a core system unusable. Repair t
 
 | ID | Deferred issue | Player impact | Confirmed evidence | Workboard dependency |
 |---|---|---|---|---|
-| FND-01 | No automated unit or GameTest coverage. | Repairs cannot be safely verified across fresh worlds, reloads, or servers. | `src/test/` has no tracked sources; Gradle reports `NO-SOURCE`. | First item; budget hold. |
+| FND-01 | No automated unit or GameTest coverage. | Repairs cannot be safely verified across fresh worlds, reloads, or servers. | `src/test/` has no tracked sources; Gradle reports `NO-SOURCE`. | First item; `READY` and unclaimed. |
 | FND-04 | Shared aspect attribution, aspect containers, and lookup are not established for scanning or Essentia processing. | Scans and Essentia handling can disagree on item aspects, so every dependent repair rests on unverified data. | Not yet reproduced end-to-end; retain as a verification item. | FND-01 |
 | RSR-01 | Scanning, research stages, and knowledge sync are incomplete and accept client-led progress. | Research can deadlock or be bypassed; save/reload behavior is not trustworthy. | `ScanningManager.java:202-210`, `PlayerKnowledge.java:53-66`, `PacketSyncProgressToServer.java:104-107`. | FND-04 |
 | RSR-02 | Arcane Workbench crystal checks are bypassed and crafting is not fully atomic. | Players can craft without the intended resources. | `ArcaneWorkbenchMenu.java:155-173`, `ArcaneWorkbenchResultSlot.java:163-178`. | RSR-01 |
@@ -56,9 +56,9 @@ These should wait until the gameplay spine works. They matter for a finished pri
 | REL-03 | Reproducible private-play package and install guide are not prepared. | Private testers lack a supported install path. | REL-02 |
 | REL-04 | Public distribution cannot proceed without written rights-holder permission. | Sharing a modified build remains out of scope. | Written permission |
 
-## When Work Resumes
+## Implementation Order
 
-Start with `FND-01`, then repair the minimum survival spine in this order:
+Start with the ready `FND-01`, then repair the minimum survival spine in this order as dependencies clear:
 
 1. `RSR-01` and `RSR-02` — authoritative research and paid crafting.
 2. `ALC-01`, `ALC-02`, and `ALC-03` — Essentia production, transport, and infusion.

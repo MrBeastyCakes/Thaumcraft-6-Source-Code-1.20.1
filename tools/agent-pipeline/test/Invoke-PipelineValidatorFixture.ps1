@@ -13,7 +13,7 @@
 #
 # Cases and expected validator outcomes:
 #   CONTROL          no fault                           -> exit 0, state-counts line
-#   READY-HOLD       FND-01 state -> READY              -> 'READY item exists during budget hold'
+#   READY-HOLD       explicit paused policy + READY     -> 'READY item exists during budget hold'
 #   STALE-MAP        one byte appended to the map       -> 'Filesystem map is stale'
 #   DUPLICATE-ID     a second FND-01 row appended       -> 'Duplicate work-item ID'
 #   MISSING-DEP      FND-02 -> BLOCKED: XYZ-99          -> 'Missing internal dependency'
@@ -124,12 +124,19 @@ $cases = @(
         InjectFault = {
             param($fixture)
             $workboardPath = Join-Path $fixture 'docs/agent-pipeline/parity-workboard.md'
+            $budgetHoldPath = Join-Path $fixture 'docs/agent-pipeline/budget-hold.md'
             $workboard = Get-Content -LiteralPath $workboardPath -Raw -Encoding UTF8
-            $updated = $workboard -replace '(?m)^\| FND-01 \| DEFERRED: budget hold \|', '| FND-01 | READY |'
-            if ($updated -eq $workboard) {
-                throw 'Fault injection did not change the FND-01 workboard row.'
+            $readyWorkboard = $workboard -replace '(?m)^\| FND-01 \| [^|]+\|', '| FND-01 | READY |'
+            if ($readyWorkboard -notmatch '(?m)^\| FND-01 \| READY \|') {
+                throw 'Fault injection did not establish the intended READY workboard row.'
             }
-            [System.IO.File]::WriteAllText($workboardPath, $updated, (New-Object System.Text.UTF8Encoding($false)))
+            [System.IO.File]::WriteAllText($workboardPath, $readyWorkboard, (New-Object System.Text.UTF8Encoding($false)))
+            $budgetHold = Get-Content -LiteralPath $budgetHoldPath -Raw -Encoding UTF8
+            $pausedBudgetHold = "Implementation is paused for this validator fixture.`r`n`r`n" + $budgetHold
+            if ($pausedBudgetHold -notmatch 'Implementation is paused') {
+                throw 'Fault injection did not establish an explicit paused policy.'
+            }
+            [System.IO.File]::WriteAllText($budgetHoldPath, $pausedBudgetHold, (New-Object System.Text.UTF8Encoding($false)))
         }
     },
     @{
@@ -189,13 +196,19 @@ $cases = @(
             param($fixture)
             $workboardPath = Join-Path $fixture 'docs/agent-pipeline/parity-workboard.md'
             $workboard = Get-Content -LiteralPath $workboardPath -Raw -Encoding UTF8
-            $first = $workboard -replace '(?m)^\| FND-01 \| DEFERRED: budget hold \|', '| FND-01 | BLOCKED: RSR-02 |'
+            $first = $workboard -replace '(?m)^\| FND-01 \| [^|]+\|', '| FND-01 | BLOCKED: RSR-02 |'
             if ($first -eq $workboard) {
-                throw 'Fault injection did not change the FND-01 workboard row.'
+                throw 'Fault injection did not find and change the canonical FND-01 workboard row.'
             }
-            $second = $first -replace '(?m)^\| RSR-02 \| BLOCKED: RSR-01 \|', '| RSR-02 | BLOCKED: FND-01 |'
+            if ($first -notmatch '(?m)^\| FND-01 \| BLOCKED: RSR-02 \|') {
+                throw 'Fault injection did not establish the intended FND-01 dependency.'
+            }
+            $second = $first -replace '(?m)^\| RSR-02 \| [^|]+\|', '| RSR-02 | BLOCKED: FND-01 |'
             if ($second -eq $first) {
-                throw 'Fault injection did not change the RSR-02 workboard row.'
+                throw 'Fault injection did not find and change the canonical RSR-02 workboard row.'
+            }
+            if ($second -notmatch '(?m)^\| RSR-02 \| BLOCKED: FND-01 \|') {
+                throw 'Fault injection did not establish the intended RSR-02 dependency.'
             }
             [System.IO.File]::WriteAllText($workboardPath, $second, (New-Object System.Text.UTF8Encoding($false)))
         }

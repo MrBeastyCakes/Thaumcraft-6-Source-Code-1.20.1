@@ -6,7 +6,7 @@ This repository contains the ongoing effort to port **Thaumcraft 6** from Minecr
 
 **This repository is an ongoing port, not a release-ready build.** A normal survival progression loop is not yet verified end to end, and 30 of the 32 tracked work items are blocked pending repairs.
 
-Parity status is governed by [`docs/agent-pipeline/parity-workboard.md`](docs/agent-pipeline/parity-workboard.md). As of 2026-09-18 the workboard tracks **32 work items**: **1 done** (`FND-03`, the parity evidence index), **1 deferred** under the project budget hold (`FND-01`, the test and GameTest harness), and **30 blocked** pending repairs.
+Parity status is governed by [`docs/agent-pipeline/parity-workboard.md`](docs/agent-pipeline/parity-workboard.md). As of 2026-09-19 the workboard tracks **32 work items**: **1 done** (`FND-03`, the parity evidence index), **1 ready and unclaimed** (`FND-01`, the test and GameTest harness), and **30 blocked** pending repairs.
 
 Top confirmed playability blockers ([`docs/agent-pipeline/deferred-issues.md`](docs/agent-pipeline/deferred-issues.md)): scanning and research knowledge sync are not server-authoritative; the Arcane Workbench bypasses its crystal and Vis checks; smelters always receive an empty aspect list; Alembic and tube block-entity factories return `null`; the Infusion Matrix has no block entity or ticker; and the Focal Manipulator does not open while focus graphs never reach their delivery effects.
 
@@ -244,7 +244,7 @@ export JAVA_HOME=/home/user/.gradle/jdks/eclipse_adoptium-17-amd64-linux.2
 
 ## 📋 Historical Porting Checklist (Unverified)
 
-The checkboxes below were marked during the porting effort and are historical development notes, not parity evidence. Current remaining work is tracked in the [parity workboard](docs/agent-pipeline/parity-workboard.md), where 30 items are blocked and `FND-01` is deferred under the budget hold.
+The checkboxes below were marked during the porting effort and are historical development notes, not parity evidence. Current remaining work is tracked in the [parity workboard](docs/agent-pipeline/parity-workboard.md), where 30 items are blocked and `FND-01` is ready and unclaimed.
 
 ### High Priority - reported done during development
 - [x] ~~Create all arcane recipes~~ (79/79)
@@ -298,4 +298,4 @@ Community port of Thaumcraft. Original mod by Azanor.
 
 ---
 
-*Last updated: 2026-09-18 | Status: ongoing port paused under the project budget hold. See the [parity workboard](docs/agent-pipeline/parity-workboard.md) for authoritative status; earlier completion percentages and "playable" claims were not evidence-backed.*
+*Last updated: 2026-09-19 | Status: active development; `FND-01` is ready and unclaimed. See the [parity workboard](docs/agent-pipeline/parity-workboard.md) for authoritative status; earlier completion percentages and "playable" claims were not evidence-backed.*
