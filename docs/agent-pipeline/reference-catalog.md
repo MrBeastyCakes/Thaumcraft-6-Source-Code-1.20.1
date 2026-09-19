@@ -288,6 +288,44 @@ Date recorded: 2026-09-19, 08:01–08:02 America/Vancouver
 
 See [capture procedure, artifacts, cleanup and limits](fnd-04-live-items-2026-09-19.md).
 
+### REF-0015 — bytecode inspection of recipe-derived aspect attribution
+
+```text
+Reference identifier: REF-0015 (inspection record, not a capture; role: rank-2 bytecode corroboration of recipe-derived aspect selection, arithmetic, recursion, and caching)
+Minecraft version: 1.12.2
+Forge version: not exercised; artifact inspection only
+Thaumcraft version: 6.1.BETA26 (jar digest equals REF-0002's: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f)
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/Thaumcraft Reimagined/mods/Thaumcraft-1.12.2-6.1.BETA26.jar (read-only; not distributed)
+SHA-256: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: not applicable (static inspection; no game launch)
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: independently re-hashed REF-0002, then used read-only javap -p -c without retaining original code or bytecode to inspect ThaumcraftCraftingManager.generateTags, generateTagsFromCrucibleRecipes, generateTagsFromInfusionRecipes, generateTagsFromCraftingRecipes, getAspectsFromIngredients, and generateTagsFromRecipes; ThaumcraftApi.getCrucibleRecipe, getInfusionRecipe, and exists; AspectEventProxy.registerObjectTag(ItemStack, AspectList); and AspectList.reduce(Aspect, int). The shipped classes confirm category priority crucible then infusion then crafting; first output passing ItemStack.isItemEqual for crucible/infusion; first matching ingredient alternative; crafting remainder subtraction including refusal when the remainder exceeds the accumulated amount; float 0.75 normalization with the strict greater-than-0.75 promotion edge; square-root Essentia contribution; arcane Vis contribution; strictly smaller positive crafting-candidate selection with first tie retained; shared non-backtracking recursion history and the below-100 traversal limit; final cap and null-to-empty registration; and the released String-versus-Integer exists-key defect. The item/metadata but not NBT/count meaning of ItemStack.isItemEqual is source/library-correlated rather than separately disassembled here. This is static rank-2 evidence only: no item was observed live, collection order and lifecycle effects were not measured, and crashes implied by malformed recipes are documented as hazards rather than parity requirements.
+Recorded by: /root/recipe_reference_builder (read-only reference inspection)
+Date recorded: 2026-09-19
+```
+
+Related evidence: [fnd-04-recipe-reference-evidence.md](fnd-04-recipe-reference-evidence.md)
+
+### REF-0016 — live original oak-plank and stick tooltips
+
+```text
+Reference identifier: REF-0016 (capture; rank-1 display evidence only)
+Minecraft version: 1.12.2
+Forge version: 14.23.5.2859
+Thaumcraft version: 6.1.BETA26 with required Baubles1.5.2 only
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/screenshots/2026-09-19_08.33.03.png and 2026-09-19_08.33.37.png
+SHA-256: planks089c72125665470e621d740ffa9d6b6aa393a0e69a46f72e0be0a779b5ed9438; stickbd79292517b4f157d5e32b4c9920a7ab1d6695af6b7b451903ae058b3fbaddd5; jar hashes in linked note
+Launcher or profile: installed CurseForge TC6 Reference, six active mods including Forge components
+World seed: -7348667044462872440 (coordinator-created New Worlda from REF0011)
+Player setup: creative capture world; temporary showTags display setting restoredfalse after clean exit; no commands/items acquired or crafted
+Capture scenario: original calculated tooltips show Oak Wood Planks PLANT3 only and Stick PLANT1 only; no mechanism/survival/Essentia/reload/multiplayer proof
+Recorded by: Codex coordinator /root via native UI; F2 screenshots retained outside repository
+Date recorded: 2026-09-19, 08:33 America/Vancouver
+```
+
+See [procedure, hashes, cleanup and limits](fnd-04-live-derived-items-2026-09-19.md).
+
 ## Tree-hash convention (REF-0001)
 
 A source tree has no single file digest, so `REF-0001` uses a tree hash with the convention below. Any future re-verification of `REF-0001` must use the same convention; the digest is over the sorted hash lines of every file, not over any single file.
