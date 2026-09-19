@@ -30,7 +30,10 @@ public class ConfigAspects {
         ThaumcraftApi.registerEntityTag("minecraft:skeleton", new AspectList().add(Aspect.UNDEAD, 20).add(Aspect.MAN, 5).add(Aspect.EARTH, 5));
         ThaumcraftApi.registerEntityTag("minecraft:wither_skeleton", new AspectList().add(Aspect.UNDEAD, 25).add(Aspect.MAN, 5).add(Aspect.ENTROPY, 10));
         ThaumcraftApi.registerEntityTag("minecraft:creeper", new AspectList().add(Aspect.PLANT, 15).add(Aspect.FIRE, 15));
-        // ThaumcraftApi.registerEntityTag("minecraft:creeper", new AspectList().add(Aspect.PLANT, 15).add(Aspect.FIRE, 15).add(Aspect.ENERGY, 15), new ThaumcraftApi.EntityTagsNBT("powered", 1));
+        // BETA26 "powered" filter is a byte tag (Minecraft persists booleans as bytes), so the
+        // variant is registered with a byte-typed value; BETA26's own Integer filter could never
+        // match under its typed NBT comparison.
+        ThaumcraftApi.registerEntityTag("minecraft:creeper", new AspectList().add(Aspect.PLANT, 15).add(Aspect.FIRE, 15).add(Aspect.ENERGY, 15), new ThaumcraftApi.EntityTagsNBT("powered", (byte) 1));
         ThaumcraftApi.registerEntityTag("minecraft:horse", new AspectList().add(Aspect.BEAST, 15).add(Aspect.EARTH, 5).add(Aspect.AIR, 5));
         ThaumcraftApi.registerEntityTag("minecraft:donkey", new AspectList().add(Aspect.BEAST, 15).add(Aspect.EARTH, 5).add(Aspect.AIR, 5));
         ThaumcraftApi.registerEntityTag("minecraft:mule", new AspectList().add(Aspect.BEAST, 15).add(Aspect.EARTH, 5).add(Aspect.AIR, 5));
@@ -62,8 +65,8 @@ public class ConfigAspects {
         ThaumcraftApi.registerEntityTag("minecraft:villager", new AspectList().add(Aspect.MAN, 15));
         ThaumcraftApi.registerEntityTag("minecraft:iron_golem", new AspectList().add(Aspect.METAL, 15).add(Aspect.MAN, 5).add(Aspect.MECHANISM, 5).add(Aspect.MAGIC, 5));
         ThaumcraftApi.registerEntityTag("minecraft:end_crystal", new AspectList().add(Aspect.ELDRITCH, 15).add(Aspect.AURA, 15).add(Aspect.LIFE, 15));
-        // ThaumcraftApi.registerEntityTag("minecraft:item_frame", new AspectList().add(Aspect.SENSES, 5).add(Aspect.CRAFT, 5));
-        // ThaumcraftApi.registerEntityTag("minecraft:painting", new AspectList().add(Aspect.SENSES, 10).add(Aspect.CRAFT, 5));
+        ThaumcraftApi.registerEntityTag("minecraft:item_frame", new AspectList().add(Aspect.SENSES, 5).add(Aspect.CRAFT, 5));
+        ThaumcraftApi.registerEntityTag("minecraft:painting", new AspectList().add(Aspect.SENSES, 10).add(Aspect.CRAFT, 5));
         ThaumcraftApi.registerEntityTag("minecraft:guardian", new AspectList().add(Aspect.BEAST, 10).add(Aspect.ELDRITCH, 10).add(Aspect.WATER, 10));
         ThaumcraftApi.registerEntityTag("minecraft:elder_guardian", new AspectList().add(Aspect.BEAST, 10).add(Aspect.ELDRITCH, 15).add(Aspect.WATER, 15));
         ThaumcraftApi.registerEntityTag("minecraft:rabbit", new AspectList().add(Aspect.BEAST, 5).add(Aspect.EARTH, 5).add(Aspect.MOTION, 5));
@@ -82,12 +85,20 @@ public class ConfigAspects {
         ThaumcraftApi.registerEntityTag("thaumcraft:flux_rift", new AspectList().add(Aspect.FLUX, 20).add(Aspect.ELDRITCH, 20).add(Aspect.AURA, 20));
         ThaumcraftApi.registerEntityTag("thaumcraft:firebat", new AspectList().add(Aspect.BEAST, 5).add(Aspect.FLIGHT, 5).add(Aspect.FIRE, 10));
         ThaumcraftApi.registerEntityTag("thaumcraft:pech", new AspectList().add(Aspect.MAN, 10).add(Aspect.AURA, 5).add(Aspect.EXCHANGE, 10));
+        // BETA26 PechType variants (0/1/2). The entity persists PechType as a byte tag, so the
+        // filters are byte-typed; the last matching variant wins over the unfiltered base entry.
+        ThaumcraftApi.registerEntityTag("thaumcraft:pech", new AspectList().add(Aspect.MAN, 10).add(Aspect.AURA, 5).add(Aspect.EXCHANGE, 10).add(Aspect.DESIRE, 5), new ThaumcraftApi.EntityTagsNBT("PechType", (byte) 0));
+        ThaumcraftApi.registerEntityTag("thaumcraft:pech", new AspectList().add(Aspect.MAN, 10).add(Aspect.AURA, 5).add(Aspect.EXCHANGE, 10).add(Aspect.AVERSION, 5), new ThaumcraftApi.EntityTagsNBT("PechType", (byte) 1));
+        ThaumcraftApi.registerEntityTag("thaumcraft:pech", new AspectList().add(Aspect.MAN, 10).add(Aspect.AURA, 5).add(Aspect.EXCHANGE, 10).add(Aspect.MAGIC, 5), new ThaumcraftApi.EntityTagsNBT("PechType", (byte) 2));
         ThaumcraftApi.registerEntityTag("thaumcraft:thaumic_slime", new AspectList().add(Aspect.LIFE, 5).add(Aspect.WATER, 5).add(Aspect.FLUX, 5).add(Aspect.ALCHEMY, 5));
         ThaumcraftApi.registerEntityTag("thaumcraft:brainy_zombie", new AspectList().add(Aspect.UNDEAD, 20).add(Aspect.MAN, 10).add(Aspect.MIND, 5).add(Aspect.AVERSION, 5));
         ThaumcraftApi.registerEntityTag("thaumcraft:giant_brainy_zombie", new AspectList().add(Aspect.UNDEAD, 25).add(Aspect.MAN, 15).add(Aspect.MIND, 5).add(Aspect.AVERSION, 10));
         ThaumcraftApi.registerEntityTag("thaumcraft:taintacle", new AspectList().add(Aspect.FLUX, 15).add(Aspect.BEAST, 10));
         ThaumcraftApi.registerEntityTag("thaumcraft:taint_seed", new AspectList().add(Aspect.FLUX, 20).add(Aspect.AURA, 10).add(Aspect.PLANT, 5));
         ThaumcraftApi.registerEntityTag("thaumcraft:taint_seed_prime", new AspectList().add(Aspect.FLUX, 25).add(Aspect.AURA, 15).add(Aspect.PLANT, 5));
+        // Second BETA26 registration for the same ids: last-match-wins makes these the effective lookup values.
+        ThaumcraftApi.registerEntityTag("thaumcraft:taint_seed", new AspectList().add(Aspect.PLANT, 20).add(Aspect.BEAST, 20).add(Aspect.FLUX, 20));
+        ThaumcraftApi.registerEntityTag("thaumcraft:taint_seed_prime", new AspectList().add(Aspect.PLANT, 30).add(Aspect.BEAST, 30).add(Aspect.FLUX, 30));
         ThaumcraftApi.registerEntityTag("thaumcraft:taintacle_small", new AspectList().add(Aspect.FLUX, 5).add(Aspect.BEAST, 5));
         ThaumcraftApi.registerEntityTag("thaumcraft:taint_swarm", new AspectList().add(Aspect.FLUX, 15).add(Aspect.AIR, 5));
         ThaumcraftApi.registerEntityTag("thaumcraft:mind_spider", new AspectList().add(Aspect.FLUX, 5).add(Aspect.FIRE, 5));
@@ -102,6 +113,11 @@ public class ConfigAspects {
         ThaumcraftApi.registerEntityTag("thaumcraft:taintacle_giant", new AspectList().add(Aspect.ELDRITCH, 40).add(Aspect.BEAST, 40).add(Aspect.FLUX, 40));
         ThaumcraftApi.registerEntityTag("thaumcraft:golem", new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.MAN, 10).add(Aspect.MOTION, 10));
         ThaumcraftApi.registerEntityTag("thaumcraft:wisp", new AspectList().add(Aspect.AURA, 10).add(Aspect.FLIGHT, 5));
+        // BETA26 per-aspect variants: the wisp's own tag at 5 plus aura 5 and flight 5, keyed on the port's persisted WispType.
+        // The unfiltered entry above remains the port's documented fallback for a typeless wisp (BETA26 resolves null instead).
+        for (Aspect tag : Aspect.aspects.values()) {
+            ThaumcraftApi.registerEntityTag("thaumcraft:wisp", new AspectList().add(tag, 5).add(Aspect.AURA, 5).add(Aspect.FLIGHT, 5), new ThaumcraftApi.EntityTagsNBT("WispType", tag.getTag()));
+        }
     }
     
     private static void registerItemAspects() {

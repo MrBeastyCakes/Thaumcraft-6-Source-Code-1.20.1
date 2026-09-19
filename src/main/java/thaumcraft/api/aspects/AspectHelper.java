@@ -1,13 +1,14 @@
 package thaumcraft.api.aspects;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -30,10 +31,10 @@ public class AspectHelper {
     private static final AspectRegistrationStore OBJECT_TAGS = new AspectRegistrationStore();
     
     /**
-     * Registry of aspects for entities
-     * Key is the entity type ResourceLocation string
+     * The single ordered store behind entity aspect attribution. Every registration entry point
+     * feeds this store and the entity lookup reads only from it.
      */
-    private static Map<String, AspectList> entityTags = new HashMap<>();
+    private static final EntityAspectStore ENTITY_TAGS = new EntityAspectStore();
 
     /**
      * Returns a fresh aspect list containing at most seven weighted aspect types.
@@ -191,30 +192,64 @@ public class AspectHelper {
     }
     
     /**
-     * Register aspects for an entity type
+     * Register aspects for an entity type.
+     *
+     * <p>This is the unfiltered shorthand of {@link #registerEntityTag(String, AspectList, ThaumcraftApi.EntityTagsNBT...)}
+     * and feeds the same store. Registrations are kept in order and the last matching entry wins.
+     *
      * @param entityId the entity type's resource location
      * @param aspects the aspects to associate
      */
     public static void registerEntityTag(ResourceLocation entityId, AspectList aspects) {
         if (entityId != null && aspects != null) {
-            entityTags.put(entityId.toString(), aspects);
+            ENTITY_TAGS.register(entityId.toString(), aspects, null);
         }
     }
-    
+
     /**
-     * Get the aspects associated with an entity type
-     * @param entityId the entity type resource location
-     * @return the aspects for this entity, or null if none
+     * Register aspects for an entity type with optional NBT-variant filters.
+     *
+     * <p>Public so that {@code ThaumcraftApi.registerEntityTag} can feed the one store the lookup
+     * reads. A registration without filters always matches; a filtered registration matches only
+     * when every filter is present in the entity's serialized data with the identical NBT type and
+     * value (see {@link ThaumcraftApi.EntityTagsNBT}).
+     *
+     * @param entityName the entity's registry name (e.g., "minecraft:zombie")
+     * @param aspects the aspects to associate
+     * @param nbt optional NBT filters to differentiate mob variants
+     */
+    public static void registerEntityTag(String entityName, AspectList aspects, ThaumcraftApi.EntityTagsNBT... nbt) {
+        if (entityName != null && aspects != null) {
+            ENTITY_TAGS.register(entityName, aspects, nbt);
+        }
+    }
+
+    /**
+     * Get the aspects associated with an entity type without instance data.
+     *
+     * <p>NBT-variant registrations cannot be evaluated without an entity, so this instance-free
+     * projection returns the last registration for the id that has no filters, or null when only
+     * variant registrations exist. The result is an owned copy.
+     *
+     * @param entityId the entity type's resource location
+     * @return the aspects for this entity type, or null if none
      */
     public static AspectList getEntityAspects(ResourceLocation entityId) {
         if (entityId == null) {
             return null;
         }
-        return entityTags.get(entityId.toString());
+        return ENTITY_TAGS.lookup(entityId.toString(), (CompoundTag) null);
     }
-    
+
     /**
-     * Get the aspects associated with an entity instance
+     * Get the aspects associated with an entity instance.
+     *
+     * <p>Players always receive a fresh list of MAN 4 plus three deterministic name-hash draws of
+     * 15 from the registered aspect pool. Every other entity resolves through the registration
+     * store in registration order; the last registration whose NBT filters all match the entity's
+     * serialized data (without the registry id) wins. The result is an owned copy, and mutating it
+     * never affects the store or later lookups.
+     *
      * @param entity the entity to query
      * @return the aspects for this entity, or null if none
      */
@@ -222,8 +257,33 @@ public class AspectHelper {
         if (entity == null) {
             return null;
         }
+        if (entity instanceof Player player) {
+            return playerAspects(player.getName().getString());
+        }
         ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
-        return getEntityAspects(entityId);
+        if (entityId == null) {
+            return null;
+        }
+        return ENTITY_TAGS.lookupInstance(entityId.toString(), () -> entity.saveWithoutId(new CompoundTag()));
+    }
+
+    /**
+     * The BETA26 player rule: MAN 4 plus three aspects drawn at 15 each from the registered aspect
+     * pool, selected by {@code new Random(name.hashCode())} so the picks are stable per name.
+     * Pure and package-private so the rule is unit-testable without an entity.
+     */
+    static AspectList playerAspects(String name) {
+        AspectList tags = new AspectList();
+        tags.add(Aspect.MAN, 4);
+        Aspect[] pool = Aspect.aspects.values().toArray(new Aspect[0]);
+        if (name == null || pool.length == 0) {
+            return tags;
+        }
+        Random random = new Random(name.hashCode());
+        tags.add(pool[random.nextInt(pool.length)], 15);
+        tags.add(pool[random.nextInt(pool.length)], 15);
+        tags.add(pool[random.nextInt(pool.length)], 15);
+        return tags;
     }
     
     /**
@@ -265,7 +325,7 @@ public class AspectHelper {
      */
     public static void clearTags() {
         OBJECT_TAGS.clear();
-        entityTags.clear();
+        ENTITY_TAGS.clear();
     }
     
     /**
@@ -276,9 +336,10 @@ public class AspectHelper {
     }
     
     /**
-     * Get the number of registered entity tags
+     * Get the number of stored entity registrations, including NBT-variant entries and repeated
+     * registrations for the same entity id.
      */
     public static int getEntityTagCount() {
-        return entityTags.size();
+        return ENTITY_TAGS.size();
     }
 }

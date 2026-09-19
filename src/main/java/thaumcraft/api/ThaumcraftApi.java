@@ -339,6 +339,10 @@ public class ThaumcraftApi {
     
     /**
      * NBT tag filter for entity aspect registration.
+     *
+     * <p>The value expresses the exact NBT tag type that must be present on the entity, so a
+     * byte-typed value (for example {@code (byte) 1}, or {@code true} for a boolean flag Minecraft
+     * persists as a byte) never matches an int tag and vice versa. Tag instances are used as-is.
      */
     public static class EntityTagsNBT {
         public String name;
@@ -360,8 +364,8 @@ public class ThaumcraftApi {
         
         public EntityTags(String entityName, AspectList aspects, EntityTagsNBT... nbts) {
             this.entityName = entityName;
-            this.nbts = nbts;
             this.aspects = aspects;
+            this.nbts = nbts;
         }
     }
     
@@ -369,17 +373,16 @@ public class ThaumcraftApi {
      * This is used to add aspects to entities which you can then scan using a thaumometer.
      * Also used to calculate vis drops from mobs.
      * 
+     * <p>Registrations are appended in call order to the one store the entity lookup reads; a
+     * registration without filters always matches and a filtered registration matches only on the
+     * identical NBT tag type and value, so the last matching registration wins.
+     *
      * @param entityName the entity's registry name (e.g., "minecraft:zombie")
      * @param aspects the aspects to associate
      * @param nbt optional NBT filters to differentiate mob variants
      */
     public static void registerEntityTag(String entityName, AspectList aspects, EntityTagsNBT... nbt) {
-        CommonInternals.scanEntities.add(new EntityTags(entityName, aspects, nbt));
-        if (nbt == null || nbt.length == 0) {
-            try {
-                AspectHelper.registerEntityTag(new ResourceLocation(entityName), aspects);
-            } catch (Exception e) {}
-        }
+        AspectHelper.registerEntityTag(entityName, aspects, nbt);
     }
     
     // ==================== WARP ====================

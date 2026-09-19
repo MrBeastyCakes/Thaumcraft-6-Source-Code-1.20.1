@@ -3,7 +3,6 @@ package thaumcraft.api.internal;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import thaumcraft.api.ThaumcraftApi.EntityTags;
 import thaumcraft.api.ThaumcraftApi.SmeltBonus;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.IThaumcraftRecipe;
@@ -24,9 +23,6 @@ public class CommonInternals {
     
     /** Research JSON file locations registered by addons */
     public static Map<String, ResourceLocation> jsonLocs = new HashMap<>();
-    
-    /** Entity aspect tags for scanning */
-    public static List<EntityTags> scanEntities = new ArrayList<>();
     
     /** Thaumcraft crafting recipe catalog (infusion, crucible, etc.) */
     public static Map<ResourceLocation, IThaumcraftRecipe> craftingRecipeCatalog = new HashMap<>();
