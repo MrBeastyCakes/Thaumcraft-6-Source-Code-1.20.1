@@ -175,6 +175,26 @@ Recorded by: subagent builder (read-only reference-evidence pass); the jar diges
 Date recorded: 2026-09-18
 ```
 
+### REF-0009 — bytecode spot-check of container contents precedence (inspection, not a capture)
+
+Reference identifier: REF-0009 (inspection record, not a capture; role: rank-2 bytecode corroboration of the container branch described by REF-0001)
+
+Minecraft version: 1.12.2
+
+Forge version: not exercised; artifact inspection only
+
+Thaumcraft version: 6.1.BETA26 (jar digest equals REF-0002's: `9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f`)
+
+Artifact location: same local released jar recorded by REF-0002; path retained locally and not distributed
+
+Inspection scenario: read-only `javap -p -c` inspection of `ThaumcraftCraftingManager.getBonusTags` and `ItemGenericEssentiaContainer.ignoreContainedAspects`. The shipped lookup checks the item-container interface and its opt-out flag, removes the incoming base contribution for a participating container, reads that queried stack's contained aspects, and removes nonpositive contained entries before later processing. The shipped generic item-container implementation returns false for the opt-out flag. This corroborates only the contents-precedence branch; it is not observed gameplay and does not establish numeric seed tables or downstream consumer behavior.
+
+Recorded by: Codex FND-04 container-lookup builder
+
+Date recorded: 2026-09-19
+
+Related evidence: [fnd-04-container-lookup-evidence.md](fnd-04-container-lookup-evidence.md)
+
 ## Tree-hash convention (REF-0001)
 
 A source tree has no single file digest, so `REF-0001` uses a tree hash with the convention below. Any future re-verification of `REF-0001` must use the same convention; the digest is over the sorted hash lines of every file, not over any single file.

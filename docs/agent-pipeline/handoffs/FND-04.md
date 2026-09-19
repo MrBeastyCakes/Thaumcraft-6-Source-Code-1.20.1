@@ -1,0 +1,12 @@
+Work item: FND-04
+Lane: FND
+Worktree or branch: codex/fnd-04-aspect-lookup
+Commit: first slice independently approved; commit SHA recorded after commit
+Scope: Full item remains authoritative aspect attribution, containers and lookup for scanning/Essentia. The first bounded slice restores non-ignored container contents precedence in shared item lookup without base-tag pollution or shared-data mutation.
+Parity reference: REF-0009 corroborates REF-0001 item16 against the REF-0002 shipped BETA26 jar. See fnd-04-container-lookup-evidence.md; rank-2 artifact inspection, rank-1 observation pending.
+Source evidence: ThaumcraftCraftingManager.getObjectTags/getBonusTags; IEssentiaContainerItem; ItemVisCrystal; ConfigAspects seeded crystal registrations.
+Automated evidence: Builder reproduced four failures in seven GameTests against old lookup, then seven passing with the fix; compileJava test build succeeded with four JUnit tests and no failures. Production JAR excludes GameTest fixtures. Independent critic approved specification and quality, independently reran compileJava test build --rerun-tasks (4/4 JUnit) and runGameTestServer (7/7), and passed package isolation, map, pipeline, and whitespace checks. Tracked slice evidence preserves commands and limits.
+Runtime evidence: Automated GameTest server only. No container lookup gameplay observation yet. FND-01 manual feature acceptance remains pending; no EULA authorization.
+Files changed: src/main/java/thaumcraft/common/lib/crafting/ThaumcraftCraftingManager.java; src/gametest/java/thaumcraft/gametest/AspectLookupGameTests.java; docs/agent-pipeline/fnd-04-container-lookup-evidence.md; docs/agent-pipeline/fnd-04-evidence.md; docs/agent-pipeline/reference-catalog.md. Related coordinator updates: README.md; docs/agent-pipeline/README.md; docs/agent-pipeline/active-claims.md; docs/agent-pipeline/budget-hold.md; docs/agent-pipeline/deferred-issues.md; docs/agent-pipeline/parity-evidence-index.md; docs/agent-pipeline/parity-workboard.md; this handoff.
+Dependencies or follow-ups: Full attribution including recipe generation and entity sources, concrete container capacities, shared scanning/smelter consumers, rank-1 reference confirmation, and applicable fresh-world/reload/multiplayer acceptance remain required. No dependent item released by this slice.
+Coordinator disposition: ACTIVE; first slice independently approved, no full parity or DONE claim, provisional non-archived handoff.

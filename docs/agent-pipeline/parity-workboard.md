@@ -13,7 +13,7 @@
 
 ## Current Development State
 
-The project owner lifted the implementation hold on 2026-09-19. `FND-01` remains `VERIFYING`; all five manual runtime cases remain pending. The independently reviewed `ae9a183` harness checkpoint is a narrow implementation-start gate for `FND-04`, which is `READY` but unclaimed. Every other non-complete item retains its existing dependency. See [foundation-start-gate-2026-09-19.md](foundation-start-gate-2026-09-19.md) and `deferred-issues.md`.
+The project owner lifted the implementation hold on 2026-09-19. `FND-01` remains `VERIFYING`; all five manual runtime cases remain pending. The independently reviewed `ae9a183` harness checkpoint is a narrow implementation-start gate for `FND-04`, which is `ACTIVE` under a separate coordinator-recorded claim. Every other non-complete item retains its existing dependency. See [foundation-start-gate-2026-09-19.md](foundation-start-gate-2026-09-19.md) and `deferred-issues.md`.
 
 ## Dependency Spine
 
@@ -48,7 +48,7 @@ flowchart TD
 | FND-01 | VERIFYING | Establish unit-test and GameTest conventions, fixtures, and a fresh-world/reload/server smoke suite. | `src/test/`, Gradle run configs | `test` contains tests; focused GameTests run; documented local command sequence passes. | handoffs/FND-01.md |
 | FND-02 | BLOCKED: FND-01 | Audit every registered block entity, menu, renderer, capability, and packet against factory/ticker/side ownership. | `init/`, `common/blocks`, `common/tiles`, `common/lib` | Inventory names each missing or mismatched integration point; regressions have tests. | — |
 | FND-03 | DONE | Created the BETA26 parity evidence index for systems under repair. | `docs/agent-pipeline/parity-evidence-index.md` | Reference hierarchy, evidence template, and initial evidence queue are documented. | handoffs/FND-03.md |
-| FND-04 | READY | Establish authoritative aspect attribution, containers, and lookup shared by scanning and Essentia. | `api/aspects`, `common/lib`, `common/tiles/essentia` | Item aspects, container capacities, and shared lookup resolve consistently for scanning and Essentia handling with unit coverage. | — |
+| FND-04 | ACTIVE | Establish authoritative aspect attribution, containers, and lookup shared by scanning and Essentia. | `api/aspects`, `common/lib`, `common/tiles/essentia` | Item aspects, container capacities, and shared lookup resolve consistently for scanning and Essentia handling with unit coverage. | handoffs/FND-04.md |
 
 ## Research and Early Progression — `RSR`
 

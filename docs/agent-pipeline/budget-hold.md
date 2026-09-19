@@ -10,7 +10,7 @@ The project owner is the release authority for this port. Only the project owner
 
 ## Current development state
 
-Implementation work may resume in dependency order under the existing owner hold lift. `FND-01` is verifying under the coordinator-recorded claim, with all five manual runtime cases still pending. Based on the independently reviewed `ae9a183` automated harness checkpoint, the coordinator records only FND-04 as `READY` for scheduling and claiming; the checkpoint does not complete FND-01 or release any other FND-01 dependency. A coordinator must record a claim in `active-claims.md` before FND-04 implementation begins.
+Implementation work may resume in dependency order under the existing owner hold lift. `FND-01` is verifying under the coordinator-recorded claim, with all five manual runtime cases still pending. Based on the independently reviewed `ae9a183` automated harness checkpoint, the coordinator made only FND-04 ready and has now recorded its active claim; the checkpoint does not complete FND-01 or release any other FND-01 dependency. Its claim is recorded in `active-claims.md`; later claim changes remain coordinator-controlled.
 
 The hold lift does not authorize Minecraft EULA acceptance or public distribution. Those actions remain reserved to the project owner, and public distribution additionally remains blocked pending written rights-holder permission.
 

@@ -281,9 +281,19 @@ public class ThaumcraftCraftingManager {
         if (stack == null || stack.isEmpty()) {
             return result;
         }
-        
-        // Copy source tags if present
-        if (sourceTags != null) {
+
+        net.minecraft.world.item.Item item = stack.getItem();
+        if (item instanceof IEssentiaContainerItem container && !container.ignoreContainedAspects()) {
+            AspectList contained = container.getAspects(stack);
+            if (contained != null) {
+                for (Aspect aspect : contained.getAspects()) {
+                    int amount = contained.getAmount(aspect);
+                    if (aspect != null && amount > 0) {
+                        result.add(aspect, amount);
+                    }
+                }
+            }
+        } else if (sourceTags != null) {
             for (Aspect aspect : sourceTags.getAspects()) {
                 if (aspect != null) {
                     result.add(aspect, sourceTags.getAmount(aspect));
@@ -292,8 +302,6 @@ public class ThaumcraftCraftingManager {
         }
         
         // Add aspects based on item type
-        net.minecraft.world.item.Item item = stack.getItem();
-        
         // Armor
         if (item instanceof net.minecraft.world.item.ArmorItem armorItem) {
             int defense = armorItem.getDefense();

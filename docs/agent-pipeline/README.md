@@ -2,7 +2,7 @@
 
 This directory is the control surface for turning the source tree into a full Thaumcraft 6.1.BETA26 parity port for Minecraft 1.20.1 Forge.
 
-Current workboard state: `READY=1`, `ACTIVE=0`, `VERIFYING=1`, `DONE=1`, `DEFERRED=0`, `BLOCKED=29`. The sole ready item is FND-04 under the narrow reviewed foundation start gate; this is not full FND-01 runtime acceptance.
+Current workboard state: `READY=0`, `ACTIVE=1`, `VERIFYING=1`, `DONE=1`, `DEFERRED=0`, `BLOCKED=29`. The sole active implementation item is FND-04 under the narrow reviewed foundation start gate; this is not full FND-01 runtime acceptance.
 
 The pipeline is intentionally small:
 

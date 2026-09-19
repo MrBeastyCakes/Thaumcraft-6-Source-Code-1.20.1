@@ -4,7 +4,7 @@ This ledger is the sole current-owner record for work items. It shows who is tou
 
 ## Current State
 
-The project owner lifted the implementation hold on 2026-09-19. `FND-01` is verifying only its remaining manual runtime acceptance under the claim below. The automated checkpoint passed independent review. FND-04 is `READY` under the narrow start gate but is not claimed; the coordinator owns status and handoff updates.
+The project owner lifted the implementation hold on 2026-09-19. `FND-01` is verifying only its remaining manual runtime acceptance under the claim below. The automated checkpoint passed independent review. FND-04 is `ACTIVE` under its separate claim and reviewed start gate; the coordinator owns status and handoff updates.
 
 ## Claim Rules
 
@@ -16,4 +16,5 @@ The project owner lifted the implementation hold on 2026-09-19. `FND-01` is veri
 
 | Work item | Lane | Owner | Worktree or branch | Intended paths | Claimed | Last update | Dependency status | Release condition |
 |---|---|---|---|---|---|---|---|---|
-| FND-01 | FND | /root (coordinator; manual acceptance pending) | codex/fnd-01-test-foundation | FND-01 manual runtime evidence and directly related coordination documents only | 2026-09-19 | 2026-09-19 | Automated checkpoint reviewed; five manual cases remain | All five manual runtime cases recorded as passing; then archive handoff and release claim |
+| FND-01 | FND | /root (coordinator; manual acceptance pending) | codex/fnd-04-aspect-lookup | FND-01 manual runtime evidence and directly related coordination documents only | 2026-09-19 | 2026-09-19 | Automated checkpoint reviewed; five manual cases remain | All five manual runtime cases recorded as passing; then archive handoff and release claim |
+| FND-04 | FND | /root (coordinator; first slice approved) | codex/fnd-04-aspect-lookup | ThaumcraftCraftingManager.java; src/gametest; src/test; fnd-04 container/reference evidence; reference-catalog.md; filesystem-map.md | 2026-09-19 | 2026-09-19 | Reviewed harness start gate 5acd3c2; first container-lookup slice independently approved | Independent slice review; full item remains open until all acceptance evidence |
