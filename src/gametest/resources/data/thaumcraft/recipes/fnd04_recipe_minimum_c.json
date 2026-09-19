@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thaumcraft:fnd04_recipe_earth1"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_minimum",
+    "count": 1
+  }
+}

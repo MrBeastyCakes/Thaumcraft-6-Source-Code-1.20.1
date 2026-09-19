@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      {
+        "item": "thaumcraft:fnd04_recipe_seed"
+      },
+      {
+        "item": "thaumcraft:fnd04_recipe_earth1"
+      }
+    ]
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_alternative",
+    "count": 1
+  }
+}

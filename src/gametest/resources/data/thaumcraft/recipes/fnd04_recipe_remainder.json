@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thaumcraft:fnd04_recipe_metal8"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_remainder",
+    "count": 2
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thaumcraft:fnd04_recipe_magic5"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_tie",
+    "count": 1
+  }
+}

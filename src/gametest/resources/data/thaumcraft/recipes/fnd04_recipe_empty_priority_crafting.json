@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thaumcraft:fnd04_recipe_water"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_empty_priority",
+    "count": 1
+  }
+}

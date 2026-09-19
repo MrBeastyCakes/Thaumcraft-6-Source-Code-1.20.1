@@ -209,6 +209,10 @@ public class ThaumcraftCraftingManager {
      * @return The AspectList for this item, never null
      */
     public static AspectList getObjectTags(ItemStack stack) {
+        return getObjectTags(stack, new RecipeAspectResolver());
+    }
+
+    static AspectList getObjectTags(ItemStack stack, RecipeAspectResolver query) {
         if (stack == null || stack.isEmpty()) {
             return new AspectList();
         }
@@ -225,7 +229,7 @@ public class ThaumcraftCraftingManager {
         
         // If still not found, generate from recipes
         if (aspects == null) {
-            aspects = generateTags(stack);
+            aspects = query.generate(stack);
         }
         
         // Add bonus aspects from enchantments, tools, armor, etc.
@@ -255,21 +259,7 @@ public class ThaumcraftCraftingManager {
      * @return The generated AspectList
      */
     public static AspectList generateTags(ItemStack stack) {
-        // TODO: Implement full aspect generation from crafting recipes
-        // This would analyze all recipes that produce this item
-        // and sum up the aspects of the ingredients, divided by output count
-        
-        // For now, return a minimal aspect list based on item properties
-        AspectList aspects = new AspectList();
-        
-        if (stack == null || stack.isEmpty()) {
-            return aspects;
-        }
-        
-        // Basic aspect for all items
-        aspects.add(Aspect.ENTROPY, 1);
-        
-        return aspects;
+        return new RecipeAspectResolver().generate(stack);
     }
     
     /**

@@ -1,0 +1,12 @@
+{
+  "type": "thaumcraft:arcane_workbench_shapeless",
+  "vis": 3,
+  "ingredients": [
+    {
+      "item": "thaumcraft:fnd04_recipe_metal8"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_arcane_remainder"
+  }
+}

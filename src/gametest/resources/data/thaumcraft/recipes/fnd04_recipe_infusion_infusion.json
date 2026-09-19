@@ -1,0 +1,19 @@
+{
+  "type": "thaumcraft:infusion",
+  "ingredients": [],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_infusion",
+    "count": 2
+  },
+  "central": {
+    "item": "thaumcraft:fnd04_recipe_magic3"
+  },
+  "components": [
+    {
+      "item": "thaumcraft:fnd04_recipe_magic5"
+    }
+  ],
+  "aspects": {
+    "praecantatio": 16
+  }
+}

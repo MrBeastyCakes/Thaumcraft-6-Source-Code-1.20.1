@@ -76,6 +76,7 @@ public final class AspectTagGameTests {
     public static void actualReloadRebindsRetainedTagRules(GameTestHelper helper) {
         assertFixtureTagMembership(helper, true, false, "initial");
         assertFixtureState(helper, true, false);
+        RecipeAspectGameTests.assertReloadRecipe(helper, false);
         MinecraftServer server = helper.getLevel().getServer();
         List<String> originalSelection = List.copyOf(server.getPackRepository().getSelectedIds());
         Path root = server.getWorldPath(LevelResource.DATAPACK_DIR).toAbsolutePath().normalize();
@@ -101,6 +102,7 @@ public final class AspectTagGameTests {
             try {
                 assertFixtureTagMembership(helper, false, true, "replacement");
                 assertFixtureState(helper, false, true);
+                RecipeAspectGameTests.assertReloadRecipe(helper, true);
                 LOGGER.info("FND-04 replacement reload verified: A direct, B tag, C direct");
                 restoreAndVerify(helper, server, originalSelection, root, pack);
             } catch (Throwable failure) {
@@ -119,6 +121,7 @@ public final class AspectTagGameTests {
             try {
                 assertFixtureTagMembership(helper, true, false, "restored");
                 assertFixtureState(helper, true, false);
+                RecipeAspectGameTests.assertReloadRecipe(helper, false);
                 LOGGER.info("FND-04 restoration reload verified: A tag, B absent, C direct");
                 String cleanupFailure = deleteOwnedPack(root, pack);
                 server.getPackRepository().reload();
@@ -185,6 +188,11 @@ public final class AspectTagGameTests {
     }
 
     private static void writeReplacementPack(Path pack) throws IOException {
+        Path recipe = pack.resolve("data/thaumcraft/recipes/fnd04_recipe_reload_output.json");
+        Files.createDirectories(recipe.getParent());
+        Files.writeString(recipe, """
+                {"type":"minecraft:crafting_shapeless","ingredients":[{"item":"thaumcraft:fnd04_recipe_water"}],"result":{"item":"thaumcraft:fnd04_recipe_reload_output","count":1}}
+                """);
         Path tag = pack.resolve("data/thaumcraft/tags/items/fnd04_reload.json");
         Files.createDirectories(tag.getParent());
         Files.writeString(pack.resolve("pack.mcmeta"),

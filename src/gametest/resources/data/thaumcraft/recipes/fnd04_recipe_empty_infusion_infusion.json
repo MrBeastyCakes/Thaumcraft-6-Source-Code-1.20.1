@@ -1,0 +1,13 @@
+{
+  "type": "thaumcraft:infusion",
+  "ingredients": [],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_empty_infusion",
+    "count": 2
+  },
+  "central": {
+    "item": "thaumcraft:fnd04_recipe_none"
+  },
+  "components": [],
+  "aspects": {}
+}

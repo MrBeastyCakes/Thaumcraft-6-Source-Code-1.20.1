@@ -233,6 +233,7 @@ public class Thaumcraft {
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            thaumcraft.client.ClientAspectRecipeSource.install();
             // Some client setup code
             LOGGER.info("Thaumcraft client setup");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());

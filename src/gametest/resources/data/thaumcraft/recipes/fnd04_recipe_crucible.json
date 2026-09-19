@@ -1,0 +1,15 @@
+{
+  "type": "thaumcraft:crucible",
+  "ingredients": [],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_crucible",
+    "count": 3
+  },
+  "catalyst": {
+    "item": "thaumcraft:fnd04_recipe_magic3"
+  },
+  "aspects": {
+    "praecantatio": 9,
+    "ignis": 8
+  }
+}

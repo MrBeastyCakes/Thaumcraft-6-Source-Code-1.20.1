@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thaumcraft:fnd04_recipe_cycle_a"
+    },
+    {
+      "item": "thaumcraft:fnd04_recipe_cycle_b"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_cycle_siblings"
+  }
+}

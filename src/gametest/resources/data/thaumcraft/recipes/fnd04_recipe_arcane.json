@@ -1,0 +1,16 @@
+{
+  "type": "thaumcraft:arcane_workbench_shapeless",
+  "ingredients": [
+    {
+      "item": "thaumcraft:fnd04_recipe_seed"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_arcane",
+    "count": 2
+  },
+  "vis": 30,
+  "crystals": {
+    "aer": 50
+  }
+}

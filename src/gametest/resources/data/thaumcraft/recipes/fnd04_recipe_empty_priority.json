@@ -1,0 +1,12 @@
+{
+  "type": "thaumcraft:crucible",
+  "ingredients": [],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_empty_priority",
+    "count": 3
+  },
+  "catalyst": {
+    "item": "thaumcraft:fnd04_recipe_none"
+  },
+  "aspects": {}
+}

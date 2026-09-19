@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_shaped",
+    "count": 1
+  },
+  "pattern": [
+    "E E"
+  ],
+  "key": {
+    "E": {
+      "item": "thaumcraft:fnd04_recipe_seed"
+    }
+  }
+}

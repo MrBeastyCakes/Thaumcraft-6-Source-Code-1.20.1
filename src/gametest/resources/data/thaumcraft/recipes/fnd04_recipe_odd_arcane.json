@@ -1,0 +1,13 @@
+{
+  "type": "thaumcraft:arcane_workbench_shapeless",
+  "ingredients": [
+    {
+      "item": "thaumcraft:fnd04_recipe_earth1"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:fnd04_recipe_odd_arcane",
+    "count": 1
+  },
+  "vis": 3
+}
