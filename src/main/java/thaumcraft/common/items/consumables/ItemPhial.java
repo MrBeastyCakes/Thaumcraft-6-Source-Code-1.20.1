@@ -19,6 +19,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectSource;
 import thaumcraft.common.items.ItemEssentiaContainer;
+import thaumcraft.common.tiles.essentia.TileJar;
 import thaumcraft.init.ModBlocks;
 import thaumcraft.init.ModItems;
 
@@ -150,19 +151,32 @@ public class ItemPhial extends ItemEssentiaContainer {
                             return InteractionResult.SUCCESS;
                         }
                         
-                        int added = source.addToContainer(aspect, amount);
-                        if (added == 0) { // All added successfully
-                            heldStack.shrink(1);
-                            ItemStack emptyPhial = new ItemStack(ModItems.PHIAL_EMPTY.get());
-                            
-                            if (!player.getInventory().add(emptyPhial)) {
-                                level.addFreshEntity(new ItemEntity(level,
-                                        pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, emptyPhial));
-                            }
-                            
-                            level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.PLAYERS, 0.25f, 1.0f);
-                            return InteractionResult.CONSUME;
+                        // BETA26 refuses the transfer unless the whole phial fits the jar's
+                        // remaining capacity, and adds nothing in that case.
+                        if (source instanceof TileJar jar && jar.getAmount() > TileJar.CAPACITY - amount) {
+                            return InteractionResult.PASS;
                         }
+
+                        int leftover = source.addToContainer(aspect, amount);
+                        if (leftover != 0) {
+                            // A source that absorbed part of the phial is restored so the refusal
+                            // stays atomic: the phial is not consumed and no essentia is gained.
+                            int absorbed = amount - leftover;
+                            if (absorbed > 0) {
+                                source.takeFromContainer(aspect, absorbed);
+                            }
+                            return InteractionResult.PASS;
+                        }
+                        heldStack.shrink(1);
+                        ItemStack emptyPhial = new ItemStack(ModItems.PHIAL_EMPTY.get());
+
+                        if (!player.getInventory().add(emptyPhial)) {
+                            level.addFreshEntity(new ItemEntity(level,
+                                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, emptyPhial));
+                        }
+
+                        level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.PLAYERS, 0.25f, 1.0f);
+                        return InteractionResult.CONSUME;
                     }
                 }
             }

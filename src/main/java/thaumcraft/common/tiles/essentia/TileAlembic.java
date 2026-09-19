@@ -131,7 +131,9 @@ public class TileAlembic extends TileThaumcraft implements IAspectContainer, IEs
 
     @Override
     public boolean doesContainerAccept(Aspect tag) {
-        return aspectFilter == null || tag == aspectFilter;
+        // BETA26 TileAlembic answers the acceptance query unconditionally. The aspect filter is
+        // applied by addToContainer and by the alembic pull path, not by this query.
+        return true;
     }
 
     // ==================== IEssentiaTransport ====================

@@ -56,11 +56,8 @@ public class TileJarVoid extends TileJar {
     public int addToContainer(Aspect tag, int amt) {
         if (amt == 0) return 0;
 
-        // Check filter
-        if (aspectFilter != null && tag != aspectFilter) {
-            return amt; // Don't accept wrong aspect
-        }
-
+        // BETA26 void jars carry no filter gate in addToContainer: an empty void jar voids any
+        // aspect handed to it, and the filter only shapes the pull and query surface.
         // If jar is empty or has same aspect
         if (amount == 0 || tag == aspect) {
             aspect = tag;
@@ -92,12 +89,10 @@ public class TileJarVoid extends TileJar {
 
     @Override
     public int addEssentia(Aspect aspect, int amount, Direction face) {
-        if (canInputFrom(face)) {
-            // Void jar accepts all essentia (voids overflow)
-            addToContainer(aspect, amount);
-            return amount; // Report all as added (even voided)
-        }
-        return 0;
+        // BETA26 inherits TileJarFillable.addEssentia here: report only what addToContainer
+        // consumed. A full void jar returns a refused aspect untouched, so nothing is reported
+        // as added for it, while accepted units (including voided overflow) are reported.
+        return canInputFrom(face) ? (amount - addToContainer(aspect, amount)) : 0;
     }
 
     // ==================== Higher Suction ====================
