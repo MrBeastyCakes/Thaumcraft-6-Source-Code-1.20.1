@@ -1,7 +1,7 @@
 Work item: FND-04
 Lane: FND
 Worktree or branch: codex/fnd-04-aspect-lookup
-Commit: first slice independently approved; commit SHA recorded after commit
+Commit: 30a58dc (first reviewed container-lookup slice; full item still active)
 Scope: Full item remains authoritative aspect attribution, containers and lookup for scanning/Essentia. The first bounded slice restores non-ignored container contents precedence in shared item lookup without base-tag pollution or shared-data mutation.
 Parity reference: REF-0009 corroborates REF-0001 item16 against the REF-0002 shipped BETA26 jar. See fnd-04-container-lookup-evidence.md; rank-2 artifact inspection, rank-1 observation pending.
 Source evidence: ThaumcraftCraftingManager.getObjectTags/getBonusTags; IEssentiaContainerItem; ItemVisCrystal; ConfigAspects seeded crystal registrations.
