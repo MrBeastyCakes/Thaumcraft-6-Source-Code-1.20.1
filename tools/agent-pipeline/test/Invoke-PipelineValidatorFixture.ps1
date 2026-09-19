@@ -45,7 +45,14 @@ $copiedItems = @(
     'src/main/resources'
 )
 
-$childPowerShell = Join-Path $PSHOME 'powershell.exe'
+if ($PSVersionTable.PSEdition -eq 'Core') {
+    $childPowerShell = Join-Path $PSHOME 'pwsh.exe'
+} else {
+    $childPowerShell = Join-Path $PSHOME 'powershell.exe'
+}
+if (-not (Test-Path -LiteralPath $childPowerShell -PathType Leaf)) {
+    throw "The child PowerShell executable for host edition '$($PSVersionTable.PSEdition)' is missing: $childPowerShell"
+}
 
 function Invoke-FixtureCase {
     param(

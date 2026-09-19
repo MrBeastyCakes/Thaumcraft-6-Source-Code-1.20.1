@@ -114,6 +114,6 @@ flowchart TD
 | ID | State | Outcome | Primary areas | Acceptance evidence | Handoff |
 |---|---|---|---|---|---|
 | REL-01 | BLOCKED: all gameplay lanes | Verify JEI/Curios contracts and configuration behavior. | compat, config, data | Supported combinations and optional behavior are documented and tested. | — |
-| REL-02 | BLOCKED: all gameplay lanes | Run long-play, dedicated-server, remote-client, reload, performance, dupe, and crash sweeps. | full repository | All reported defects have reproduction/verification evidence; no open parity blockers remain. | — |
-| REL-03 | BLOCKED: REL-02 | Produce private-play package and install guide. | build/docs | Reproducible JAR, exact versions, and clean install verification. | — |
+| REL-02 | BLOCKED: all gameplay lanes | Build a provisional private-play candidate from the exact revision under test, then run long-play, dedicated-server, remote-client, reload, performance, dupe, and crash sweeps against it. | full repository | The candidate identity and all reported defects have reproduction/verification evidence; no open parity blockers remain. The candidate is acceptance input, not the final package. | — |
+| REL-03 | BLOCKED: REL-02 | After REL-02 accepts the candidate revision, reproduce it as the final private-play package and write the install guide. | build/docs | The final JAR reproduces the accepted revision; exact versions and clean install verification are recorded. | — |
 | REL-04 | BLOCKED: written permission | Prepare public distribution materials only after rights are confirmed. | metadata/docs | Permission, attribution, license, and release channel are verified. | — |
