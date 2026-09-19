@@ -1,7 +1,7 @@
 Work item: FND-04
 Lane: FND
 Worktree or branch: codex/fnd-04-aspect-lookup
-Commit: 30a58dc (first reviewed container-lookup slice; full item still active)
+Commit: a83af2c (reviewed public-lookup slice); earlier container-lookup slice 30a58dc; full item still active
 Scope: Full item remains authoritative aspect attribution, containers and lookup for scanning/Essentia. The reviewed first slice restores non-ignored container contents precedence. The reviewed second slice routes the public helper through computed lookup while preserving a separate raw accessor for registration internals; independent review passed.
 Parity reference: REF-0009 corroborates REF-0001 item16 against the REF-0002 shipped BETA26 jar. See fnd-04-container-lookup-evidence.md. REF-0010 corroborates public API routing by release-artifact inspection. REF-0011 records the narrow live BETA26 Aer crystal AIR1 tooltip observation; broader rank-1 observations remain pending.
 Source evidence: ThaumcraftCraftingManager.getObjectTags/getBonusTags; IEssentiaContainerItem; ItemVisCrystal; ConfigAspects seeded crystal registrations.
