@@ -6,7 +6,7 @@ This catalog stores the observation metadata behind every BETA26 parity claim: w
 
 **Capture status: the first BETA26 gameplay capture is recorded — `REF-0005` (2026-09-18).** An inventory pass on 2026-09-18 recorded the reference artifacts that exist on the developer machine (entries `REF-0001` .. `REF-0004`, all marked as inventory records rather than captures). `REF-0005` is the first real capture: a live session in the prepared clean profile, recorded with a documented environment deviation (a client-side controller mod was present during the observed launches and was removed afterwards — see the entry). Itemized rank-1 confirmation of specific claims still requires the per-item passes described in the work-item scenario notes, and the deviation is noted for clean re-verification of load-bearing items.
 
-**Entry status.** Every entry states in its identifier line whether it is a *capture* (a reproducible observation of running BETA26) or an *inventory record* (artifact metadata only, no observation). Only captures can support rank-1 claims.
+**Entry status.** Every entry states in its identifier line whether it is a *capture* (a reproducible observation of running BETA26), an *inventory record* (artifact metadata only, no observation), or an *inspection record* (a static, read-only examination of a reference artifact, for example a bytecode check of the shipped jar). Only captures can support rank-1 claims.
 
 ## Required fields
 
@@ -37,7 +37,7 @@ Date recorded: <ISO 8601 date of the capture>
 
 ## Recorded entries
 
-Entries are added in `REF` order. Fields are listed in the required order. `REF-0001` .. `REF-0004` are inventory records; `REF-0005` is the first capture.
+Entries are added in `REF` order. Fields are listed in the required order. `REF-0001` .. `REF-0004` are inventory records; `REF-0006` is an inspection record; `REF-0005` is the first capture.
 
 ### REF-0001 — decompiled TC6 source tree
 
@@ -121,6 +121,23 @@ World seed: creative session world "New World-" seed 8625173870111429838 (spawn 
 Player setup: creative (level.dat GameType 1); fresh player in the session world; no research grants are reported for the items below
 Capture scenario: three launches on 2026-09-18 local time (14:32:51-14:33:13 clean and menu-only; 14:37:43-15:18:44; 15:22:41-15:25:22). Observed items (owner-reported; cross-checked against the instance's own session logs, level.dat, and world file times): six inactive Thaumonomicon entries at first view before scanning; a zombie-related entry attributed to scanning; Salis Mundus transmuted a bookshelf into a Thaumonomicon and a crafting table into an Arcane Workbench on the fresh creative player; one block scan with the expected feedback and no change on re-scanning the same object; an item placed inside a chest was scanned via the chest; the knowledge-gain HUD feedback behaved as expected. The observed world's player research data (level.dat) contains the pseudo-keys `!gotthaumonomicon`, `!gotdream`, `!minecraft:bookshelf0`, `!minecraft:crafting_table0`, `!minecraft:chest0`, and `!BrainyZombie` — consistent with the fresh-state trigger availability and with the zombie-related entry. A workbench-block pass (gates, take-order, persistence) was not itemized in the session report. ENVIRONMENT DEVIATION: a client-side controller mod (Controllable 0.11.2) was present in mods/ during both observed launches (its config files are timestamped during those launches; the jar was removed at 15:18:53 after the second launch, re-added at 15:22:21, and finally removed at 15:26:17). FML flagged the jar at load in the second launch ("non-mod file ... in your mods directory", log 14:37:52), and the mod crashed the client JVM at the end of that launch: `hs_err_pid22664.log` (instance root, 15:18:44) records EXCEPTION_ACCESS_VIOLATION in native code (msvcrt.dll frame) on the daemon thread "Controller Input". The crash occurred during client shutdown after the world session had already ended (disconnect 15:18:05), so the recorded observations were unaffected. At jar level the mod's mixin config targets only `net.minecraft.client.*` classes and its access transformer only vanilla client fields; no Thaumcraft-targeted transformations exist. Load-bearing claims from this capture should be re-verified in a session without this deviation before promotion.
 Recorded by: observations by the project owner (TheBeardedTate); compiled by the port assistant from the owner's report, the instance's session logs (logs/, including gzip rotations), level.dat parsing, and file timestamps
+Date recorded: 2026-09-18
+```
+
+### REF-0006 — bytecode spot-check of the golem rank arithmetic (inspection, not a capture)
+
+```text
+Reference identifier: REF-0006 (inspection record, not a capture; role: rank-2 bytecode corroboration of a REF-0001 tree site)
+Minecraft version: 1.12.2
+Forge version: 14.23.5.2859
+Thaumcraft version: 6.1.BETA26 (jar digest equals REF-0002's: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f)
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/mods/Thaumcraft-1.12.2-6.1.BETA26.jar (read-only)
+SHA-256: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: not applicable (static inspection; no game launch)
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: bytecode inspection with javap -p -c (read-only; scratch in a temp directory) of EntityThaumcraftGolem.updateEntityAttributes(), EntityThaumcraftGolem.func_70658_aO() (the armour accessor), and GuiGolemBuilder.gatherInfo(): each fragile-penalty site compiles as iload / i2d / ldc2_w 0.75d / dmul / d2i — a double multiply by three-quarters truncated to int — while REF-0001's decompiled text renders the same sites as a cast of the fraction itself, which would zero the value (tree sites: EntityThaumcraftGolem.java:173, :249; GuiGolemBuilder.java:248, :256). Finding: the tree text is a decompiler artifact at those sites and the shipped arithmetic multiplies by three-quarters. Recorded because a rank-3 tree site was overruled by the rank-2 jar for one load-bearing figure (aut-02-evidence.md finding 10).
+Recorded by: subagent builder and independent critic (read-only reference-evidence pass); the jar digest was re-verified by both before and after the inspection
 Date recorded: 2026-09-18
 ```
 
