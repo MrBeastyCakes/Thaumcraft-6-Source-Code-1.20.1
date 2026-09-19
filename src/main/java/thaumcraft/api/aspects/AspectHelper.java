@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import thaumcraft.api.ThaumcraftApi;
 
 /**
  * AspectHelper - Utility class for working with aspects.
@@ -30,11 +31,27 @@ public class AspectHelper {
     private static Map<String, AspectList> entityTags = new HashMap<>();
     
     /**
-     * Get the aspects associated with an ItemStack
+     * Gets the computed aspects for an item stack through Thaumcraft's internal handler.
+     * This includes contained aspects, generated aspects, bonuses, and normalization applied
+     * by the shared crafting lookup.
+     *
      * @param stack the item to query
-     * @return the aspects for this item, or null if none
+     * @return the computed aspects for this stack, never null after common setup
      */
     public static AspectList getObjectAspects(ItemStack stack) {
+        return ThaumcraftApi.internalMethods.getObjectAspects(stack);
+    }
+
+    /**
+     * Gets only the aspect list directly registered for an item's registry id.
+     * No contained aspects, generated fallback, item-property bonuses, or caps are applied.
+     * The returned value is the registry-owned list and may be {@code null} for null, empty,
+     * unregistered, or otherwise unresolved stacks.
+     *
+     * @param stack the item to query
+     * @return the directly registered aspects, or null if none
+     */
+    public static AspectList getRegisteredObjectAspects(ItemStack stack) {
         if (stack == null || stack.isEmpty()) {
             return null;
         }

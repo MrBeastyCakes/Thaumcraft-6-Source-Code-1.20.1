@@ -213,8 +213,8 @@ public class ThaumcraftCraftingManager {
             return new AspectList();
         }
         
-        // First, try direct lookup via AspectHelper
-        AspectList aspects = AspectHelper.getObjectAspects(stack);
+        // First, try the direct registration without re-entering the public computed lookup.
+        AspectList aspects = AspectHelper.getRegisteredObjectAspects(stack);
         
         // If not found, check if it's an essentia container
         if (aspects == null && stack.getItem() instanceof IEssentiaContainerItem container) {

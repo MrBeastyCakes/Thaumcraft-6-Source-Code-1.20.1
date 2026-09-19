@@ -41,3 +41,7 @@ Independent logs: `build/fnd04-independent-compile-test-build.log` and `build/ga
 ## Limits
 
 This slice establishes deterministic port behavior and rank-2 reference corroboration for one lookup branch. It does not establish player-visible BETA26 results, the correctness of unrelated aspect seeds, recipe-derived attribution, entity attribution, scanning/smelter integration, persistence, multiplayer behavior, or full FND-04 acceptance. Those remain pending under the active work item.
+
+## Live reference follow-up — 2026-09-19
+
+REF-0011 now confirms the original Aer crystal calculated tooltip shows AIR1 only. See [live observation](fnd-04-live-crystal-2026-09-19.md). This narrow display result corroborates the real-crystal assertion; other containers, capacities, survival acquisition, scanning progression, smelter output, persistence and multiplayer remain unverified. The earlier automated evidence is unchanged.

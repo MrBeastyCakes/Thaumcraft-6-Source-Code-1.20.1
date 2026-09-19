@@ -195,6 +195,42 @@ Date recorded: 2026-09-19
 
 Related evidence: [fnd-04-container-lookup-evidence.md](fnd-04-container-lookup-evidence.md)
 
+### REF-0010 — bytecode spot-check of public item-aspect routing (inspection, not a capture)
+
+Reference identifier: REF-0010 (inspection record, not a capture; role: rank-2 bytecode corroboration of public item-aspect routing and snapshot consumption)
+
+Minecraft version: 1.12.2
+
+Forge version: not exercised; artifact inspection only
+
+Thaumcraft version: 6.1.BETA26 (jar digest equals REF-0002's: `9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f`)
+
+Artifact location: same local released jar recorded by REF-0002; path retained locally and not distributed
+
+Inspection scenario: read-only `javap -p -c` inspection of `AspectHelper.getObjectAspects`, `AspectList(ItemStack)`, and `InternalMethodHandler.getObjectAspects`. The shipped public helper forwards the queried stack to the configured internal method handler; that handler forwards to `ThaumcraftCraftingManager.getObjectTags`; and the stack constructor calls the public helper, then copies the returned entries into its own list. This establishes the released routing and snapshot boundaries only. It does not establish particular item values, registration identity rules, recipe generation fidelity, or downstream gameplay behavior.
+
+Recorded by: Codex FND-04 public-lookup builder
+
+Date recorded: 2026-09-19
+
+Related evidence: [fnd-04-public-lookup-evidence.md](fnd-04-public-lookup-evidence.md)
+
+### REF-0011 — live Aer crystal aspect display (capture)
+
+```text
+Reference identifier: REF-0011 (live capture; narrow rank-1 observation of an Aer Vis Crystal's displayed contents and calculated aspect row)
+Minecraft version: 1.12.2 (client title/menu, session log and saved level.dat)
+Forge version: 14.23.5.2859 (client menu and session log)
+Thaumcraft version: 6.1.BETA26 (loaded Mods UI and original jar hash matching REF-0002)
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/; screenshot screenshots/2026-09-19_07.31.23.png; world saves/New Worlda; unchanged release jar mods/Thaumcraft-1.12.2-6.1.BETA26.jar
+SHA-256: screenshot ad7bb9362d057021c2fbc486d1212efa7af8fb865839a86c592b2d9afd50617a; release jar 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: CurseForge TC6 Reference, singleplayer; mods directory contains only original Thaumcraft and Baubles 1.5.2
+World seed: -7348667044462872440 (level.dat parsed after save)
+Player setup: fresh creative world New Worlda (GameType1, allowCommands1); no commands/research grants used; showTags temporarily enabled for display, restored false after client exit
+Capture scenario: hover Aer Vis Crystal in creative inventory search. Contents tooltip reads Aer x1. With showTags true, calculated row has only AIR amount1, no CRYSTAL icon. Saved via F2 at07:31:23. See fnd-04-live-crystal-2026-09-19.md for original contents-only screenshot, artifact hashes, setup caveats and limits. No survival, scan-progression, smelter, persistence or multiplayer claim.
+Recorded by: /root coordinator, direct native UI observation and retained original-client screenshot; filesystem/log/world metadata corroboration
+Date recorded: 2026-09-19
+```
 ## Tree-hash convention (REF-0001)
 
 A source tree has no single file digest, so `REF-0001` uses a tree hash with the convention below. Any future re-verification of `REF-0001` must use the same convention; the digest is over the sorted hash lines of every file, not over any single file.

@@ -264,7 +264,7 @@ public class ThaumcraftApi {
      */
     public static boolean exists(ItemStack item) {
         if (item == null || item.isEmpty()) return false;
-        return AspectHelper.getObjectAspects(item) != null;
+        return AspectHelper.getRegisteredObjectAspects(item) != null;
     }
     
     /**
@@ -312,7 +312,7 @@ public class ThaumcraftApi {
         if (aspects == null) aspects = new AspectList();
         
         if (!exists(item)) {
-            AspectList tmp = AspectHelper.getObjectAspects(item);
+            AspectList tmp = AspectHelper.getRegisteredObjectAspects(item);
             if (tmp != null && tmp.size() > 0) {
                 for (var tag : tmp.getAspects()) {
                     aspects.add(tag, tmp.getAmount(tag));
@@ -320,7 +320,7 @@ public class ThaumcraftApi {
             }
             registerObjectTag(item, aspects);
         } else {
-            AspectList tmp = AspectHelper.getObjectAspects(item);
+            AspectList tmp = AspectHelper.getRegisteredObjectAspects(item);
             if (tmp == null) tmp = new AspectList();
             for (var tag : aspects.getAspects()) {
                 tmp.merge(tag, aspects.getAmount(tag));
