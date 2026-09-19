@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -707,6 +708,7 @@ public class Thaumcraft {
     /**
      * Get the client world (client side only)
      */
+    @OnlyIn(Dist.CLIENT)
     public static Level getClientWorld() {
         return Minecraft.getInstance().level;
     }
@@ -714,6 +716,7 @@ public class Thaumcraft {
     /**
      * Check if shift key is pressed (client side only)
      */
+    @OnlyIn(Dist.CLIENT)
     public static boolean isShiftKeyDown() {
         return net.minecraft.client.gui.screens.Screen.hasShiftDown();
     }

@@ -6,7 +6,7 @@ This repository contains the ongoing effort to port **Thaumcraft 6** from Minecr
 
 **This repository is an ongoing port, not a release-ready build.** A normal survival progression loop is not yet verified end to end, and 30 of the 32 tracked work items are blocked pending repairs.
 
-Parity status is governed by [`docs/agent-pipeline/parity-workboard.md`](docs/agent-pipeline/parity-workboard.md). As of 2026-09-19 the workboard tracks **32 work items**: **1 done** (`FND-03`, the parity evidence index), **1 ready and unclaimed** (`FND-01`, the test and GameTest harness), and **30 blocked** pending repairs.
+Parity status is governed by [`docs/agent-pipeline/parity-workboard.md`](docs/agent-pipeline/parity-workboard.md). As of 2026-09-19 the workboard tracks **32 work items**: **1 done** (`FND-03`, the parity evidence index), **1 verifying** (`FND-01`, automated harness built; manual runtime acceptance pending), and **30 blocked** pending repairs.
 
 Top confirmed playability blockers ([`docs/agent-pipeline/deferred-issues.md`](docs/agent-pipeline/deferred-issues.md)): scanning and research knowledge sync are not server-authoritative; the Arcane Workbench bypasses its crystal and Vis checks; smelters always receive an empty aspect list; Alembic and tube block-entity factories return `null`; the Infusion Matrix has no block entity or ticker; and the Focal Manipulator does not open while focus graphs never reach their delivery effects.
 

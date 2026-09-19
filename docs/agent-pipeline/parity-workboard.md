@@ -13,7 +13,7 @@
 
 ## Current Development State
 
-The project owner lifted the implementation hold on 2026-09-19. `FND-01` is ready for a coordinator-recorded claim; all other non-complete items remain dependency-blocked. See `deferred-issues.md` for the confirmed issue register and implementation order.
+The project owner lifted the implementation hold on 2026-09-19. `FND-01` is verifying its automated harness; manual runtime acceptance remains pending; all other non-complete items remain dependency-blocked. See `deferred-issues.md` for the confirmed issue register and implementation order.
 
 ## Dependency Spine
 
@@ -45,7 +45,7 @@ flowchart TD
 
 | ID | State | Outcome | Primary areas | Acceptance evidence | Handoff |
 |---|---|---|---|---|---|
-| FND-01 | READY | Establish unit-test and GameTest conventions, fixtures, and a fresh-world/reload/server smoke suite. | `src/test/`, Gradle run configs | `test` contains tests; focused GameTests run; documented local command sequence passes. | — |
+| FND-01 | VERIFYING | Establish unit-test and GameTest conventions, fixtures, and a fresh-world/reload/server smoke suite. | `src/test/`, Gradle run configs | `test` contains tests; focused GameTests run; documented local command sequence passes. | handoffs/FND-01.md |
 | FND-02 | BLOCKED: FND-01 | Audit every registered block entity, menu, renderer, capability, and packet against factory/ticker/side ownership. | `init/`, `common/blocks`, `common/tiles`, `common/lib` | Inventory names each missing or mismatched integration point; regressions have tests. | — |
 | FND-03 | DONE | Created the BETA26 parity evidence index for systems under repair. | `docs/agent-pipeline/parity-evidence-index.md` | Reference hierarchy, evidence template, and initial evidence queue are documented. | handoffs/FND-03.md |
 | FND-04 | BLOCKED: FND-01 | Establish authoritative aspect attribution, containers, and lookup shared by scanning and Essentia. | `api/aspects`, `common/lib`, `common/tiles/essentia` | Item aspects, container capacities, and shared lookup resolve consistently for scanning and Essentia handling with unit coverage. | — |

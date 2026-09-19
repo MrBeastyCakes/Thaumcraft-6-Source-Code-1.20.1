@@ -10,7 +10,7 @@ The project owner is the release authority for this port. Only the project owner
 
 ## Current development state
 
-Implementation work may resume in dependency order. `FND-01` is `READY` and unclaimed; all other unfinished items retain their workboard dependencies. A coordinator must record a claim in `active-claims.md` before implementation begins.
+Implementation work may resume in dependency order. `FND-01` is verifying under the coordinator-recorded claim; all other unfinished items retain their workboard dependencies. A coordinator must record a claim in `active-claims.md` before implementation begins.
 
 The hold lift does not authorize Minecraft EULA acceptance or public distribution. Those actions remain reserved to the project owner, and public distribution additionally remains blocked pending written rights-holder permission.
 

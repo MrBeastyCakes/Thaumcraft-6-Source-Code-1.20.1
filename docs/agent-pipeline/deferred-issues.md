@@ -1,6 +1,6 @@
 # Deferred Issue Register
 
-> Development status: the project owner lifted the implementation hold on 2026-09-19; see [budget-hold.md](budget-hold.md). `FND-01` is ready and unclaimed. This register preserves confirmed issues so implementation can start with the highest-impact repair rather than repeat the audit.
+> Development status: the project owner lifted the implementation hold on 2026-09-19; see [budget-hold.md](budget-hold.md). `FND-01` is verifying its automated harness. This register preserves confirmed issues so implementation can start with the highest-impact repair rather than repeat the audit.
 
 The target remains Minecraft 1.20.1 Forge 47.3.0 with Thaumcraft 6.1.BETA26 as the behavior reference. Entries describe the current port, not intentional changes to TC6.
 
@@ -10,7 +10,7 @@ These prevent a normal progression loop or make a core system unusable. Repair t
 
 | ID | Deferred issue | Player impact | Confirmed evidence | Workboard dependency |
 |---|---|---|---|---|
-| FND-01 | No automated unit or GameTest coverage. | Repairs cannot be safely verified across fresh worlds, reloads, or servers. | `src/test/` has no tracked sources; Gradle reports `NO-SOURCE`. | First item; `READY` and unclaimed. |
+| FND-01 | Automated harness implemented; manual world lifecycle and multiplayer acceptance pending. | Four unit tests and two server GameTests cover the initial foundation; full world persistence and client synchronization remain unverified. | `FND-01-evidence.md` records 4/4 JUnit and 2/2 GameTests; fresh-world/reload/chunk/multiplayer scenarios NOT RUN. | First item; `VERIFYING`, independent review passed; manual acceptance pending. |
 | FND-04 | Shared aspect attribution, aspect containers, and lookup are not established for scanning or Essentia processing. | Scans and Essentia handling can disagree on item aspects, so every dependent repair rests on unverified data. | Not yet reproduced end-to-end; retain as a verification item. | FND-01 |
 | RSR-01 | Scanning, research stages, and knowledge sync are incomplete and accept client-led progress. | Research can deadlock or be bypassed; save/reload behavior is not trustworthy. | `ScanningManager.java:202-210`, `PlayerKnowledge.java:53-66`, `PacketSyncProgressToServer.java:104-107`. | FND-04 |
 | RSR-02 | Arcane Workbench crystal checks are bypassed and crafting is not fully atomic. | Players can craft without the intended resources. | `ArcaneWorkbenchMenu.java:155-173`, `ArcaneWorkbenchResultSlot.java:163-178`. | RSR-01 |

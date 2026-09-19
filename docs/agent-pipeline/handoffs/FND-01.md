@@ -1,0 +1,12 @@
+Work item: FND-01
+Lane: FND
+Worktree or branch: codex/fnd-01-test-foundation
+Commit: automated foundation checkpoint; resolve with git log for this handoff (review base 7a6e1d7)
+Scope: Deterministic JUnit tests, dedicated Forge GameTest source set and original SNBT fixture, isolated test run directory, false-success startup guard, and narrow client-only helper isolation required for dedicated-server startup.
+Parity reference: Infrastructure task; no BETA26 gameplay parity claim. Reference hierarchy remains docs/agent-pipeline/parity-evidence-index.md.
+Source evidence: build.gradle; AspectList; TilePedestal; TileThaumcraftInventory; Forge GameTest registration; initial ClientLevel dist-cleaner failure documented in FND-01-evidence.md.
+Automated evidence: compileJava test build exit 0; 4 JUnit tests passed; intentional JUnit failure exit 1 restored; GameTest startup guard reproduced false-success then rejected it with exit 1; final runGameTestServer discovered and passed 2 tests; production JAR excludes test content; pipeline/map/whitespace checks passed. Full evidence in ../FND-01-evidence.md; independent critic /root/fnd01_critic spec PASS and quality PASS; forced fresh 4/4 JUnit, intentional GameTest failure exit 1, exact source restoration, then 2/2 GameTests exit 0.
+Runtime evidence: Two server GameTests passed: registered arcane stone placement and pedestal NBT roundtrip into a distinct registered-factory block entity. Fresh survival, full quit/reload, chunk reload, dedicated two-client and reconnect scenarios NOT RUN. run/eula.txt remains false.
+Files changed: README.md; build.gradle; docs/agent-pipeline/active-claims.md; docs/agent-pipeline/budget-hold.md; docs/agent-pipeline/deferred-issues.md; docs/agent-pipeline/filesystem-map.md; docs/agent-pipeline/parity-workboard.md; docs/agent-pipeline/validation-matrix.md; docs/agent-pipeline/FND-01-evidence.md; docs/agent-pipeline/handoffs/FND-01.md; src/main/java/thaumcraft/Thaumcraft.java; src/gametest/java/thaumcraft/gametest/FoundationGameTests.java; src/gametest/resources/gameteststructures/fnd01_empty.snbt; src/test/java/thaumcraft/api/aspects/AspectListTest.java.
+Dependencies or follow-ups: Manual fresh survival, full world/chunk reload and multiplayer/reconnect acceptance remains required. All dependent work stays blocked until acceptance. No ordinary dedicated server or EULA acceptance authorized by hold lift.
+Coordinator disposition: VERIFYING; independent-review-approved automated foundation checkpoint; provisional record, not archived and not DONE.
