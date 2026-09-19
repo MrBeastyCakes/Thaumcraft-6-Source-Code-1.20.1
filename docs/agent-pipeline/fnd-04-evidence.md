@@ -43,6 +43,8 @@ From the evidence-index queue row for `FND-04` (shared aspect attribution for it
 6. **Primal reduction is recursive and random draws are frequency-weighted.** Reduction replaces each compound by both parents and recurses until only primals remain, summing amounts at the primal level (`api/aspects/AspectHelper.java:139-158`); the random-primal helper expands the reduced list into one slot per unit and draws uniformly, so higher amounts are likelier (`:123-137`). The random-draw helper has no call sites anywhere in the tree, and the reduction helper is reached only through it and its own recursion (`api/aspects/AspectHelper.java:128`, `:149`).
 7. **Culling trims a list to a capped number of entries by weight.** The culling helper copies the input, then repeatedly drops the entry with the lowest weighted amount, weighting primals down and nested compounds up; the default cap is seven (`api/aspects/AspectHelper.java:19-66`). It is applied at the end of item-aspect computation (`common/lib/crafting/ThaumcraftCraftingManager.java:362-367`).
 
+    `REF-0012` independently corroborates these mechanics in the released jar and confirms that culling follows bonus merging but precedes the later per-aspect amount cap. [fnd-04-culling-evidence.md](fnd-04-culling-evidence.md) records the focused port repair and deterministic tests. This is rank-2 inspection support only; the port deliberately rejects negative caps and avoids the released helper's `32767.0f` minimum-sentinel nontermination hazard.
+
 ### B. The aspect list
 
 8. **An aspect list is an insertion-ordered map of aspect to amount.** Reading an absent aspect yields zero; copying adds each entry into a fresh list; one accessor counts distinct aspects and another sums every amount (`api/aspects/AspectList.java:12`, `:32-58`, `:126-128`).
@@ -93,7 +95,7 @@ Reference setup for every step: a clean 1.12.2 instance whose only mods are the 
 
 ## Cross-references
 
-- Reference artifacts: `REF-0001` (decompiled tree used here), `REF-0002` (BETA26 release jar), `REF-0009` (container precedence inspection), and `REF-0010` (public routing and snapshot inspection) in [reference-catalog.md](reference-catalog.md); `REF-0005` covers scan-side behaviors and `REF-0011` adds the narrow Aer crystal AIR1 calculated-display capture; broader attribution remains unverified.
+- Reference artifacts: `REF-0001` (decompiled tree used here), `REF-0002` (BETA26 release jar), `REF-0009` (container precedence inspection), `REF-0010` (public routing and snapshot inspection), and `REF-0012` (weighted culling and call-order inspection) in [reference-catalog.md](reference-catalog.md); `REF-0005` covers scan-side behaviors and `REF-0011` adds the narrow Aer crystal AIR1 calculated-display capture; broader attribution remains unverified.
 - Evidence rules and hierarchy, and this work item's queue row: [parity-evidence-index.md](parity-evidence-index.md).
 - Work item: `FND-04` in [parity-workboard.md](parity-workboard.md) (`ACTIVE` under the narrow reviewed foundation start gate at base `5acd3c2`; claimed in [active-claims.md](active-claims.md); unblocks `RSR-01` and `ALC-01` only after its own full acceptance evidence). See [foundation-start-gate-2026-09-19.md](foundation-start-gate-2026-09-19.md).
 - Defect row: `FND-04` in [deferred-issues.md](deferred-issues.md) ("Shared aspect attribution, aspect containers, and lookup are not established for scanning or Essentia processing").

@@ -231,6 +231,25 @@ Capture scenario: hover Aer Vis Crystal in creative inventory search. Contents t
 Recorded by: /root coordinator, direct native UI observation and retained original-client screenshot; filesystem/log/world metadata corroboration
 Date recorded: 2026-09-19
 ```
+
+### REF-0012 — bytecode spot-check of weighted aspect-type culling (inspection, not a capture)
+
+```text
+Reference identifier: REF-0012 (inspection record, not a capture; role: rank-2 bytecode corroboration of weighted aspect-type culling and manager call order)
+Minecraft version: 1.12.2
+Forge version: not exercised; artifact inspection only
+Thaumcraft version: 6.1.BETA26 (jar digest equals REF-0002's: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f)
+Artifact location: C:/Users/t8rto/curseforge/minecraft/Instances/TC6 Reference/mods/Thaumcraft-1.12.2-6.1.BETA26.jar (read-only; not distributed)
+SHA-256: 9425f8643581b27ff8845b087c8bc6fc10425a32942f1a3f0e265ce6b38f7b5f
+Launcher or profile: not applicable (static inspection; no game launch)
+World seed: not applicable
+Player setup: not applicable
+Capture scenario: independent read-only javap -p -c inspection of AspectHelper.cullTags and ThaumcraftCraftingManager.getBonusTags. The shipped helper defaults to seven, copies non-null entries into a fresh list, uses float weights with the 0.9 primal multiplier followed by 1.1 parent and 1.05 grandparent multipliers in stored order, and replaces the removal candidate only on a strict lower comparison so the first tie is removed. The manager calls the helper after bonuses are merged; getObjectTags caps retained amounts afterwards. The released helper initializes its minimum to 32767.0f and can fail to select a real entry when every weight is higher. The port deliberately corrects that sentinel hazard and rejects negative caps to avoid nontermination; these safety corrections are not claimed as normal BETA26 behavior.
+Recorded by: /root/fnd04_culling_builder (independent read-only reference inspection)
+Date recorded: 2026-09-19
+```
+
+Related evidence: [fnd-04-culling-evidence.md](fnd-04-culling-evidence.md)
 ## Tree-hash convention (REF-0001)
 
 A source tree has no single file digest, so `REF-0001` uses a tree hash with the convention below. Any future re-verification of `REF-0001` must use the same convention; the digest is over the sorted hash lines of every file, not over any single file.

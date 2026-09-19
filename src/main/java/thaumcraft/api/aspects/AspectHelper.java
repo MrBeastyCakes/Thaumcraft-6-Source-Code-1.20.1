@@ -29,6 +29,63 @@ public class AspectHelper {
      * Key is the entity type ResourceLocation string
      */
     private static Map<String, AspectList> entityTags = new HashMap<>();
+
+    /**
+     * Returns a fresh aspect list containing at most seven weighted aspect types.
+     */
+    public static AspectList cullTags(AspectList source) {
+        return cullTags(source, 7);
+    }
+
+    /**
+     * Returns a fresh aspect list containing at most {@code cap} weighted aspect types.
+     * When weights tie, the first remaining entry in insertion order is removed.
+     */
+    public static AspectList cullTags(AspectList source, int cap) {
+        if (cap < 0) {
+            throw new IllegalArgumentException("Aspect cap must be nonnegative");
+        }
+
+        AspectList result = new AspectList();
+        for (Aspect aspect : source.getAspects()) {
+            if (aspect != null) {
+                result.add(aspect, source.getAmount(aspect));
+            }
+        }
+
+        while (result.size() > cap) {
+            Aspect lowest = null;
+            float lowestWeight = 0.0f;
+            for (Aspect aspect : result.getAspects()) {
+                float weight = cullingWeight(aspect, result.getAmount(aspect));
+                if (lowest == null || weight < lowestWeight) {
+                    lowest = aspect;
+                    lowestWeight = weight;
+                }
+            }
+            result.remove(lowest);
+        }
+        return result;
+    }
+
+    private static float cullingWeight(Aspect aspect, int amount) {
+        float weight = amount;
+        if (aspect.isPrimal()) {
+            return weight * 0.9f;
+        }
+
+        for (Aspect parent : aspect.getComponents()) {
+            if (!parent.isPrimal()) {
+                weight *= 1.1f;
+                for (Aspect grandparent : parent.getComponents()) {
+                    if (!grandparent.isPrimal()) {
+                        weight *= 1.05f;
+                    }
+                }
+            }
+        }
+        return weight;
+    }
     
     /**
      * Gets the computed aspects for an item stack through Thaumcraft's internal handler.

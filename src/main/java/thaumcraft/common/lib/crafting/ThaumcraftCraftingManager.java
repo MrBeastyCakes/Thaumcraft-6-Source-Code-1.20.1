@@ -348,7 +348,7 @@ public class ThaumcraftCraftingManager {
             }
         }
         
-        return result;
+        return AspectHelper.cullTags(result);
     }
     
     /**

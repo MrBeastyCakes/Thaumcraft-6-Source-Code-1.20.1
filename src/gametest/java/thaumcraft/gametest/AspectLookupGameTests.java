@@ -1,5 +1,6 @@
 package thaumcraft.gametest;
 
+import java.util.Arrays;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
@@ -221,6 +222,124 @@ public final class AspectLookupGameTests {
                 "Public lookup must exclude zero and negative contained entries");
         helper.assertTrue(cappedPublic.getAmount(Aspect.AIR) == 500,
                 "Public lookup must apply the existing positive-entry cap");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void computedLookupCullsFirstTiedPrimalWithoutMutatingContents(GameTestHelper helper) {
+        ItemStack stack = new ItemStack(TestItems.NBT_CONTAINER);
+        AspectList contents = new AspectList()
+                .add(Aspect.AIR, 10)
+                .add(Aspect.EARTH, 10)
+                .add(Aspect.FIRE, 10)
+                .add(Aspect.WATER, 10)
+                .add(Aspect.ORDER, 10)
+                .add(Aspect.ENTROPY, 10)
+                .add(Aspect.VOID, 10)
+                .add(Aspect.LIGHT, 10);
+        ((IEssentiaContainerItem) stack.getItem()).setAspects(stack, contents);
+
+        AspectList publicResult = AspectHelper.getObjectAspects(stack);
+        AspectList sharedResult = ThaumcraftCraftingManager.getObjectTags(stack);
+        Aspect[] survivors = {
+                Aspect.EARTH, Aspect.FIRE, Aspect.WATER, Aspect.ORDER,
+                Aspect.ENTROPY, Aspect.VOID, Aspect.LIGHT
+        };
+
+        helper.assertTrue(publicResult.size() == 7,
+                "Computed lookup must retain exactly seven aspect types");
+        helper.assertTrue(publicResult.getAmount(Aspect.AIR) == 0,
+                "First tied primal must be culled");
+        helper.assertTrue(Arrays.equals(publicResult.getAspects(), survivors),
+                "Public lookup must retain the exact survivor order");
+        helper.assertTrue(Arrays.equals(sharedResult.getAspects(), survivors),
+                "Shared lookup must retain the exact survivor order");
+        for (Aspect survivor : survivors) {
+            helper.assertTrue(publicResult.getAmount(survivor) == 10,
+                    "Public survivor amounts must remain 10");
+            helper.assertTrue(sharedResult.getAmount(survivor) == 10,
+                    "Shared survivor amounts must remain 10");
+        }
+        AspectList stored = ((IEssentiaContainerItem) stack.getItem()).getAspects(stack);
+        helper.assertTrue(stored.size() == 8 && stored.getAmount(Aspect.AIR) == 10,
+                "Computed lookup must not mutate the eight stored entries");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void computedLookupCullsBonusAfterItIsMerged(GameTestHelper helper) {
+        ItemStack stack = new ItemStack(TestItems.NBT_CONTAINER);
+        AspectList contents = new AspectList()
+                .add(Aspect.AIR, 4)
+                .add(Aspect.EARTH, 4)
+                .add(Aspect.FIRE, 4)
+                .add(Aspect.WATER, 4)
+                .add(Aspect.ORDER, 4)
+                .add(Aspect.ENTROPY, 4)
+                .add(Aspect.VOID, 4);
+        ((IEssentiaContainerItem) stack.getItem()).setAspects(stack, contents);
+        stack.enchant(Enchantments.UNBREAKING, 1);
+
+        AspectList publicResult = AspectHelper.getObjectAspects(stack);
+        AspectList sharedResult = ThaumcraftCraftingManager.getObjectTags(stack);
+        Aspect[] survivors = {
+                Aspect.AIR, Aspect.EARTH, Aspect.FIRE, Aspect.WATER,
+                Aspect.ORDER, Aspect.ENTROPY, Aspect.VOID
+        };
+
+        helper.assertTrue(publicResult.size() == 7 && sharedResult.size() == 7,
+                "Computed lookups must retain seven types after bonus merging");
+        helper.assertTrue(publicResult.getAmount(Aspect.MAGIC) == 0
+                        && sharedResult.getAmount(Aspect.MAGIC) == 0,
+                "Lower-weight MAGIC bonus must be culled");
+        helper.assertTrue(Arrays.equals(publicResult.getAspects(), survivors)
+                        && Arrays.equals(sharedResult.getAspects(), survivors),
+                "Both computed lookup surfaces must retain the seven original types in order");
+        for (Aspect survivor : survivors) {
+            helper.assertTrue(publicResult.getAmount(survivor) == 4
+                            && sharedResult.getAmount(survivor) == 4,
+                    "Original survivor amounts must remain 4");
+        }
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void computedLookupCullsBeforeCappingAmounts(GameTestHelper helper) {
+        ItemStack stack = new ItemStack(TestItems.NBT_CONTAINER);
+        AspectList contents = new AspectList()
+                .add(Aspect.AIR, 600)
+                .add(Aspect.EARTH, 550)
+                .add(Aspect.FIRE, 1000)
+                .add(Aspect.WATER, 1000)
+                .add(Aspect.ORDER, 1000)
+                .add(Aspect.ENTROPY, 1000)
+                .add(Aspect.VOID, 1000)
+                .add(Aspect.LIGHT, 1000);
+        ((IEssentiaContainerItem) stack.getItem()).setAspects(stack, contents);
+
+        AspectList publicResult = AspectHelper.getObjectAspects(stack);
+        AspectList sharedResult = ThaumcraftCraftingManager.getObjectTags(stack);
+        Aspect[] survivors = {
+                Aspect.AIR, Aspect.FIRE, Aspect.WATER, Aspect.ORDER,
+                Aspect.ENTROPY, Aspect.VOID, Aspect.LIGHT
+        };
+
+        helper.assertTrue(Arrays.equals(publicResult.getAspects(), survivors)
+                        && Arrays.equals(sharedResult.getAspects(), survivors),
+                "EARTH 550 must be culled before amounts are capped");
+        helper.assertTrue(publicResult.getAmount(Aspect.EARTH) == 0
+                        && sharedResult.getAmount(Aspect.EARTH) == 0,
+                "Lower pre-cap EARTH weight must be removed");
+        for (Aspect survivor : survivors) {
+            helper.assertTrue(publicResult.getAmount(survivor) == 500
+                            && sharedResult.getAmount(survivor) == 500,
+                    "Every retained amount must be capped to 500 after culling");
+        }
+        AspectList stored = ((IEssentiaContainerItem) stack.getItem()).getAspects(stack);
+        helper.assertTrue(stored.getAmount(Aspect.AIR) == 600
+                        && stored.getAmount(Aspect.EARTH) == 550
+                        && stored.getAmount(Aspect.FIRE) == 1000,
+                "Computed lookup must preserve original stored amounts");
         helper.succeed();
     }
 
