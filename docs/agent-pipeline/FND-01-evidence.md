@@ -37,7 +37,7 @@ The guarded red run exited 1 with **0 discovered, 0 passed, 0 failed**. After th
 
 ## Manual runtime acceptance
 
-All scenarios below are **NOT RUN**. The project owner must perform any EULA-gated dedicated-server setup.
+The full feature acceptance scenarios below are **NOT RUN**. Supplemental clean-client startup, fresh empty survival spawn, save, full client quit/relaunch, and same-world re-entry passed on 2026-09-19; see [client smoke evidence](FND-01-client-smoke-2026-09-19.md). That narrower smoke did not obtain a pedestal or test its persistent state and does not satisfy the cases below. The project owner must perform any EULA-gated dedicated-server setup.
 
 1. **Fresh survival world — NOT RUN.** Create a fresh survival world without commands or creative inventory; obtain and place arcane stone and an arcane pedestal through the intended progression; insert one tagged/renamed item and confirm the pedestal holds exactly one.
 2. **Full quit and reload — NOT RUN.** Exit to title, close the client, relaunch, re-enter the same world, and confirm the exact pedestal item identity, count, and tag remain.
