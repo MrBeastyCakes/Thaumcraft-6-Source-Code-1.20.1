@@ -36,3 +36,5 @@ The first review correctly failed the reload coverage: C's newer direct registra
 Independent logs: `build/fnd04-tags-critic-compile-test-build.log` and `build/gametest/fnd04-tags-round1-critic-runGameTestServer.log`. The local review report is `.superpowers/sdd/2026-09-19-fnd04-tag-registration/critic-report.md`; this tracked note preserves its result if scratch files are unavailable.
 
 [REF-0014 original tooltips](fnd-04-live-items-2026-09-19.md) independently corroborate iron METAL15 and diamond CRYSTAL15/DESIRE15. Their hashes and visible values were checked by the critic. This adds narrow display evidence, not original reload, survival or multiplayer acceptance. FND-04 remains ACTIVE.
+
+Reviewed implementation commit: 3cd1486 (base 2a6554d).
