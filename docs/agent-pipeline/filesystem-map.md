@@ -26,7 +26,7 @@ Repository root: `thaumcraft-shobie-review` — Minecraft 1.20.1 Forge port.
 
 | Package | Recursive file count |
 |---|---:|
-| `api/` | 95 |
+| `api/` | 96 |
 | `client/` | 138 |
 | `common/` | 497 |
 | `compat/` | 4 |
@@ -84,7 +84,7 @@ Repository root: `thaumcraft-shobie-review` — Minecraft 1.20.1 Forge port.
 
 | Path | State / use |
 |---|---|
-| `src/test/java`, `src/test/resources` | 6 test-source/resource files |
+| `src/test/java`, `src/test/resources` | 8 test-source/resource files |
 | `run/` | disposable local Forge dev instance, configuration, logs, and test state |
 | `build/` | disposable Gradle output, generated metadata, remapping intermediates, and JARs |
 | `.gradle/` | disposable local Gradle cache/state |
