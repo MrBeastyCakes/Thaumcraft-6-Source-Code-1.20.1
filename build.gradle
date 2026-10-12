@@ -60,6 +60,13 @@ minecraft {
         // This run config launches GameTestServer and runs all registered gametests, then exits.
         gameTestServer {
             property 'forge.enabledGameTestNamespaces', mod_id
+
+            // GameTests and their structure templates live in the test source set (src/test/).
+            mods {
+                "${mod_id}" {
+                    source sourceSets.test
+                }
+            }
         }
 
         data {
@@ -107,6 +114,18 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:15.2.0.27")
     compileOnly fg.deobf("mezz.jei:jei-1.20.1-common-api:15.2.0.27")
     runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.2.0.27")
+
+    // Unit tests (src/test/java) for deterministic logic that needs no running game
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
+}
+
+tasks.named('test', Test).configure {
+    useJUnitPlatform()
+    testLogging {
+        events 'failed'
+        exceptionFormat 'full'
+    }
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
