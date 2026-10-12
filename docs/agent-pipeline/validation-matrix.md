@@ -6,7 +6,8 @@ Rules that apply to every tier:
 
 - Record the outcome in the work item's handoff at `docs/agent-pipeline/handoffs/<ID>.md`, filling the `Automated evidence` and `Runtime evidence` fields.
 - Keep human-readable scenario notes next to their work item as `docs/agent-pipeline/<work-item>-evidence.md`, automated tests under `src/test/java/thaumcraft/`, and small fixtures under `src/test/resources/thaumcraft/`, following the storage convention in `parity-evidence-index.md`.
-- Tiers above `Documentation-only` need Gradle or a game instance, so they resume only after the project owner lifts the budget hold; see `budget-hold.md`. While the hold is active, only the `Documentation-only` tier may be executed.
+- Tiers above `Documentation-only` need Gradle or a game instance. The project owner lifted the budget hold on 2026-10-12 (see `budget-hold.md`), so every tier is executable again; EULA acceptance remains the owner's action.
+- FND-01 conventions: unit tests live under `src/test/java/thaumcraft/<package>/<Class>Test.java` (JUnit 5, run by `test`); GameTests live under `src/test/java/thaumcraft/gametest/`, are annotated `@GameTestHolder(Thaumcraft.MODID)` and `@PrefixGameTestTemplate(false)`, use the shared `thaumcraft:platform` template (`GameTestSupport.PLATFORM`, stone floor at y=0), and run through `runGameTestServer`, which loads the test source set as part of the mod. `GameTestSupport.reloadBlockEntity` is the standard block entity save/reload check.
 
 | Tier | Required command or scenario | Evidence location | Clean-state requirement | Pass condition |
 |---|---|---|---|---|

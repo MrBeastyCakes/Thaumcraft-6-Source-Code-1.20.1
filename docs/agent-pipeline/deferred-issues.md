@@ -10,9 +10,9 @@ These prevent a normal progression loop or make a core system unusable. Repair t
 
 | ID | Deferred issue | Player impact | Confirmed evidence | Workboard dependency |
 |---|---|---|---|---|
-| FND-01 | No automated unit or GameTest coverage. | Repairs cannot be safely verified across fresh worlds, reloads, or servers. | `src/test/` has no tracked sources; Gradle reports `NO-SOURCE`. | First item; budget hold. |
+| FND-01 | No automated unit or GameTest coverage. | Repairs cannot be safely verified across fresh worlds, reloads, or servers. | Harness authored 2026-10-12 (see `handoffs/FND-01.md`); awaiting its first Gradle run. | First item; active. |
 | FND-04 | Shared aspect attribution, aspect containers, and lookup are not established for scanning or Essentia processing. | Scans and Essentia handling can disagree on item aspects, so every dependent repair rests on unverified data. | Not yet reproduced end-to-end; retain as a verification item. | FND-01 |
-| RSR-01 | Scanning, research stages, and knowledge sync are incomplete and accept client-led progress. | Research can deadlock or be bypassed; save/reload behavior is not trustworthy. | `ScanningManager.java:202-210`, `PlayerKnowledge.java:53-66`, `PacketSyncProgressToServer.java:104-107`. | FND-04 |
+| RSR-01 | Scanning, research stages, and knowledge sync are incomplete and accept client-led progress; knowledge is not copied to the respawned player after death. | Research can deadlock or be bypassed; save/reload behavior is not trustworthy; dying can wipe all research. | `ScanningManager.java:202-210`, `PlayerKnowledge.java:53-66`, `PacketSyncProgressToServer.java:104-107`; both clone handlers (`ThaumcraftCapabilities.java:98-115`, `PlayerEvents.java:63-85`) read the original player's capabilities without `reviveCaps()`, which Forge 47 invalidates on death, so the copy is skipped (source reading; BETA26 copies on every clone, `java_old/common/lib/events/PlayerEvents.java:388-399`). | FND-04 |
 | RSR-02 | Arcane Workbench crystal checks are bypassed and crafting is not fully atomic. | Players can craft without the intended resources. | `ArcaneWorkbenchMenu.java:155-173`, `ArcaneWorkbenchResultSlot.java:163-178`. | RSR-01 |
 | ALC-00 | Crucible recipes, input validation, aspect costs, and output economy are unverified. | Early alchemy cannot be trusted to consume or produce the BETA26 results. | Not yet reproduced end-to-end; retain as a verification item. | RSR-02 |
 | ALC-01 | Smelters always receive an empty aspect list. | Items cannot be processed into Essentia. | `TileSmelter.java:199-208,260-266`. | FND-04 |
@@ -40,7 +40,7 @@ These follow the playability blockers and are required for full BETA26 parity, b
 | WLD-03 | Rift, taint, stabilization, cleansing, and late-game world behavior need reproduction and parity testing. | World hazards and their counterplay may be incomplete. | Current evidence is incomplete; confirm against BETA26 before changing behavior. | WLD-01 |
 | WLD-04 | Eldritch structures, bosses, and endgame unlocks lack a completed progression verification pass. | The endgame may be unreachable. | No complete survival-path evidence exists yet. | PLY-01 |
 | WLD-05 | Creature spawning, AI, combat, drops, constructs, and non-focus projectiles are unvalidated. | Combat encounters, construct behavior, and drops may diverge from BETA26. | Not yet reproduced end-to-end; retain as a verification item. | FND-02 |
-| PLY-01 | Player equipment, Curios state, effects, Warp, and Warp Ward are unvalidated. | Player power, status effects, and Warp consequences may be wrong; the endgame gate depends on this lane. | Not yet reproduced end-to-end; retain as a verification item. | RSR-03 |
+| PLY-01 | Player equipment, Curios state, effects, Warp, and Warp Ward are unvalidated. | Player power, status effects, and Warp consequences may be wrong; the endgame gate depends on this lane. | Not yet reproduced end-to-end; retain as a verification item. Warp shares the death-clone defect recorded under `RSR-01` (no `reviveCaps()`), so Warp resets to zero on respawn. | RSR-03 |
 
 ## Fidelity and Release Work
 
@@ -58,7 +58,7 @@ These should wait until the gameplay spine works. They matter for a finished pri
 
 ## When Work Resumes
 
-Start with `FND-01`, then repair the minimum survival spine in this order:
+`FND-01` is active (hold cleared 2026-10-12); after it,  repair the minimum survival spine in this order:
 
 1. `RSR-01` and `RSR-02` — authoritative research and paid crafting.
 2. `ALC-01`, `ALC-02`, and `ALC-03` — Essentia production, transport, and infusion.

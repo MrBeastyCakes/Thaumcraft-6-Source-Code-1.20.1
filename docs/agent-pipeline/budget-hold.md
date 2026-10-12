@@ -1,4 +1,4 @@
-Implementation is paused while the budget hold is active.
+The budget hold was cleared by the project owner on 2026-10-12. Implementation resumes in the spending order below, starting with `FND-01`.
 
 # Budget Hold Policy
 
@@ -31,6 +31,7 @@ The hold is lifted only by an explicit project-owner instruction. Until that ins
 ## Owner instructions
 
 - **2026-09-18, reference-evidence pass authorized.** Implementation remains paused. The owner authorized the BETA26 reference-evidence pass only: reference-material discovery and cataloging, setup of an unmodified Minecraft 1.12.2 + Forge + Thaumcraft 6.1.BETA26 reference environment, and observation runs of that environment to capture behavior evidence for identified workboard items. EULA acceptance remains the owner's action alone. The port's own Gradle and game runs remain prohibited until the hold is cleared.
+- **2026-10-12, budget hold cleared.** The owner instructed implementation to continue and selected "clear hold, start FND-01". Work proceeds in the spending order below; the prohibitions above no longer apply to the port, except that EULA acceptance and any distribution remain the owner's decisions alone.
 
 ## Spending order after reactivation
 
